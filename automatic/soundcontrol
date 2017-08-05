@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# For controlling the sound
+statfile=/home/lsund/Data/log/sound/soundstat.txt
+percfile=/home/lsund/Data/log/sound/soundperc.txt
+
+stat=$(head -6 <(amixer) | grep % | cut -d " " -f 8 | cut -c2-3)
+speaker_on=`amixer get Speaker | tail -1 | cut -d' ' -f9`
+headphone_on=`amixer get Headphone | tail -1 | cut -d' ' -f9`
+
+if [[ "$1" == "raise" ]]; then
+    /usr/bin/amixer set Master 5%+
+elif [[ "$1" == "lower" ]]; then
+    /usr/bin/amixer set Master 5%-
+    echo "lowering"
+elif [[ "$1" == "off" ]]; then
+    /usr/bin/amixer set Master off
+    /usr/bin/amixer set Headphone off
+    # if [[ "$speaker_on" == "[off]" && "$headphone_on" == "[off]" ]]; then
+    #     echo "holla"
+    #     /usr/bin/amixer set Speaker on
+    # elif [[ "$headphone_on" == "[off]" ]]; then
+    #     /usr/bin/amixer set Headphone on
+    # fi
+elif [[ "$1" == "on" ]]; then
+    /usr/bin/amixer set Master on
+    /usr/bin/amixer set Headphone on
+    # speakeron=`amixer get Speaker | tail -1 | cut -d' ' -f9`
+    # /usr/bin/amixer set Master off
+    # if [[ "$speaker_on" == "[on]" ]]; then
+    #     /usr/bin/amixer set Speaker off
+    # elif [[ "$headphone_on" == "[on]" ]]; then 
+    #     /usr/bin/amixer set Headphone off
+    # fi
+fi
+
+perc=$(head -6 <(amixer) | grep % | cut -d " " -f 7 | cut -c2-4)
+
+if [[ "$stat" == "on" ]]; then
+    echo "on" > $statfile
+else
+    echo "off" > $statfile
+fi
+
+if [[ "$perc" == "100" ]]; then
+    echo $perc"%" > $percfile
+elif [[ "${perc:2:2}" == "]" ]]; then
+    echo ${perc:0:2} > $percfile
+else
+    echo $perc > $percfile
+fi
+

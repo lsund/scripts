@@ -1,0 +1,18 @@
+#!/bin/zsh
+
+if [[ "$#" -ne "1" ]]; then
+    echo "Must supply one argument to touch-script"
+    echo "Pro-hint: the name of the file to be created"
+    exit
+fi
+
+if [[ -e "$1" ]]; then
+    echo "File already exist"
+    exit
+fi
+
+printf "#!" > $1 
+echo "/bin/zsh" >> $1
+chmod +x $1
+
+vim $1

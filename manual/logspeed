@@ -1,0 +1,16 @@
+#!/bin/bash
+
+wget -q --spider httop://duckduckgo.com
+
+logdir=/home/lsund/Data/log/speedtest
+output="$(speedtest --simple)"
+
+echo "$output" |  cut -d$'\n' -f1 > $logdir/ping.log
+echo "$output" |  cut -d$'\n' -f2 > $logdir/down.log
+echo "$output" |  cut -d$'\n' -f3 > $logdir/up.log
+
+echo $(cat $logdir/ping.log | cut -d' ' -f2) > $logdir/ping.log
+echo $(cat $logdir/down.log | cut -d' ' -f2) > $logdir/down.log
+echo $(cat $logdir/up.log | cut -d' ' -f2) > $logdir/up.log
+
+echo "$output" > $logdir/speedtest.log

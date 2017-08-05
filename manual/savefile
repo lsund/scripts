@@ -1,0 +1,26 @@
+
+# 'Save a file' by which I mean creating a hidder directory in the same
+# directory as that file and copying it to this hidden directory 
+
+dir=$1
+file=$2
+
+if [[ -d "$dir" ]]; then 
+    #echo "$dir/track"
+    len=${#dir}
+    last=${dir:len-1:len}
+    if [[ $last == "/" ]]; then
+        dir=${dir:0:len-1}
+    fi
+    savefiledir=$dir/.savefile
+    mkdir -p $savefiledir
+    filepath=$dir/$file 
+    if [[ -f "$filepath" ]]; then
+        timestamp=$(date +"%Y%m%d_%H:%M:%S")
+        cp "$filepath" "$savefiledir/$file-$timestamp"
+    else
+        echo "That file does not exist"
+    fi
+else
+    echo "That directory does not exist"
+fi

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Reading the state of the battery. If lower than min, it sends a notification
+# message
+
+min="20"
+
+
+export DISPLAY=:0
+
+cap=$(cat /sys/class/power_supply/BAT1/capacity)
+stat=$(cat /sys/class/power_supply/BAT1/status)
+
+if [[ "$cap" -lt "$min" && "$stat" != "Charging" ]]; then
+    $(/usr/bin/notify-send "Warning" "Battery low")
+fi

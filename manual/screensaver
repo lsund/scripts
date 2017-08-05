@@ -1,0 +1,14 @@
+#!/bin/bash
+
+while true; do
+    # if [[ "$(xprintidle)" -ge "10000" ]]; then
+        if [[ "$(( (RANDOM % 2)))" == "0" ]]; then
+            cmatrix
+            break
+        else
+            ./pipes.sh
+            break
+        fi
+    sleep 1
+    # fi
+done

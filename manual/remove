@@ -1,0 +1,10 @@
+#!/bin/bash
+
+all="";
+for var in "$@"
+    do 
+        all+=$var
+        all+=" "
+    done
+sudo pacman -R $all 
+

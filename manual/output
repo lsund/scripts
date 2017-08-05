@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [[ $# == 0 ]]; then
+    xrandr && exit
+fi
+
+if [[ $(cat "/etc/hostname") == "keysersoze" ]]; then
+	if [[ "$1" == "standard" ]]; then
+		xrandr --output eDP1 --auto --output DP1 --off
+	elif [[ "$1" == "hdmi" ]]; then
+		xrandr --output eDP1 --off --output DP1 --auto
+	else
+		echo "Wrong arguments to output"
+	fi
+else
+	echo "output configured for keysersoze"
+fi

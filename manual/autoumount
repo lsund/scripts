@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Automatically mount some device with some options 
+
+if [[ "$1" == "mybook" ]]; then
+    sudo umount /mnt/mybook  
+elif [[ "$1" == "usb" ]]; then
+    sudo umount /mnt/usb 
+else
+    echo "unknown media"
+fi

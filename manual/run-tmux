@@ -1,0 +1,38 @@
+#!/bin/sh 
+
+home="/home/lsund"
+ilas_path="$HOME/Documents/school/current/ilas"
+dsbd_path="$HOME/Documents/school/current/dsbd"
+alp_path="$HOME/Documents/school/current/alp"
+lab_path="$HOME/Projects/edmonds/"
+
+tmux new-session -d -c $home
+tmux new-window -c $home 
+tmux new-window -c $home 'mutt'
+tmux new-window -c $ilas_path
+tmux new-window -c $dsbd_path
+tmux new-window -c $alp_path
+tmux new-window -c $lab_path
+tmux new-window -c $home
+
+tmux rename-window -t 1 'zsh'
+tmux rename-window -t 2 'zsh'
+tmux rename-window -t 3 'mutt'
+tmux rename-window -t 4 'ilas'
+tmux rename-window -t 5 'dsbd'
+tmux rename-window -t 6 'alp'
+tmux rename-window -t 7 'lab'
+tmux rename-window -t 8 'misc'
+
+tmux split-window -t 3 -h -c $home
+tmux split-window -t 6 -v -c $alp_path -p 20
+tmux split-window -t 7 -v -c $lab_path -p 20
+
+tmux split-window -t 8 -h -c $home
+tmux split-window -t 8 -v -c $home
+tmux select-pane -t 8 -L
+tmux split-window -t 8 -v -c $home
+
+tmux select-window -t 1
+
+tmux -2 attach-session -d 

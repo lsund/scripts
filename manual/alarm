@@ -1,0 +1,22 @@
+#!/bin/bash
+
+audiopath=/home/lsund/Media/audio/sounds/
+hour=$1
+minute=$2
+
+if [[ "$#" != 2 ]]; then
+    echo "usage: ./alarm HOUR MINUTE"
+    exit
+fi
+
+while true 
+do
+    sleep 1
+    real_hour=`date +%H`
+    real_minute=`date +%M`
+    if [[ $real_hour == $hour && $real_minute == $minute ]]; then
+        mplayer ${audiopath}siren.wav
+        exit
+    fi
+done
+

@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+sed -i '$ d' $1
+cat $1

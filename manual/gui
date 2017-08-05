@@ -1,0 +1,35 @@
+#!/bin/bash
+
+for var in "$@"
+do
+    cmd="$cmd $var"
+done
+
+program=$(echo $cmd | cut -d' ' -f1)
+
+if [[ "$program" == "zath" || "$program" == "pdf" ]]; then
+    program=/usr/bin/zathura
+elif [[ "$program" == "eclipse" ]]; then
+    program="$(SWT_GTK3=0 /usr/bin/eclipse >/dev/null 2>&1 &)"
+elif [[ "$program" == "mir" || "$program" == "img" ]]; then
+    program=/usr/bin/mirage
+else
+    echo "Unknown command: $program" && exit
+fi
+
+words=$(echo $cmd | wc -w)
+
+if [[ $words == 1 ]]; then
+    $program
+elif [[ $words == 2 && $2 == "first" ]]; then
+    $program $(ls -1 | head -2 | tail -1)
+else
+    for file in $(echo $cmd | cut -d' ' -f2-)
+    do
+        if [[ -f $file ]]; then
+            $program $file  > /dev/null 2>&1 &
+        else
+            echo "Can't open file: $file " && exit
+        fi
+    done
+fi

@@ -1,0 +1,41 @@
+#!/usr/bin/runhaskell
+
+{-# LANGUAGE OverloadedStrings #-}
+
+import Text.Regex
+import Data.Maybe (isJust, fromJust)
+import Data.Text as T (Text, unpack, lines, append)
+import System.Environment
+import System.Process
+
+secondIfJust :: Maybe (String, String, String, [String]) -> Maybe String
+secondIfJust Nothing = Nothing
+secondIfJust (Just (_, s, _, _)) = Just s
+
+narrow :: String -> String
+narrow = tail . init
+
+removestar :: String -> String
+removestar s 
+    | drop beforestar s == "star" = take beforestar s
+    | otherwise = s
+    where beforestar = length s - 4
+
+
+main = do 
+    args <- getArgs
+    if not (null args) then do 
+        let nDisplay = if length args == 2 then (read) (args !! 1) else 10
+        let word = head args
+        let website = "http://thesaurus.reference.com/search?q=" ++ word
+        html <- readProcess "/usr/bin/lynx" ["-source", website] ""
+        content <- readProcess "/usr/bin/html2text" [] html
+        let x = Prelude.lines content
+        let reg = mkRegex "\\[[a-z]*\\]"
+        let matches = map (secondIfJust . matchRegexAll reg) x
+        let successfulMatches = map (removestar . narrow . fromJust) $ filter isJust matches
+        mapM_ print (take nDisplay successfulMatches)
+        return ()
+    else
+        putStrLn "usage ./synonyms word [number_of_synonyms]"
+

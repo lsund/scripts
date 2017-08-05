@@ -1,0 +1,14 @@
+#!/bin/zsh
+
+# Replaces all spaces in all filenames in the current directory by _-characters
+# Example:
+#
+# $ tree .
+#   'File a'
+#   'My Dir'
+# $ unspace
+# $ tree .
+#   File_a
+#   My_dir
+
+for f in *\ *; do mv "$f" "${f// /_}"; done

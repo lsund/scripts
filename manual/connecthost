@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Attempts to connect to the host having [host] alias on the local network
+
+if [ "$#" -ne 1 ]; then
+    echo "usage: connect [host]"
+else
+    hosts=$(arp | cut -d ' ' -f1)
+    arr=($hosts)
+    len=${#arr[@]}
+    ips=${arr[@]:1:$len-2}
+
+    for ip in ${ips[@]}
+    do
+        name=$(sudo ssh -o ConnectTimeout=2 lsund@$ip "cat /etc/hostname")
+        if [[ "$name" == "$1" ]]; then
+            sudo ssh lsund@$ip
+            break;
+        fi
+    done
+fi
+

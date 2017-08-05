@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Script for facilitating the pacman -Syu and related commands
+
+scriptdir="/home/lsund/Scripts/automatic"
+if [[ ! -d $scriptdir ]]; then 
+    echo "sysup Error: $scriptdir does not exist"
+    exit
+fi
+statusfile="/home/lsund/Data/log/pacman/need_sysup.txt"
+if [[ ! -f $statusfile ]]; then
+    echo "sysup Error: $statusfile does not exist"
+    exit
+fi
+
+s=$(ls /etc/pacman.d)
+a=( $s )
+
+if [[ " ${a[@]} " =~ "mirrorlist" && " ${a[@]} " =~ "mirrorlist.pacnew" ]]; then
+    echo "Both mirrorlist and mirrorlist.pacnew exists."
+    echo 
+    while true; do
+        read -p "Automatically merge the files? [y/n] " yn
+        case $yn in 
+            [Yy]* ) 
+                was=$(pwd)
+                cd /etc/pacman.d
+                sudo /etc/pacman.d/merger Germany mirrorlist mirrorlist.pacnew mergerbuf
+                cd $was
+                echo "files merged"
+                echo "updating..."
+                sudo pacman -Suy
+                pacaur -Suy
+                current_day=$(date +'%d')
+                message="updated $current_day"
+                echo $message > $statusfile 
+                break;;
+            [Nn]* )
+                echo "please merge the files"
+                break;;
+            * ) echo "yes or no mate"
+        esac
+    done
+else
+    echo "updating..."
+    sudo pacman -Su
+    current_day=$(date +'%d')
+    message="updated $current_day"
+    echo $message > $statusfile
+fi
+
+$scriptdir/pacsync
+
