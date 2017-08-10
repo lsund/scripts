@@ -8,8 +8,8 @@ wget -q --spider http://duckduckgo.com
 if [[ $? -eq 0 ]];
     then
         sudo pacman -Sy
-        count="$(pacman -Qu | cut -d ' ' -f 1 | wc -l)"
+        count="$(pacman -Qu | wc -l)"
         echo "$count" > $file
     else 
-        echo "☒" > $file
+        echo "⚠" > $file
 fi

@@ -2,7 +2,7 @@
 
 # Script for facilitating the pacman -Syu and related commands
 
-scriptdir="/home/lsund/Scripts/automatic"
+scriptdir="/home/lsund/Documents/scripts/automatic"
 if [[ ! -d $scriptdir ]]; then 
     echo "sysup Error: $scriptdir does not exist"
     exit

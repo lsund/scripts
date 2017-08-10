@@ -2,7 +2,7 @@
 
 backup_dest_dir=/mnt/mybook/Backup/
 ip=192.168.0.18
-backup_dirs=(Projects Documents Scripts Desktop Data Media)
+backup_dirs=(Projects Documents Desktop Data Media)
 
 if [[ "$1" == "-h" ]]; then
     echo

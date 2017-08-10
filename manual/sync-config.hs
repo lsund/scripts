@@ -9,8 +9,7 @@ import Data.Text.IO as TIO
 import Filesystem.Path.CurrentOS (fromText, decodeString)
 
 homedir = "/home/lsund/"
-confdir = "/home/lsund/Scripts/config/"
-bufdir = "/home/lsund/Scripts/data/buffer"
+confdir = "/home/lsund/Documents/dotfiles/"
 
 main = do
     content <- TIO.readFile "data/config-paths"

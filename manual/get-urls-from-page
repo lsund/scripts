@@ -1,0 +1,32 @@
+#!/bin/zsh
+
+url=$1
+filter=$2
+
+html="$(curl http://www.freemindfulness.org/download)"
+
+links=$(wget -O - $url | \
+      grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]' | \
+      sed -e 's/^<a href=["'"'"']//' -e 's/["'"'"']$//')
+
+filtered=$(echo "$links" | grep $filter)
+
+echo $filtered | while read line
+do
+    echo $line
+done
+
+read -p "Download? [y/n] " yn
+case $yn in 
+    [Yy]* ) 
+        echo $filtered | while read line
+        do
+            wget $line
+        done
+        break;;
+    [Nn]* )
+        echo "O-kay"
+        break;;
+    * ) echo "yes or no mate"
+esac
+
