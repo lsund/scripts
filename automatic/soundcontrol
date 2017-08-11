@@ -4,33 +4,28 @@
 statfile=/home/lsund/Data/log/sound/soundstat.txt
 percfile=/home/lsund/Data/log/sound/soundperc.txt
 
-sink_name=bluez_sink.FC_58_FA_41_40_AD.a2dp_sink
-
-stat=$(head -6 <(amixer) | grep % | cut -d " " -f 8 | cut -c2-3)
+# sink_name=bluez_sink.FC_58_FA_41_40_AD.a2dp_sink
+sink_name=alsa_output.pci-0000_00_1f.3.analog-stereo
 
 if [[ "$1" == "raise" ]]; then
-    # /usr/bin/amixer set Master 5%+
      pactl -- set-sink-volume $sink_name +5%
 elif [[ "$1" == "lower" ]]; then
-    # /usr/bin/amixer set Master 5%-
      pactl -- set-sink-volume $sink_name -5%
  elif [[ "$1" == "toggle" ]]; then
-    if [[ "$stat" == "of" ]]; then
-        # /usr/bin/amixer set Master on
         pactl -- set-sink-mute $sink_name toggle
-        echo "on" > $statfile
-    elif [[ "$stat" == "on" ]]; then
-        # /usr/bin/amixer set Master off
-        pactl -- set-sink-mute $sink_name toggle
-        echo "off" > $statfile
-    fi
 else
     exit
 fi
 
-# perc=$(head -6 <(amixer) | grep % | cut -d " " -f 7 | cut -c2-4)
+muted=$(pactl list sinks | grep Mute | cut -d: -f2 | tail -n 1 | xargs)
+perc=$(pactl list sinks |
+        grep '^[[:space:]]Volume:' | 
+        head -n $(( $SINK + 2 )) |
+        tail -n 1 |
+        sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
 
-perc=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 2 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
-
-echo $perc% > $percfile
-
+if [[ $muted == "no" ]]; then
+    echo "on" > $statfile
+else
+    echo "off" > $statfile
+fi
