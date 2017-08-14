@@ -1,0 +1,36 @@
+#!/bin/zsh
+
+: ${DOTFILES?"Need to set env variable: DOTFILES"}
+
+vimrc=$HOME/.vimrc
+vim=$HOME/.vim
+vundle=$HOME/.vim/bundle/Vundle.vim
+al=$HOME/.aliases
+git=$HOME/.config/git/config
+
+if [[ ! -e $vimrc ]]; then
+    ln -s $DOTFILES/vimrc $vimrc
+fi
+
+if [[ ! -e $vim ]]; then
+    ln -s $DOTFILES/vim $vim
+fi
+
+if [[ ! -e $git ]]; then
+    mkdir -p $HOME/.config/git
+    ln -s $DOTFILES/git/config $git
+fi
+
+if [[ ! -e $vundle ]]; then
+    git clone https://github.com/VundleVim/Vundle.vim.git $vundle
+fi
+
+if [[ ! -e $al ]]; then
+    ln -s $DOTFILES/aliases $al
+fi
+dpkg -s silversearcher-ag > /dev/null 2>&1
+if [[ $? == "1" ]]; then
+    sudo apt-get install silversearcher-ag
+fi
+
+# sudo apt-get install ag
