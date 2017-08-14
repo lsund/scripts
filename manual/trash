@@ -3,17 +3,19 @@
 # 'Move to trash'. Simply move some items to ~/.Trash
 
 warning_gigs=5
+trashdir="$HOME/.Trash/"
 
-trashdir="/home/lsund/.Trash/"
+mkdir -p $trashdir
+
 for var in "$@"
     do 
         basevar=$(basename "$var")
         if [[ -e "$var" ]]; then
             if [[ -e "$trashdir$basevar" ]]; then
                 randstr="$(pwgen 13 1)"
-                sudo mv "$var" "$trashdir$basevar-$randstr"
+                mv "$var" "$trashdir$basevar-$randstr"
             else
-                sudo mv "$var" "$trashdir"
+                mv "$var" "$trashdir"
             fi 
         else
             echo "trash: no such file or directory: $var"
