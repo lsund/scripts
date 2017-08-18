@@ -14,7 +14,7 @@ elif [[ "$program" == "eclipse" ]]; then
 elif [[ "$program" == "mir" || "$program" == "img" ]]; then
     program=/usr/bin/mirage
 elif [[ "$program" == "emacs" || "$program" == "em" ]]; then
-    program=/usr/bin/emacs
+    program=/usr/local/bin/emacs
 else
     echo "Unknown command: $program" && exit
 fi
@@ -22,7 +22,7 @@ fi
 words=$(echo $cmd | wc -w)
 
 if [[ $words == 1 ]]; then
-    $program
+    $program > /dev/null 2>&1 &
 elif [[ $words == 2 && $2 == "first" ]]; then
     $program $(ls -1 | head -2 | tail -1)
 else

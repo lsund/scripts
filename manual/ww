@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+if [[ $# != "2" ]]; then
+    echo "Need 2 arguments: ww LINE FILE" && exit
+fi
 
 echo $1 >> $2
 cat $2

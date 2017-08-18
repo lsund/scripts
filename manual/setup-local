@@ -28,9 +28,21 @@ fi
 if [[ ! -e $al ]]; then
     ln -s $DOTFILES/aliases $al
 fi
-dpkg -s silversearcher-ag > /dev/null 2>&1
+
+which trans
 if [[ $? == "1" ]]; then
-    sudo apt-get install silversearcher-ag
+    wget git.io/trans
+    chmod +x ./trans
+    mv trans $HOME/bin
 fi
 
-# sudo apt-get install ag
+declare -a packages=("htop" "ruby" "ghc" "silversearcher-ag" "pwgen")
+
+for package in "${packages[@]}"
+do
+    dpkg -s $package > /dev/null 2>&1
+    if [[ $? == "1" ]]; then
+        sudo apt-get install $package
+    fi
+done
+
