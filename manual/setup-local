@@ -4,30 +4,10 @@
 
 vimrc=$HOME/.vimrc
 vim=$HOME/.vim
+VIM=$HOME/.vim
 vundle=$HOME/.vim/bundle/Vundle.vim
 al=$HOME/.aliases
 git=$HOME/.config/git/config
-
-if [[ ! -e $vimrc ]]; then
-    ln -s $DOTFILES/vimrc $vimrc
-fi
-
-if [[ ! -e $vim ]]; then
-    ln -s $DOTFILES/vim $vim
-fi
-
-if [[ ! -e $git ]]; then
-    mkdir -p $HOME/.config/git
-    ln -s $DOTFILES/git/config $git
-fi
-
-if [[ ! -e $vundle ]]; then
-    git clone https://github.com/VundleVim/Vundle.vim.git $vundle
-fi
-
-if [[ ! -e $al ]]; then
-    ln -s $DOTFILES/aliases $al
-fi
 
 which trans
 if [[ $? == "1" ]]; then
@@ -36,10 +16,12 @@ if [[ $? == "1" ]]; then
     mv trans $HOME/bin
 fi
 
+# ############################################################################
+# Packages
 sudo apt-get update && sudo apt-get upgrade
 declare -a packages=("htop" "ruby" "ghc" "silversearcher-ag" "pwgen"
                      "build-essential" "cmake" "python-dev" "python3-dev"
-                     "python3-venv" "g++" "redshift)
+                     "python3-venv" "g++" "redshift")
 
 for package in "${packages[@]}"
 do
@@ -49,9 +31,56 @@ do
     fi
 done
 
-# You Complete Me
+# ############################################################################
+# Vim Config
+
+if [[ ! -e $vundle ]]; then
+    git clone https://github.com/VundleVim/Vundle.vim.git $vundle
+fi
+
 ycm_core="$vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so" 
 if [[ ! -e $ycm_core ]]; then
     $vim/bundle/YouCompleteMe/install.py
 fi
+
+# #############################################################################
+# Soft links
+
+mkdir -p $HOME/.vim
+mkdir -p $HOME/.vim/ftplugin
+mkdir -p $HOME/.config/git
+
+zsh_plugin=$DOTFILES/vim/ftplugin/zsh.vim
+haskell_plugin=$DOTFILES/vim/ftplugin/haskell.vim
+python_plugin=$DOTFILES/vim/ftplugin/python.vim 
+clojure_plugin=$DOTFILES/vim/ftplugin/clojure.vim
+
+zsh_rc=$DOTFILES/zshrc
+vim_rc=$DOTFILES/vimrc
+
+git_config=$DOTFILES/git/config
+_aliases="$DOTFILES/aliases"
+
+loc_zsh_plugin=$VIM/ftplugin/zsh.vim
+loc_haskell_plugin=$VIM/ftplugin/haskell.vim
+loc_python_plugin=$VIM/ftplugin/python.vim 
+loc_clojure_plugin=$VIM/ftplugin/clojure.vim
+
+loc_zsh_rc=$HOME/.zshrc
+loc_vim_rc=$HOME/.vimrc
+
+loc_git_config=$HOME/.config/git/config
+loc_aliases="$HOME/.aliases"
+
+
+[[ -f $loc_zsh_plugin ]]        || ln -s $zsh_plugin        $loc_zsh_plugin
+[[ -f $loc_haskell_plugin ]]    || ln -s $haskell_plugin    $loc_haskell_plugin
+[[ -f $loc_python_plugin ]]     || ln -s $python_plugin     $loc_python_plugin
+[[ -f $loc_clojure_plugin ]]    || ln -s $clojure_plugin    $loc_clojure_plugin
+
+[[ -f $loc_zsh_rc ]]            || ln -s $zsh_rc            $loc_zsh_rc
+[[ -f $loc_vim_rc ]]            || ln -s $vim_rc            $loc_vim_rc
+
+[[ -f $loc_git_config ]]        || ln -s $git_config        $loc_git_config
+[[ -f $loc_aliases ]]           || ln -s $_aliases           $loc_aliases
 
