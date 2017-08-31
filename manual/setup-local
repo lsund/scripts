@@ -38,7 +38,7 @@ if [[ ! -e $vundle ]]; then
     git clone https://github.com/VundleVim/Vundle.vim.git $vundle
 fi
 
-ycm_core="$vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so" 
+ycm_core="$vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so"
 if [[ ! -e $ycm_core ]]; then
     $vim/bundle/YouCompleteMe/install.py
 fi
@@ -52,7 +52,7 @@ mkdir -p $HOME/.config/git
 
 zsh_plugin=$DOTFILES/vim/ftplugin/zsh.vim
 haskell_plugin=$DOTFILES/vim/ftplugin/haskell.vim
-python_plugin=$DOTFILES/vim/ftplugin/python.vim 
+python_plugin=$DOTFILES/vim/ftplugin/python.vim
 clojure_plugin=$DOTFILES/vim/ftplugin/clojure.vim
 
 zsh_rc=$DOTFILES/zshrc
