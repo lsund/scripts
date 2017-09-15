@@ -94,6 +94,7 @@ git_config=$DOTFILES/git/config
 # Misc
 zsh_rc=$DOTFILES/zshrc
 _aliases="$DOTFILES/aliases"
+tmux=$DOTFILES/tmux.conf
 
 ## Destinations
 
@@ -119,6 +120,7 @@ loc_git_config=$HOME/.config/git/config
 # Misc
 loc_zsh_rc=$HOME/.zshrc
 loc_aliases="$HOME/.aliases"
+loc_tmux=$HOME/.tmux.conf
 
 ## Insertions
 
@@ -143,4 +145,5 @@ loc_aliases="$HOME/.aliases"
 # Misc
 [[ -f $loc_zsh_rc ]]            || ln -s $zsh_rc            $loc_zsh_rc
 [[ -f $loc_aliases ]]           || ln -s $_aliases          $loc_aliases
+[[ -f $loc_tmux ]]              || ln -s $tmux              $loc_tmux
 
