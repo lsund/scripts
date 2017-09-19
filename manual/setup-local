@@ -34,7 +34,7 @@ declare -a packages=("htop"
                      "mirage")
 
 which apt-get
-if [[ $? == "1" ]]; then
+if [[ $? == "0" ]]; then
     declare -a packages=("htop"
                         "ruby"
                         "ghc"
@@ -52,14 +52,14 @@ if [[ $? == "1" ]]; then
     for package in "${packages[@]}"
     do
         dpkg -s $package > /dev/null 2>&1
-        if [[ $? == "1" ]]; then
+        if [[ $? == "0" ]]; then
             sudo apt-get install $package
         fi
     done
 fi
 
 which pacman
-if [[ $? == "1" ]]; then
+if [[ $? == "0" ]]; then
     declare -a packages=("htop"
                         "ruby"
                         "ghc"
