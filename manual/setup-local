@@ -128,6 +128,8 @@ emacs_config=$DOTFILES/emacs/config/my-config.el
 emacs_keybindings=$DOTFILES/emacs/config/my-keybindings.el
 emacs_clojure=$DOTFILES/emacs/config/my-clojure.el
 emacs_elisp=$DOTFILES/emacs/config/my-elisp.el
+emacs_powerline=$DOTFILES/emacs/config/my-powerline.el
+emacs_haskell=$DOTFILES/emacs/config/my-haskell.el
 
 # Git
 git_config=$DOTFILES/git/config
@@ -155,6 +157,8 @@ loc_emacs_config=$emacsd/config/my-config.el
 loc_emacs_keybindings=$emacsd/config/my-keybindings.el
 loc_emacs_clojure=$emacsd/config/my-clojure.el
 loc_emacs_elisp=$emacsd/config/my-elisp.el
+loc_emacs_powerline=$emacsd/config/my-powerline.el
+loc_emacs_haskell=$emacsd/config/my-haskell.el
 
 # Git
 loc_git_config=$HOME/.config/git/config
@@ -181,6 +185,8 @@ loc_tmux=$HOME/.tmux.conf
 [[ -f $loc_emacs_keybindings ]] || ln -s $emacs_keybindings $loc_emacs_keybindings
 [[ -f $loc_emacs_clojure ]]     || ln -s $emacs_clojure     $loc_emacs_clojure
 [[ -f $loc_emacs_elisp ]]       || ln -s $emacs_elisp       $loc_emacs_elisp
+[[ -f $loc_emacs_powerline ]]   || ln -s $emacs_powerline   $loc_emacs_powerline
+[[ -f $loc_emacs_haskell ]]     || ln -s $emacs_haskell     $loc_emacs_haskell
 
 # Git
 [[ -f $loc_git_config ]]        || ln -s $git_config        $loc_git_config
