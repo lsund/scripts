@@ -1,0 +1,23 @@
+#!/bin/bash
+
+scriptdir=$HOME/Documents/scripts
+dotfilesdir=$HOME/Documents/dotfiles
+orgdir=$HOME/Documents/org
+
+if [[ "$#" == "0" ]]; then
+   msg="Update: "$(date)
+elif [[ "$#" == "1" ]]; then
+   msg=$1
+fi
+
+git -C $dotfilesdir a
+git -C $dotfilesdir ci -m "$msg"
+git -C $dotfilesdir push
+
+git -C $scriptdir a
+git -C $scriptdir ci -m "$msg"
+git -C $scriptdir push
+
+git -C $orgdir a
+git -C $orgdir ci -m "$msg"
+git -C $orgdir push
