@@ -170,7 +170,7 @@ loc_git_config=$HOME/.config/git/config
 loc_zsh_rc=$HOME/.zshrc
 loc_aliases="$HOME/.aliases"
 loc_tmux=$HOME/.tmux.conf
-loc_org=$HOME/todo.org
+loc_todo=$HOME/todo.org
 
 ## Insertions
 

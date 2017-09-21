@@ -5,19 +5,30 @@ dotfilesdir=$HOME/Documents/dotfiles
 orgdir=$HOME/Documents/org
 
 if [[ "$#" == "0" ]]; then
-   msg="Update: "$(date)
+    echo "Need one argument" && exit
 elif [[ "$#" == "1" ]]; then
-   msg=$1
+   msg="Update: "$(date)
+elif [[ "$#" == "2" ]]; then
+   msg=$2
 fi
 
-git -C $dotfilesdir a
-git -C $dotfilesdir ci -m "$msg"
-git -C $dotfilesdir push
+if [[ "$1" == "pull" ]]; then
 
-git -C $scriptdir a
-git -C $scriptdir ci -m "$msg"
-git -C $scriptdir push
+    git -C $dotfilesdir pull
+    git -C $scriptdir pull
+    git -C $orgdir pull
 
-git -C $orgdir a
-git -C $orgdir ci -m "$msg"
-git -C $orgdir push
+else
+
+    git -C $dotfilesdir a
+    git -C $dotfilesdir ci -m "$msg"
+    git -C $dotfilesdir push
+
+    git -C $scriptdir a
+    git -C $scriptdir ci -m "$msg"
+    git -C $scriptdir push
+
+    git -C $orgdir a
+    git -C $orgdir ci -m "$msg"
+    git -C $orgdir push
+fi
