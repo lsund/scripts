@@ -5,19 +5,25 @@ dotfilesdir=$HOME/Documents/dotfiles
 orgdir=$HOME/Documents/org
 
 if [[ "$#" == "0" ]]; then
-   msg="Update: "$(date)
+    echo "Usage: gitsync push|pull [MESSAGE]"
 elif [[ "$#" == "1" ]]; then
-   msg=$1
+    action=$1
+    msg="Update: "$(date)
+elif [[ "$#" == "1" ]]; then
+    action=$1
+    msg=$2
 fi
 
 git -C $dotfilesdir a
 git -C $dotfilesdir ci -m "$msg"
-git -C $dotfilesdir push
+git -C $dotfilesdir $action
 
 git -C $scriptdir a
 git -C $scriptdir ci -m "$msg"
-git -C $scriptdir push
+git -C $scriptdir $action
 
 git -C $orgdir a
 git -C $orgdir ci -m "$msg"
-git -C $orgdir push
+git -C $orgdir $action
+
+
