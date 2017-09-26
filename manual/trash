@@ -1,34 +1,38 @@
-#!/bin/bash
+#!/bin/zsh
 
-# 'Move to trash'. Simply move some items to ~/.Trash
+# 'Move to trash'. Simply move some items to ~/.Trash and keep track of copies
 
-warning_gigs=5
+# Config
+#
+warning_kilo_bytes=5000
 trashdir="$HOME/.Trash/"
+
+#  Code
 
 mkdir -p $trashdir
 
 for var in "$@"
-    do 
+    do
         basevar=$(basename "$var")
         if [[ -e "$var" ]]; then
-            if [[ -e "$trashdir$basevar" ]]; then
-                randstr="$(pwgen 13 1)"
-                mv "$var" "$trashdir$basevar-$randstr"
-            else
-                mv "$var" "$trashdir"
-            fi 
+            max=0
+            for existing in  $(ls $trashdir | grep $var-trashed)
+            do
+                num=$(echo $existing | cut -d'-' -f3)
+                if [[  $num -gt max ]]; then
+                    max=$num
+                fi
+            done
+            mv $var $trashdir$basevar-trashed-$(( $max + 1 ))
         else
             echo "trash: no such file or directory: $var"
         fi
 done
 
-bytesFull=$(du -hs $trashdir)
-bytes=(${bytesFull// / })
-len=${#bytes} 
-number=${bytes:0:len-1}
-suffix=${bytes:len-1:len}
+bytes=$(du -s $trashdir)
+number=$(echo $bytes | cut -d'/' -f1 | xargs)
 
-if [[ "$number" > "$warning_gigs" && "$suffix" == "G" ]]; then
+if [[ "$number" -gt "$warning_kilo_bytes"  ]]; then
     echo "Consider empty trash directory"
-    echo "It currently stors "$bytes "unused bananas"
+    echo "It currently stores $(echo $number | xargs) KB of unused bananas"
 fi
