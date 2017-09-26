@@ -35,5 +35,3 @@ elif [[ $action == "pull" ]]; then
 else
     echo "Unknown command: $action"
 fi
-
-
