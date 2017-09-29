@@ -4,12 +4,36 @@ scriptdir=$HOME/Documents/scripts
 dotfilesdir=$HOME/Documents/dotfiles
 orgdir=$HOME/Documents/org
 
+if [[ ! -d $orgdir ]]; then
+    git -C $HOME/Documents clone git@github.com:/lsund/org
+fi
+
 if [[ "$#" == "0" ]]; then
-    echo "Usage: gitsync push|pull [MESSAGE]"
+    echo "Usage: gitsync push|pull [MESSAGE]" && exit
 elif [[ "$#" == "1" ]]; then
-    # TODO
     action=$1
     msg="Update: "$(date)
+    if [[ $action == "push" ]]; then
+
+        git -C $dotfilesdir a
+        git -C $dotfilesdir ci -m "$msg"
+        git -C $dotfilesdir "push"
+
+        git -C $scriptdir a
+        git -C $scriptdir ci -m "$msg"
+        git -C $scriptdir "push"
+
+        git -C $orgdir a
+        git -C $orgdir ci -m "$msg"
+        git -C $orgdir "push"
+
+    elif [[ $action == "pull" ]]; then
+        git -C $dotfilesdir "pull"
+        git -C $scriptdir "pull"
+        git -C $orgdir "pull"
+    else
+        echo "Unknown command: $action"
+    fi
 elif [[ "$#" == "2" ]]; then
     action=$1
     msg=$2
