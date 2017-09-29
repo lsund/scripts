@@ -1,5 +1,5 @@
 #!/bin/bash
 
 filename=$(basename "$1")
-mv $1 "${filename%.*}"
+echo "${filename%.*}"
 
