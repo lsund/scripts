@@ -24,11 +24,15 @@ for var in "$@"
                 fi
             done
             mv $var $trashdir$basevar-trashed-$(( $max + 1 ))
+        elif
+            [[ -L "$var" ]]; then
+            /usr/bin/rm $var
         else
             echo "trash: no such file or directory: $var"
         fi
 done
 
+echo
 bytes=$(du -s $trashdir)
 number=$(echo $bytes | cut -d'/' -f1 | xargs)
 
