@@ -3,13 +3,27 @@
 # 'Move to trash'. Simply move some items to ~/.Trash and keep track of copies
 
 # Config
-#
-warning_kilo_bytes=5000
+
 trashdir="$HOME/.Trash/"
+warning_kilo_bytes=5000
 
 #  Code
 
 mkdir -p $trashdir
+
+if [[ "$1" == "-l" ]]; then
+    case "$#" in
+        "1")
+            /usr/bin/ls $trashdir
+            ;;
+        "2")
+            /usr/bin/ls $trashdir | grep --color=auto $2
+            ;;
+        *)
+            exit
+    esac
+    exit
+fi
 
 for var in "$@"
     do
@@ -33,10 +47,23 @@ for var in "$@"
 done
 
 echo
+
 bytes=$(du -s $trashdir)
 number=$(echo $bytes | cut -d'/' -f1 | xargs)
 
-if [[ "$number" -gt "$warning_kilo_bytes"  ]]; then
+if [[ "$number" -gt warning_kilo_bytes ]]; then
+
+
+    unit="KB"
+    if [[ "$number" -gt "1000" ]]; then
+        unit="MB"
+        number=$(expr $number / 1000)
+    fi
+    if [[ "$number" -gt "1000" ]]; then
+        unit="GB"
+        number=$(expr $number / 1000)
+    fi
+
     echo "Consider empty trash directory"
-    echo "It currently stores $(echo $number | xargs) KB of unused bananas"
+    echo "It currently more than $(echo $number | xargs) $unit"
 fi

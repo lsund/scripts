@@ -2,7 +2,7 @@
 
 backup_dest_dir=/mnt/mybook/Backup/
 ip=192.168.0.18
-backup_dirs=(Projects Documents Desktop Data Media)
+backup_dirs=(Data Documents Mail Media)
 
 if [[ "$1" == "-h" ]]; then
     echo
@@ -18,7 +18,7 @@ if [[ "$1" == "-v" ]]; then
     verbose=true
 fi
 
-if ping -c 1 ${ip} &> /dev/null 
+if ping -c 1 ${ip} &> /dev/null
 then
     if $verbose ; then
         echo "Established connection with remote server"

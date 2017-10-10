@@ -2,22 +2,25 @@
 
 # Install script. Replaces sudo pacman -S <target>
 
-all="";
+pkgs="";
 normalinstall="true"
 for var in "$@"
-    do 
+    do
         if [[ "${var##*.}" == "xz" ]]; then
             sudo pacman -U $var
             normalinstall="false"
             break;
         fi
-        all+=$var
-        all+=" "
+        pkgs+=$var
+        pkgs+=" "
 done
 if [[ "$normalinstall" == "true" ]]; then
-    #if [[ $(pacman -Ssq ^$all$) ]]; then
-        #sudo pacman -S $all
-    #else
-        pacaur -S $all
-    #fi
+    for pkg in $pkgs
+    do
+        if [[ $(pacman -Ssq ^$pkg$) ]]; then
+            sudo pacman -S $pkg
+        else
+            pacaur -S $pkgs
+        fi
+    done
 fi
