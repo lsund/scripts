@@ -23,7 +23,7 @@ elif [[ "$#" == "1" ]]; then
         git -C $dotfilesdir "push"
 
 	echo "##################################################################"
-	echo "## Pushing $msg to $scritpdir"
+p	echo "## Pushing $msg to $scritpdir"
 
         git -C $scriptdir a
         git -C $scriptdir ci -m "$msg"
