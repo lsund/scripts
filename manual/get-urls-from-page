@@ -17,8 +17,8 @@ do
 done
 
 read -p "Download? [y/n] " yn
-case $yn in 
-    [Yy]* ) 
+case $yn in
+    [Yy]* )
         echo $filtered | while read line
         do
             wget $line
