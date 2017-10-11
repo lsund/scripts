@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 scriptdir=$HOME/Documents/scripts
 dotfilesdir=$HOME/Documents/dotfiles
@@ -15,22 +15,41 @@ elif [[ "$#" == "1" ]]; then
     msg="Update: "$(date)
     if [[ $action == "push" ]]; then
 
+	echo "##################################################################"
+	echo "## Pushing $msg to $dotfilesdir"
+
         git -C $dotfilesdir a
         git -C $dotfilesdir ci -m "$msg"
         git -C $dotfilesdir "push"
 
+	echo "##################################################################"
+	echo "## Pushing $msg to $scritpdir"
+
         git -C $scriptdir a
         git -C $scriptdir ci -m "$msg"
         git -C $scriptdir "push"
+
+	echo "##################################################################"
+	echo "## Pushing $msg to $orgdir"
 
         git -C $orgdir a
         git -C $orgdir ci -m "$msg"
         git -C $orgdir "push"
 
     elif [[ $action == "pull" ]]; then
+	
+	echo "##################################################################"
+	echo "## Pulling from $dotfilesdir"
         git -C $dotfilesdir "pull"
+	
+	echo "##################################################################"
+	echo "## Pulling from $scriptdir"
         git -C $scriptdir "pull"
+
+	echo "##################################################################"
+	echo "## Pulling from $orgdir"
         git -C $orgdir "pull"
+
     else
         echo "Unknown command: $action"
     fi
@@ -67,4 +86,3 @@ elif [[ "$#" == "3" ]]; then
         git -C $orgdir $action
     fi
 fi
-
