@@ -199,13 +199,13 @@ main() {
          in_break=true && do_options
          vsleep "$(( $break_length * 60 ))"
       else DO_BREAK=true; fi
-      mplayer /home/lsund/Media/audio/sounds/beep.mp3 &> /dev/null
+      mplayer resources/beep.mp3 &> /dev/null
 
       # Work period
       echo -e "Period #$count. Total working time: $(hms $(( $total_working_time * 60 )))"
       unset in_break && do_options
       vsleep "$(( $work_length * 60 ))"
-      mplayer /home/lsund/Media/audio/sounds/beep.mp3 &> /dev/null
+      mplayer resources/beep.mp3 &> /dev/null
 
       # Calculate totals
       total_working_time="$(( ($total_working_time + $work_length) ))"
