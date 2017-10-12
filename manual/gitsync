@@ -15,39 +15,51 @@ elif [[ "$#" == "1" ]]; then
     msg="Update: "$(date)
     if [[ $action == "push" ]]; then
 
-	echo "##################################################################"
-	echo "## Pushing $msg to $dotfilesdir"
+        echo "##################################################################"
+        echo "## Pushing $msg to $dotfilesdir"
 
-        git -C $dotfilesdir a
-        git -C $dotfilesdir ci -m "$msg"
-        git -C $dotfilesdir "push"
+        if [[ $(git -C $dotfilesdir status | tail -1) == "nothing to commit, working tree clean" ]]; then
+            echo "Nothing to Push!"
+        else
+            git -C $dotfilesdir a
+            git -C $dotfilesdir ci -m "$msg"
+            git -C $dotfilesdir "push"
+        fi
 
-	echo "##################################################################"
-p	echo "## Pushing $msg to $scritpdir"
+        echo "##################################################################"
+        echo "## Pushing $msg to $scritpdir"
 
-        git -C $scriptdir a
-        git -C $scriptdir ci -m "$msg"
-        git -C $scriptdir "push"
+        if [[ $(git -C $scriptdir status | tail -1) == "nothing to commit, working tree clean" ]]; then
+            echo "Nothing to Push!"
+        else
+            git -C $scriptdir a
+            git -C $scriptdir ci -m "$msg"
+            git -C $scriptdir "push"
+        fi
 
-	echo "##################################################################"
-	echo "## Pushing $msg to $orgdir"
+        echo "##################################################################"
+        echo "## Pushing $msg to $orgdir"
 
-        git -C $orgdir a
-        git -C $orgdir ci -m "$msg"
-        git -C $orgdir "push"
+        if [[ $(git -C $orgdir status | tail -1) == "nothing to commit, working tree clean" ]]; then
+            echo "Nothing to Push!"
+        else
+            git -C $orgdir a
+            git -C $orgdir ci -m "$msg"
+            git -C $orgdir "push"
+        fi
 
     elif [[ $action == "pull" ]]; then
-	
-	echo "##################################################################"
-	echo "## Pulling from $dotfilesdir"
+
+        echo "##################################################################"
+        echo "## Pulling from $dotfilesdir"
         git -C $dotfilesdir "pull"
-	
-	echo "##################################################################"
-	echo "## Pulling from $scriptdir"
+
+        echo "##################################################################"
+        echo "## Pulling from $scriptdir"
         git -C $scriptdir "pull"
 
-	echo "##################################################################"
-	echo "## Pulling from $orgdir"
+        echo "##################################################################"
+        echo "## Pulling from $orgdir"
         git -C $orgdir "pull"
 
     else
