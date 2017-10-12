@@ -1,10 +1,17 @@
 #!/bin/zsh
 
+
+if [[ "$#" == 0 ]]; then
+    host="www.duckduckgo.com"
+else
+    host="$1"
+fi
+
 while true
 do
-    ping -c 1 www.duckduckgo.com 1> /dev/null
+    ping -c 1 $host 1> /dev/null
     if [[ "$?" == "0" ]]; then
         echo "Connected..." && exit
     fi
-    sleep 1
+    sleep 3
 done
