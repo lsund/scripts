@@ -74,7 +74,7 @@ if [[ $distro == "ubuntu" ]]; then
     for package in "${packages[@]}"
     do
         dpkg -s $package > /dev/null 2>&1
-        if [[ $? == "0" ]]; then
+        if [[ $? == "1" ]]; then
             sudo apt-get install $package
         fi
     done
