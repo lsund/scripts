@@ -21,7 +21,7 @@ elif [[ "$#" == "1" ]]; then
         echo "##################################################################"
         echo "## Pushing $msg to $dotfilesdir"
 
-        if [[ $(git -C $dotfilesdir status | head -2 | tail -1) == "Your branch is up-to-date with 'origin/master'." ]]; then
+        if [[ $(git -C $dotfilesdir status | head -4 | tail -1) == "nothing to commit, working tree clean" ]]; then
             echo "Nothing to Push!"
         else
             git -C $dotfilesdir a
@@ -32,7 +32,7 @@ elif [[ "$#" == "1" ]]; then
         echo "##################################################################"
         echo "## Pushing $msg to $scritpdir"
 
-        if [[ $(git -C $scriptdir status | head -2 | tail -1) == "Your branch is up-to-date with 'origin/master'." ]]; then
+        if [[ $(git -C $scriptdir status | head -4 | tail -1) == "nothing to commit, working tree clean" ]]; then
             echo "Nothing to Push!"
         else
             git -C $scriptdir a
@@ -43,7 +43,7 @@ elif [[ "$#" == "1" ]]; then
         echo "##################################################################"
         echo "## Pushing $msg to $orgdir"
 
-        if [[ $(git -C $orgdir status | head -2 | tail -1) == "Your branch is up-to-date with 'origin/master'." ]]; then
+        if [[ $(git -C $orgdir status | head -2 | tail -1) == "nothing to commit, working tree clean" ]]; then
             echo "Nothing to Push!"
         else
             git -C $orgdir a
