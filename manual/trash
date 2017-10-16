@@ -1,13 +1,11 @@
 #!/bin/zsh
 
-# 'Move to trash'. Simply move some items to ~/.Trash and keep track of copies
-
 # Config
 
 trashdir="$HOME/.Trash/"
 warning_kilo_bytes=5000
 
-#  Code
+# Code
 
 mkdir -p $trashdir
 

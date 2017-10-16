@@ -150,6 +150,7 @@ emacs_elisp=$DOTFILES/emacs/config/my-elisp.el
 emacs_powerline=$DOTFILES/emacs/config/my-powerline.el
 emacs_haskell=$DOTFILES/emacs/config/my-haskell.el
 emacs_org=$DOTFILES/emacs/config/my-org.el
+emacs_lisp=$DOTFILES/emacs/config/my-lisp.el
 
 # Git
 git_config=$DOTFILES/git/config
@@ -181,6 +182,7 @@ loc_emacs_elisp=$emacsd/config/my-elisp.el
 loc_emacs_powerline=$emacsd/config/my-powerline.el
 loc_emacs_haskell=$emacsd/config/my-haskell.el
 loc_emacs_org=$emacsd/config/my-org.el
+loc_emacs_lisp=$emacsd/config/my-lisp.el
 
 # Git
 loc_git_config=$HOME/.config/git/config
@@ -211,6 +213,7 @@ loc_todo=$HOME/todo.org
 [[ -f $loc_emacs_powerline ]]   || ln -s $emacs_powerline   $loc_emacs_powerline
 [[ -f $loc_emacs_haskell ]]     || ln -s $emacs_haskell     $loc_emacs_haskell
 [[ -f $loc_emacs_org ]]         || ln -s $emacs_org         $loc_emacs_org
+[[ -f $loc_emacs_lisp ]]        || ln -s $emacs_lisp        $loc_emacs_lisp
 
 # Git
 [[ -f $loc_git_config ]]        || ln -s $git_config        $loc_git_config
