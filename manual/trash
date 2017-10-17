@@ -5,9 +5,19 @@
 trashdir="$HOME/.Trash/"
 warning_kilo_bytes=5000
 
-# Code
+# Preconditions
+
+if [[ -e "/usr/bin/rm" ]]; then
+    real_remove=/usr/bin/rm
+elif [[ -e "/bin/rm" ]]; then
+    real_remove=/bin/rm
+else
+    echo "Don't know which rm to use" && exit
+fi
 
 mkdir -p $trashdir
+
+# Code
 
 if [[ "$1" == "-l" ]]; then
     case "$#" in
@@ -39,7 +49,7 @@ for var in "$@"
             echo "Moved to Trash"
         elif
             [[ -L "$var" ]]; then
-            /usr/bin/rm $var
+            $real_remove $var
         else
             echo "trash: no such file or directory: $var"
         fi

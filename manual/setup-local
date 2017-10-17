@@ -52,6 +52,7 @@ fc-cache -f -v
 
 declare -a packages=("htop"
                      "ruby"
+                     "pass"
                      "ghc"
                      "silversearcher-ag"
                      "pwgen"
@@ -68,6 +69,7 @@ if [[ $distro == "ubuntu" ]]; then
     declare -a packages=("htop"
                         "ruby"
                         "ghc"
+                        "pass"
                         "silversearcher-ag"
                         "pwgen"
                         "build-essential"
