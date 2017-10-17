@@ -1,5 +1,13 @@
 #!/bin/zsh
 
+
+ping -c 3 www.duckduckgo.com > /dev/null 2>&1
+if [[ $? != "0" ]]; then
+    echo "This script needs an active connection. Exiting."
+    exit
+fi
+
+
 : ${DOTFILES?"Need to set env variable: DOTFILES"}
 : ${HOME?"Need to set env variable: HOME"}
 
@@ -151,6 +159,7 @@ emacs_powerline=$DOTFILES/emacs/config/my-powerline.el
 emacs_haskell=$DOTFILES/emacs/config/my-haskell.el
 emacs_org=$DOTFILES/emacs/config/my-org.el
 emacs_lisp=$DOTFILES/emacs/config/my-lisp.el
+emacs_python=$DOTFILES/emacs/config/my-python.el
 
 # Git
 git_config=$DOTFILES/git/config
@@ -159,7 +168,6 @@ git_config=$DOTFILES/git/config
 zsh_rc=$DOTFILES/zshrc
 _aliases="$DOTFILES/aliases"
 tmux=$DOTFILES/tmux.conf
-todo=$HOME/Documents/org/todo.org
 
 ## Destinations
 
@@ -183,6 +191,7 @@ loc_emacs_powerline=$emacsd/config/my-powerline.el
 loc_emacs_haskell=$emacsd/config/my-haskell.el
 loc_emacs_org=$emacsd/config/my-org.el
 loc_emacs_lisp=$emacsd/config/my-lisp.el
+loc_emacs_python=$emacsd/config/my-python.el
 
 # Git
 loc_git_config=$HOME/.config/git/config
@@ -191,7 +200,6 @@ loc_git_config=$HOME/.config/git/config
 loc_zsh_rc=$HOME/.zshrc
 loc_aliases="$HOME/.aliases"
 loc_tmux=$HOME/.tmux.conf
-loc_todo=$HOME/todo.org
 
 ## Insertions
 
@@ -214,6 +222,7 @@ loc_todo=$HOME/todo.org
 [[ -f $loc_emacs_haskell ]]     || ln -s $emacs_haskell     $loc_emacs_haskell
 [[ -f $loc_emacs_org ]]         || ln -s $emacs_org         $loc_emacs_org
 [[ -f $loc_emacs_lisp ]]        || ln -s $emacs_lisp        $loc_emacs_lisp
+[[ -f $loc_emacs_python ]]      || ln -s $emacs_python      $loc_emacs_python
 
 # Git
 [[ -f $loc_git_config ]]        || ln -s $git_config        $loc_git_config
@@ -222,7 +231,6 @@ loc_todo=$HOME/todo.org
 [[ -f $loc_zsh_rc ]]            || ln -s $zsh_rc            $loc_zsh_rc
 [[ -f $loc_aliases ]]           || ln -s $_aliases          $loc_aliases
 [[ -f $loc_tmux ]]              || ln -s $tmux              $loc_tmux
-[[ -f $loc_todo ]]              || ln -s $todo              $loc_todo
 
 
 # #############################################################################

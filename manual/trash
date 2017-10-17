@@ -36,6 +36,7 @@ for var in "$@"
                 fi
             done
             mv $var $trashdir$basevar-trashed-$(( $max + 1 ))
+            echo "Moved to Trash"
         elif
             [[ -L "$var" ]]; then
             /usr/bin/rm $var
