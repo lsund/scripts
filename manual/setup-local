@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+# Script to automate the setup of my preferred environment on arch-linux or ubuntu.
 
 ping -c 3 www.duckduckgo.com > /dev/null 2>&1
 if [[ $? != "0" ]]; then
@@ -19,17 +20,17 @@ git=$HOME/.config/git/config
 emacsd=$HOME/.emacs.d
 
 # ############################################################################
-# Determine distro (with a hack)
+# Determine distro (Hacky solution)
 
 distro="unknown"
 
-which apt-get
+which apt-get > /dev/null 2>&1
 if [[ $? == "0" ]]; then
     distro="ubuntu"
     fontdir=$HOME/.fonts
 fi
 
-which pacman
+which pacman > /dev/null 2>&1
 if [[ $? == "0" ]]; then
     distro="arch"
     fontdir=$HOME/.local/share/fonts
@@ -48,62 +49,98 @@ cp $DOTFILES/fonts/adobe-source-code-pro/* $fontdir
 fc-cache -f -v
 
 # ############################################################################
-# Install Packages
+# Install Packages/Scripts/Programs
 
-declare -a packages=("htop"
-                     "ruby"
-                     "pass"
-                     "ghc"
-                     "silversearcher-ag"
-                     "pwgen"
-                     "build-essential"
-                     "cmake"
-                     "python-dev"
-                     "python3-dev"
-                     "python3-venv"
-                     "g++"
-                     "redshift"
-                     "mirage")
+# trans
+which trans > /dev/null 2>&1
+if [[ $? == "1" ]]; then
+    wget git.io/trans
+    chmod +x ./trans
+    mv trans $HOME/bin
+fi
+
+# haskell stack
+which stack > /dev/null 2>&1
+if [[ $? == "1" ]]; then
+    curl -sSL https://get.haskellstack.org/ | sh
+fi
 
 if [[ $distro == "ubuntu" ]]; then
-    declare -a packages=("htop"
-                        "ruby"
-                        "ghc"
-                        "pass"
-                        "silversearcher-ag"
-                        "pwgen"
-                        "build-essential"
-                        "cmake"
-                        "python-dev"
-                        "python3-dev"
-                        "python3-venv"
-                        "g++"
-                        "redshift"
-                        "mirage")
+
     sudo apt-get update && sudo apt-get upgrade
+
+    declare -a packages=("htop"
+			 "texlive-full"
+			 "cabal-install"
+			 "openjdk-8-jdk"
+                         "ruby"
+                         "ghc"
+                         "pass"
+			 "graphviz"
+			 "pdf-presenter-console"
+                         "silversearcher-ag"
+                         "pwgen"
+                         "build-essential"
+                         "cmake"
+                         "python-dev"
+                         "python3-dev"
+                         "python3-venv"
+                         "g++"
+                         "redshift"
+                         "mirage")
+
     for package in "${packages[@]}"
     do
+	out=$(apt-cache search ^$package$)
+	if [[ out == "" ]]; then
+	   echo "Package $package does not exist" && exit
+	fi
         dpkg -s $package > /dev/null 2>&1
         if [[ $? == "1" ]]; then
             sudo apt-get install $package
         fi
     done
+
+    which pandoc > /dev/null 2>&1
+    if [[ $? == "1" ]]; then
+	git clone https://github.com/jgm/pandoc
+	cd pandoc
+	stack setup
+	stack install --test
+	cd ..
+	rm -rf pandoc
+    fi
+
 elif [[ $distro == "arch" ]]; then
-    declare -a packages=("htop"
-                        "ruby"
-                        "ghc"
-                        "the_silver_searcher"
-                        "pwgen"
-                        "build-essential"
-                        "cmake"
-                        "python2"
-                        "python-virtualenv"
-                        "g++"
-                        "redshift"
-                        "mirage")
+
     sudo pacman -Suy
+
+    declare -a packages=("htop"
+			 "texlive-most"
+			 "pdfpc"
+			 "cabal-install"
+			 "jdk8-openjdk"
+                         "ruby"
+                         "ghc"
+			 "graphviz"
+                         "the_silver_searcher"
+                         "pwgen"
+                         "build-essential"
+                         "cmake"
+                         "python2"
+                         "python-virtualenv"
+                         "g++"
+                         "redshift"
+			 "pandoc"
+			 "pass"
+                         "mirage")
+
     for package in "${packages[@]}"
     do
+	pacman -Ss ^$package$ > /dev/null 2>&1
+	if [[ $? == "1" ]]; then
+	   echo "Package $package does not exist" && exit
+	fi
         pacman -Qi $package > /dev/null 2>&1
         if [[ $? == "1" ]]; then
             sudo pacman -S $package
@@ -111,8 +148,12 @@ elif [[ $distro == "arch" ]]; then
     done
 fi
 
+# Owickstroms pandoc-include-code
+cabal update
+cabal install pandoc-include-code
+
 # ###########################################################################
-# Get Emacs repos
+# Emacs repos
 
 evil=$HOME/.emacs.d/evil
 if [[ ! -e $evil ]]; then
@@ -120,7 +161,7 @@ if [[ ! -e $evil ]]; then
 fi
 
 # ############################################################################
-# Get Vim repos
+# Vim repos
 
 vundle=$HOME/.vim/bundle/Vundle.vim
 if [[ ! -e $vundle ]]; then
@@ -130,6 +171,17 @@ fi
 ycm_core="$vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so"
 if [[ ! -e $ycm_core ]]; then
     $vim/bundle/YouCompleteMe/install.py
+fi
+
+# #############################################################################
+# Other repos
+
+mkdir -p $HOME/Documents/tech/presentations
+auto_presentation_build=$HOME/Documents/tech/presentations/automate-template
+if [[ ! -e $auto_presentation_build ]]; then
+    url="https://github.com/owickstrom/"
+    repo="automating-the-build-of-your-technical-presentation-template"
+    git clone $url$repo $auto_presentation_build
 fi
 
 # #############################################################################
@@ -233,14 +285,3 @@ loc_tmux=$HOME/.tmux.conf
 [[ -f $loc_zsh_rc ]]            || ln -s $zsh_rc            $loc_zsh_rc
 [[ -f $loc_aliases ]]           || ln -s $_aliases          $loc_aliases
 [[ -f $loc_tmux ]]              || ln -s $tmux              $loc_tmux
-
-
-# #############################################################################
-# Get trans
-
-which trans
-if [[ $? == "1" ]]; then
-    wget git.io/trans
-    chmod +x ./trans
-    mv trans $HOME/bin
-fi

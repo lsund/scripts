@@ -3,101 +3,89 @@
 
 pinguntil www.github.com
 
-scriptdir=$HOME/Documents/scripts
-dotfilesdir=$HOME/Documents/dotfiles
-orgdir=$HOME/Documents/org
+declare -a syncdirs=("$HOME/Documents/scripts"
+                     "$HOME/Documents/dotfiles"
+                     "$HOME/Documents/org"
+                     "$HOME/.password-store")
 
-if [[ ! -d $orgdir ]]; then
+if [[ ! -d $HOME/Documents/org ]]; then
     git -C $HOME/Documents clone git@github.com:/lsund/org
 fi
 
-if [[ "$#" == "0" ]]; then
-    echo "Usage: gitsync push|pull [MESSAGE]" && exit
-elif [[ "$#" == "1" ]]; then
-    action=$1
-    msg="Update: "$(date)
-    if [[ $action == "push" ]]; then
+function PrintSeparator() {
+    case $1 in
+        "push")
+            echo "##################################################################"
+            echo "## Pushing to $2"
+            ;;
+        "pull")
+            echo "##################################################################"
+            echo "## Pulling from $2"
+            ;;
+        *)
+            echo "PrintSeparator: unknown command" && exit
+    esac
+}
 
-        echo "##################################################################"
-        echo "## Pushing $msg to $dotfilesdir"
-
-        if [[ $(git -C $dotfilesdir status | head -4 | tail -1) == "nothing to commit, working tree clean" ]]; then
-            echo "Nothing to Push!"
-        else
-            git -C $dotfilesdir a
-            git -C $dotfilesdir ci -m "$msg"
-            git -C $dotfilesdir "push"
-        fi
-
-        echo "##################################################################"
-        echo "## Pushing $msg to $scritpdir"
-
-        if [[ $(git -C $scriptdir status | head -4 | tail -1) == "nothing to commit, working tree clean" ]]; then
-            echo "Nothing to Push!"
-        else
-            git -C $scriptdir a
-            git -C $scriptdir ci -m "$msg"
-            git -C $scriptdir "push"
-        fi
-
-        echo "##################################################################"
-        echo "## Pushing $msg to $orgdir"
-
-        if [[ $(git -C $orgdir status | head -2 | tail -1) == "nothing to commit, working tree clean" ]]; then
-            echo "Nothing to Push!"
-        else
-            git -C $orgdir a
-            git -C $orgdir ci -m "$msg"
-            git -C $orgdir "push"
-        fi
-
-    elif [[ $action == "pull" ]]; then
-
-        echo "##################################################################"
-        echo "## Pulling from $dotfilesdir"
-        git -C $dotfilesdir "pull"
-
-        echo "##################################################################"
-        echo "## Pulling from $scriptdir"
-        git -C $scriptdir "pull"
-
-        echo "##################################################################"
-        echo "## Pulling from $orgdir"
-        git -C $orgdir "pull"
-
-    else
-        echo "Unknown command: $action"
-    fi
-elif [[ "$#" == "2" ]]; then
-    action=$1
-    msg=$2
-    if [[ $action == "push" ]]; then
-
-        git -C $dotfilesdir a
-        git -C $dotfilesdir ci -m "$msg"
-        git -C $dotfilesdir "push"
-
-        git -C $scriptdir a
-        git -C $scriptdir ci -m "$msg"
-        git -C $scriptdir "push"
-
-        git -C $orgdir a
-        git -C $orgdir ci -m "$msg"
-        git -C $orgdir "push"
-
-    elif [[ $action == "pull" ]]; then
-        git -C $dotfilesdir "pull"
-        git -C $scriptdir "pull"
-        git -C $orgdir "pull"
-    else
-        echo "Unknown command: $action"
-    fi
-elif [[ "$#" == "3" ]]; then
-    action=$1
-    filter=$2
-    dir=$3
-    # TODO
-    if [[ $dir == "org" ]]; then
-        git -C $orgdir $action
-    fi
-fi
+case $# in
+    "1")
+        action=$1
+        msg="Update: "$(date)
+        case $action in
+            "push")
+                for dir in "${syncdirs[@]}"
+                do
+                    PrintSeparator $action $dir
+                    if [[ $(git -C $dir status | head -4 | tail -1) == "nothing to commit, working tree clean" ]]; then
+                        echo "Nothing to Push!"
+                    else
+                        git -C $dir a
+                        git -C $dir ci -m "$msg"
+                        git -C $dir "push"
+                    fi
+                done
+                ;;
+            "pull")
+                for dir in "${syncdirs[@]}"
+                do
+                    PrintSeparator $action $dir
+                    git -C $dir "pull"
+                done
+                ;;
+            *)
+                echo "Unknown command: $action" && exit
+        esac
+        ;;
+    "2")
+        action=$1
+        msg=$2
+        case $action in
+            "push")
+                for dir in "${syncdirs[@]}"
+                do
+                    PrintSeparator $action $dir
+                    git -C $dir a
+                    git -C $dir ci -m "$msg"
+                    git -C $dir "push"
+                done
+                ;;
+            "pull")
+                for dir in "${syncdirs[@]}"
+                do
+                    PrintSeparator $action $dir
+                    git -C $dir "pull"
+                done
+                ;;
+            *)
+            echo "Unknown command: $action" && exit
+            ;;
+        esac
+        ;;
+    "3")
+        action=$1
+        filter=$2
+        dir=$3
+        # TODO
+        ;;
+    *) echo "Usage: gitsync push|pull [MESSAGE]" && exit
+esac
