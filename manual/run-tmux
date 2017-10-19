@@ -7,7 +7,7 @@ alp_path="$HOME/Documents/school/current/alp"
 lab_path="$HOME/Projects/edmonds/"
 
 tmux new-session -d -c $home
-tmux new-window -c $home 
+tmux new-window -c $home
 tmux new-window -c $home 'mutt'
 tmux new-window -c $ilas_path
 tmux new-window -c $dsbd_path
@@ -35,4 +35,4 @@ tmux split-window -t 8 -v -c $home
 
 tmux select-window -t 1
 
-tmux -2 attach-session -d 
+tmux -2 attach-session -d
