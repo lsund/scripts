@@ -1,11 +1,20 @@
 #!/bin/zsh
+#
+# This script replaces trash to make it safer. It moves files to ~/.Trash, and
+# sorts them.
 
+
+# ############################################################################
 # Config
+
 
 warning_kilo_bytes=5000
 base_trashdir="$HOME/.Trash"
 
+
+# ############################################################################
 # Preconditions
+
 
 if [[ -e "/usr/bin/rm" ]]; then
     real_remove=/usr/bin/rm
@@ -17,7 +26,10 @@ fi
 
 mkdir -p $base_trashdir
 
-# Code
+
+# ############################################################################
+# Functions
+
 
 # Sets the destination trashdir depending on $1
 function SetTrashdir () {
@@ -27,6 +39,7 @@ function SetTrashdir () {
         trashdir=$base_trashdir/trash-dirs
     fi
 }
+
 
 # lists $1 and counts how many files/directories have the same name
 # as $2
@@ -41,6 +54,11 @@ function CountIdentical () {
         fi
     done
 }
+
+
+# ############################################################################
+# Main Loop
+
 
 for var in "$@"
     do
@@ -63,6 +81,11 @@ for var in "$@"
 done
 
 echo
+
+
+# ###########################################################################
+# Print Stats
+
 
 bytes=$(du -s $base_trashdir)
 number=$(echo $bytes | cut -d'/' -f1 | xargs)

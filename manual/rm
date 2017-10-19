@@ -1,7 +1,10 @@
 #!/bin/zsh
 
+# Script to make rm more safe. Makes use of the `trash` script at any time your
+# current directory is not a subdirectory of ~/.Trash.
+
 path=$(pwd)
-echo $a
+
 if [[ $path == /home/lsund/.Trash* ]]; then
     /usr/bin/rm "$@"
 else
