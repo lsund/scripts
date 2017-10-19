@@ -38,7 +38,7 @@ for var in "$@"
         basevar=$(basename "$var")
         if [[ -e "$var" ]]; then
             max=0
-            for existing in  $(ls $trashdir | grep $var-trashed)
+            for existing in  $(ls $trashdir | grep $basevar-trashed)
             do
                 num=$(echo $existing | cut -d'-' -f3)
                 if [[  $num -gt max ]]; then
