@@ -2,9 +2,9 @@
 
 all="";
 for var in "$@"
-    do 
+    do
         all+=$var
         all+=" "
     done
-sudo pacman -R $all 
+sudo pacman -R $all
 

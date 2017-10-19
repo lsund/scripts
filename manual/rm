@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+path=$(pwd)
+echo $a
+if [[ $path == /home/lsund/.Trash* ]]; then
+    /usr/bin/rm "$@"
+else
+    trash "$@"
+fi

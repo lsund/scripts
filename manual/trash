@@ -2,8 +2,8 @@
 
 # Config
 
-trashdir="$HOME/.Trash/"
 warning_kilo_bytes=5000
+base_trashdir="$HOME/.Trash"
 
 # Preconditions
 
@@ -15,38 +15,45 @@ else
     echo "Don't know which rm to use" && exit
 fi
 
-mkdir -p $trashdir
+mkdir -p $base_trashdir
 
 # Code
 
-if [[ "$1" == "-l" ]]; then
-    case "$#" in
-        "1")
-            /usr/bin/ls $trashdir
-            ;;
-        "2")
-            /usr/bin/ls $trashdir | grep --color=auto $2
-            ;;
-        *)
-            exit
-    esac
-    exit
-fi
+# Sets the destination trashdir depending on $1
+function SetTrashdir () {
+    if [[ -f "$1" ]]; then
+        trashdir=$base_trashdir/trash-files
+    elif [[ -d "$1" ]]; then
+        trashdir=$base_trashdir/trash-dirs
+    fi
+}
+
+# lists $1 and counts how many files/directories have the same name
+# as $2
+function CountIdentical () {
+    basevar=$(basename "$2")
+    max=0
+    for existing in  $(ls $1 | grep $basevar-trashed)
+    do
+        num=$(echo $existing | cut -d'-' -f3)
+        if [[  $num -gt max ]]; then
+            max=$num
+        fi
+    done
+}
 
 for var in "$@"
     do
         basevar=$(basename "$var")
         if [[ -e "$var" ]]; then
-            max=0
-            for existing in  $(ls $trashdir | grep $basevar-trashed)
-            do
-                num=$(echo $existing | cut -d'-' -f3)
-                if [[  $num -gt max ]]; then
-                    max=$num
-                fi
-            done
-            mv $var $trashdir$basevar-trashed-$(( $max + 1 ))
-            echo "Moved to Trash"
+
+            SetTrashdir $var
+
+            CountIdentical $trashdir $var
+
+            mv $var $trashdir/$basevar-trashed-$(( $max + 1 ))
+
+            echo "Moving to $trashdir"
         elif
             [[ -L "$var" ]]; then
             $real_remove $var
@@ -57,7 +64,7 @@ done
 
 echo
 
-bytes=$(du -s $trashdir)
+bytes=$(du -s $base_trashdir)
 number=$(echo $bytes | cut -d'/' -f1 | xargs)
 
 if [[ "$number" -gt warning_kilo_bytes ]]; then
