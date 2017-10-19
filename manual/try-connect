@@ -7,7 +7,7 @@ else
     host="$1"
 fi
 
-echo "Testing Connection..."
+echo "Trying to connect..."
 while true
 do
     ping -c 1 $host > /dev/null 2>&1
