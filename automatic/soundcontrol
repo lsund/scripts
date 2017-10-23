@@ -1,38 +1,49 @@
 #!/bin/zsh
 
-# Attempt to check if the sound stream is to a connected
-# Bluetooth device or not.
-is_bt=$(pactl list sinks | grep bluez)
-if [[ $is_bt == "" ]]; then
-    sink_name=alsa_output.pci-0000_00_1f.3.analog-stereo
-else
-    sink_name=bluez_sink.FC_58_FA_41_40_AD.a2dp_sink
-fi
+# ############################################################################
+# Config
 
-# For controlling the sound
 statfile=/home/lsund/Data/log/sound/soundstat.txt
 percfile=/home/lsund/Data/log/sound/soundperc.txt
 
+function SetPerc() {
+    echo $(pactl list sinks | grep Volume | head -1 | cut -d' ' -f6) > $percfile
+}
+
+function SetMuted() {
+    muted=$(pactl list sinks | grep Mute | cut -d: -f2 | tail -n 1 | xargs)
+    if [[ $muted == "no" ]]; then
+        on_off="on"
+    else
+        on_off="off"
+    fi
+    echo $on_off > $statfile
+}
+
+function SetSink() {
+    # Attempt to check if the sound stream is to a connected
+    # Bluetooth device or not.
+    is_bt=$(pactl list sinks | grep bluez)
+    if [[ $is_bt == "" ]]; then
+        sink_name=alsa_output.pci-0000_00_1f.3.analog-stereo
+    else
+        sink_name=bluez_sink.FC_58_FA_41_40_AD.a2dp_sink
+    fi
+}
+
+SetSink
 
 if [[ "$1" == "raise" ]]; then
      pactl -- set-sink-volume $sink_name +5%
+     SetPerc
 elif [[ "$1" == "lower" ]]; then
      pactl -- set-sink-volume $sink_name -5%
+     SetPerc
  elif [[ "$1" == "toggle" ]]; then
         pactl -- set-sink-mute $sink_name toggle
+        SetMuted
 else
-    exit
+    exit 1
 fi
 
-muted=$(pactl list sinks | grep Mute | cut -d: -f2 | tail -n 1 | xargs)
-perc=$(pactl list sinks |
-        grep '^[[:space:]]Volume:' |
-        head -n $(( $SINK + 2 )) |
-        tail -n 1 |
-        sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
 
-if [[ $muted == "no" ]]; then
-    echo "on" > $statfile
-else
-    echo "off" > $statfile
-fi

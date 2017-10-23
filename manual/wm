@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+# sudo ip link set wlp58s0 down
+# sudo ip link set wlp58s0 up
+# TODO Scan for networks and select something
+sudo wifi-menu
+try-connect
