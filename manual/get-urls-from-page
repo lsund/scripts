@@ -3,8 +3,6 @@
 url=$1
 filter=$2
 
-html="$(curl http://www.freemindfulness.org/download)"
-
 links=$(wget -O - $url | \
       grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]' | \
       sed -e 's/^<a href=["'"'"']//' -e 's/["'"'"']$//')

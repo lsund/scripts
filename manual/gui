@@ -24,14 +24,23 @@ words=$(echo $cmd | wc -w)
 if [[ $words == 1 ]]; then
     $program > /dev/null 2>&1 &
 elif [[ $words == 2 && $2 == "first" ]]; then
-    $program $(ls -1 | head -2 | tail -1)
+    $program $(ls -1 | head -2 | tail -1) > /dev/null 2>&1 &
 else
-    for file in $(echo $cmd | cut -d' ' -f2-)
-    do
-        if [[ -f $file ]]; then
-            $program $file  > /dev/null 2>&1 &
-        else
-            echo "Can't open file: $file " && exit
-        fi
-    done
+    read -p "You've chosen to open $(( $words - 1 )) files. Proceed? [y/n] " yn
+    case $yn in
+        [Yy]* )
+            for file in $(echo $cmd | cut -d' ' -f2-)
+            do
+                if [[ -f $file ]]; then
+                    $program $file  > /dev/null 2>&1 &
+                else
+                    echo "Can't open file: $file " && exit
+                fi
+            done
+            ;;
+        [Nn]* )
+            echo "O-kay"
+            ;;
+        * ) echo "yes or no mate" && exit
+    esac
 fi
