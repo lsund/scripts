@@ -3,5 +3,8 @@
 # sudo ip link set wlp58s0 down
 # sudo ip link set wlp58s0 up
 # TODO Scan for networks and select something
+#
+# The reason that wm fails sometimes is probably because already connected to
+# some old network (see with netctl list)
 sudo wifi-menu
 try-connect
