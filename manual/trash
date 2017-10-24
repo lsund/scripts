@@ -24,7 +24,8 @@ else
     echo "Don't know which rm to use" && exit
 fi
 
-mkdir -p $base_trashdir
+mkdir -p $base_trashdir/trash-dirs
+mkdir -p $base_trashdir/trash-files
 
 
 # ############################################################################

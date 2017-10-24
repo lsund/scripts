@@ -1,7 +1,6 @@
 #!/bin/zsh
 
-
-pinguntil www.github.com
+try-connect
 
 declare -a syncdirs=("$HOME/Documents/scripts"
                      "$HOME/Documents/dotfiles"

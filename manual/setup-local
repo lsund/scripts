@@ -69,6 +69,8 @@ if [[ $distro == "ubuntu" ]]; then
 
     sudo apt-get update && sudo apt-get upgrade
 
+    keys
+
     declare -a packages=("htop"
 			 "texlive-full"
 			 "cabal-install"
@@ -111,6 +113,9 @@ if [[ $distro == "ubuntu" ]]; then
 	rm -rf pandoc
     fi
 
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
+
 elif [[ $distro == "arch" ]]; then
 
     sudo pacman -Suy
@@ -132,6 +137,7 @@ elif [[ $distro == "arch" ]]; then
                          "g++"
                          "redshift"
 			 "pandoc"
+			 "fzf"
 			 "pass"
                          "mirage")
 
@@ -163,12 +169,12 @@ fi
 # ############################################################################
 # Vim repos
 
-vundle=$HOME/.vim/bundle/Vundle.vim
+vundle=$VIM/bundle/Vundle.vim
 if [[ ! -e $vundle ]]; then
     git clone https://github.com/VundleVim/Vundle.vim.git $vundle
 fi
 
-ycm_core="$vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so"
+ycm_core=$VIM/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so
 if [[ ! -e $ycm_core ]]; then
     $vim/bundle/YouCompleteMe/install.py
 fi
