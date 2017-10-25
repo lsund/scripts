@@ -72,14 +72,16 @@ if [[ $distro == "ubuntu" ]]; then
     keys
 
     declare -a packages=("htop"
-			 "texlive-full"
-			 "cabal-install"
-			 "openjdk-8-jdk"
+                         "texlive-full"
+                         "cabal-install"
+                         "openjdk-8-jdk"
                          "ruby"
+                         "git"
+                         "vim"
                          "ghc"
                          "pass"
-			 "graphviz"
-			 "pdf-presenter-console"
+                         "graphviz"
+                         "pdf-presenter-console"
                          "silversearcher-ag"
                          "pwgen"
                          "build-essential"
@@ -89,6 +91,8 @@ if [[ $distro == "ubuntu" ]]; then
                          "python3-venv"
                          "g++"
                          "redshift"
+                         "gimp"
+                         "scrot"
                          "mirage")
 
     for package in "${packages[@]}"
@@ -113,21 +117,20 @@ if [[ $distro == "ubuntu" ]]; then
 	rm -rf pandoc
     fi
 
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    ~/.fzf/install
-
 elif [[ $distro == "arch" ]]; then
 
     sudo pacman -Suy
 
     declare -a packages=("htop"
-			 "texlive-most"
-			 "pdfpc"
-			 "cabal-install"
-			 "jdk8-openjdk"
+                         "texlive-most"
+                         "pdfpc"
+                         "cabal-install"
+                         "jdk8-openjdk"
                          "ruby"
                          "ghc"
-			 "graphviz"
+                         "git"
+                         "vim"
+                         "graphviz"
                          "the_silver_searcher"
                          "pwgen"
                          "build-essential"
@@ -136,9 +139,10 @@ elif [[ $distro == "arch" ]]; then
                          "python-virtualenv"
                          "g++"
                          "redshift"
-			 "pandoc"
-			 "fzf"
-			 "pass"
+                         "gimp"
+                         "scrot"
+                         "pandoc"
+                         "pass"
                          "mirage")
 
     for package in "${packages[@]}"
@@ -154,33 +158,35 @@ elif [[ $distro == "arch" ]]; then
     done
 fi
 
-# Owickstroms pandoc-include-code
+# ############################################################################
+# Setup cabal
+#
 cabal update
 cabal install pandoc-include-code
 
 # ###########################################################################
-# Emacs repos
+# Clone some repos
 
 evil=$HOME/.emacs.d/evil
 if [[ ! -e $evil ]]; then
     git clone https://github.com/emacs-evil/evil.git $evil
 fi
 
-# ############################################################################
-# Vim repos
-
 vundle=$VIM/bundle/Vundle.vim
 if [[ ! -e $vundle ]]; then
     git clone https://github.com/VundleVim/Vundle.vim.git $vundle
 fi
 
-ycm_core=$VIM/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so
-if [[ ! -e $ycm_core ]]; then
-    $vim/bundle/YouCompleteMe/install.py
+vim_plug=$VIM/autoload/plug.vim
+if [[ ! -e $vim_plug ]]; then
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
-# #############################################################################
-# Other repos
+ycm_core=$VIM/plugged/YouCompleteMe/third_party/ycmd/ycm_core.so
+if [[ ! -e $ycm_core ]]; then
+    $vim/plugged/YouCompleteMe/install.py
+fi
 
 mkdir -p $HOME/Documents/tech/presentations
 auto_presentation_build=$HOME/Documents/tech/presentations/automate-template
@@ -291,3 +297,8 @@ loc_tmux=$HOME/.tmux.conf
 [[ -f $loc_zsh_rc ]]            || ln -s $zsh_rc            $loc_zsh_rc
 [[ -f $loc_aliases ]]           || ln -s $_aliases          $loc_aliases
 [[ -f $loc_tmux ]]              || ln -s $tmux              $loc_tmux
+
+# ############################################################################
+# Other configs
+
+git config --global core.autocrlf true

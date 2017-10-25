@@ -7,30 +7,43 @@ do
     cmd="$cmd $var"
 done
 
+
 # ############################################################################
 # Find out which program to use
 
 case $1 in
     "zath")
-        program=/usr/bin/zathura
+        program=$(which athura)
+        [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
         ;;
     "pdf")
-        program=/usr/bin/zathura
+        program=$(which zathura)
+        [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
         ;;
     "eclipse")
+        which eclipse > /dev/null
+        [[ $? == "1" ]] && echo "eclipse is not installed" && exit 1
         program="$(SWT_GTK3=0 /usr/bin/eclipse >/dev/null 2>&1 &)"
+        # [[ $? == "1" ]] && echo "eclipse is not installed" && exit 1
         ;;
     "mir")
-        program=/usr/bin/mirage
+        program=$(which mirage)
+        [[ $? == "1" ]] && echo "mirage is not installed" && exit 1
         ;;
     "img")
-        program=/usr/bin/mirage
+        program=$(which mirage)
+        [[ $? == "1" ]] && echo "mirage is not installed" && exit 1
         ;;
     "emacs")
         program=/usr/local/bin/emacs
+        [[ $? == "1" ]] && echo "emacs is not installed" && exit 1
+        ;;
+    "gimp")
+        program=$(which gimp)
+        [[ $? == "1" ]] && echo "gimp is not installed" && exit 1
         ;;
     *)
-        echo "Unknown command: $program" && exit 1
+        echo "Unknown command: $1" && exit 1
 esac
 
 # Count arguments, expanding wildcards etc

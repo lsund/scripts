@@ -76,6 +76,7 @@ for var in "$@"
         elif
             [[ -L "$var" ]]; then
             $real_remove $var
+            echo "Removed symbolic link"
         else
             echo "trash: no such file or directory: $var"
         fi
