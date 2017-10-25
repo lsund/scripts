@@ -1,46 +1,73 @@
-#!/bin/bash
+#!/bin/zsh
+
+# For gui programs intended to be run in shell background
 
 for var in "$@"
 do
     cmd="$cmd $var"
 done
 
-program=$(echo $cmd | cut -d' ' -f1)
+# ############################################################################
+# Find out which program to use
 
-if [[ "$program" == "zath" || "$program" == "pdf" ]]; then
-    program=/usr/bin/zathura
-elif [[ "$program" == "eclipse" ]]; then
-    program="$(SWT_GTK3=0 /usr/bin/eclipse >/dev/null 2>&1 &)"
-elif [[ "$program" == "mir" || "$program" == "img" ]]; then
-    program=/usr/bin/mirage
-elif [[ "$program" == "emacs" || "$program" == "em" ]]; then
-    program=/usr/local/bin/emacs
-else
-    echo "Unknown command: $program" && exit
-fi
+case $1 in
+    "zath")
+        program=/usr/bin/zathura
+        ;;
+    "pdf")
+        program=/usr/bin/zathura
+        ;;
+    "eclipse")
+        program="$(SWT_GTK3=0 /usr/bin/eclipse >/dev/null 2>&1 &)"
+        ;;
+    "mir")
+        program=/usr/bin/mirage
+        ;;
+    "img")
+        program=/usr/bin/mirage
+        ;;
+    "emacs")
+        program=/usr/local/bin/emacs
+        ;;
+    *)
+        echo "Unknown command: $program" && exit 1
+esac
 
+# Count arguments, expanding wildcards etc
 words=$(echo $cmd | wc -w)
 
-if [[ $words == 1 ]]; then
-    $program > /dev/null 2>&1 &
-elif [[ $words == 2 && $2 == "first" ]]; then
-    $program $(ls -1 | head -2 | tail -1) > /dev/null 2>&1 &
-else
-    read -p "You've chosen to open $(( $words - 1 )) files. Proceed? [y/n] " yn
-    case $yn in
-        [Yy]* )
-            for file in $(echo $cmd | cut -d' ' -f2-)
-            do
-                if [[ -f $file ]]; then
-                    $program $file  > /dev/null 2>&1 &
-                else
-                    echo "Can't open file: $file " && exit
-                fi
-            done
-            ;;
-        [Nn]* )
-            echo "O-kay"
-            ;;
-        * ) echo "yes or no mate" && exit
-    esac
-fi
+# ############################################################################
+# Launch program with arguments
+
+case $words in
+    1)
+        $program > /dev/null 2>&1 &
+        ;;
+    2)
+        if [[ $2 == "first" ]]; then
+            $program $(ls -1 | head -1) > /dev/null 2>&1 &
+        else
+            $program $2 > /dev/null 2>&1 &
+        fi
+        ;;
+    *)
+        msg1="You've chosen to spawn $(basename $program) "
+        msg2="on $(( $words - 1 )) files. Proceed? [y/n] "
+        vared -p "$msg1$msg2" -c yn
+        case $yn in
+            [Yy]*)
+                for file in $(echo $cmd | cut -d' ' -f3-)
+                do
+                    if [[ -f $file ]]; then
+                        $program $file  > /dev/null 2>&1 &
+                    else
+                        echo "Can't open file: $file " && exit
+                    fi
+                done
+                ;;
+            [Nn]*)
+                echo "O-kay"
+                ;;
+            *) echo "yes or no mate"
+        esac
+esac
