@@ -1,4 +1,13 @@
 #!/bin/zsh
+# ############################################################################
+# Funcitons
+
+function PrintSeparator() {
+    echo "####################################################################"
+    echo $1
+}
+
+PrintSeparator "Starting Script"
 
 # Script to automate the setup of my preferred environment on arch-linux or ubuntu.
 
@@ -22,18 +31,22 @@ emacsd=$HOME/.emacs.d
 # ############################################################################
 # Determine distro (Hacky solution)
 
+PrintSeparator "Determining Distro"
+
 distro="unknown"
 
 which apt-get > /dev/null 2>&1
 if [[ $? == "0" ]]; then
     distro="ubuntu"
     fontdir=$HOME/.fonts
+    PrintSeparator "Ubuntu detected"
 fi
 
 which pacman > /dev/null 2>&1
 if [[ $? == "0" ]]; then
     distro="arch"
     fontdir=$HOME/.local/share/fonts
+    PrintSeparator "Arch Linux detected"
 fi
 
 if [[ $distro == "unknown" ]]; then
@@ -43,6 +56,8 @@ fi
 # ############################################################################
 # Install Fonts
 
+PrintSeparator "Installing Fonts"
+
 mkdir -p $fontdir
 cp $DOTFILES/fonts/hack/* $fontdir
 cp $DOTFILES/fonts/adobe-source-code-pro/* $fontdir
@@ -50,6 +65,8 @@ fc-cache -f -v
 
 # ############################################################################
 # Install Packages/Scripts/Programs
+
+PrintSeparator "Installing Packages"
 
 # trans
 which trans > /dev/null 2>&1
