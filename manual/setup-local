@@ -66,21 +66,7 @@ fc-cache -f -v
 # ############################################################################
 # Install Packages/Scripts/Programs
 
-PrintSeparator "Installing Packages"
-
-# trans
-which trans > /dev/null 2>&1
-if [[ $? == "1" ]]; then
-    wget git.io/trans
-    chmod +x ./trans
-    mv trans $HOME/bin
-fi
-
-# haskell stack
-which stack > /dev/null 2>&1
-if [[ $? == "1" ]]; then
-    curl -sSL https://get.haskellstack.org/ | sh
-fi
+PrintSeparator "Updating package base"
 
 if [[ $distro == "ubuntu" ]]; then
 
@@ -112,6 +98,8 @@ if [[ $distro == "ubuntu" ]]; then
                          "scrot"
                          "mirage")
 
+    PrintSeparator "Installing package list"
+
     for package in "${packages[@]}"
     do
 	out=$(apt-cache search ^$package$)
@@ -129,9 +117,9 @@ if [[ $distro == "ubuntu" ]]; then
 	git clone https://github.com/jgm/pandoc
 	cd pandoc
 	stack setup
-	stack install --test
+	stack install --test --flag pandoc:-embed_data_files
 	cd ..
-	rm -rf pandoc
+	trash pandoc
     fi
 
 elif [[ $distro == "arch" ]]; then
@@ -160,6 +148,8 @@ elif [[ $distro == "arch" ]]; then
                          "pass"
                          "mirage")
 
+    PrintSeparator "Installing package list"
+
     for package in "${packages[@]}"
     do
 	pacman -Ss ^$package$ > /dev/null 2>&1
@@ -173,14 +163,32 @@ elif [[ $distro == "arch" ]]; then
     done
 fi
 
+# trans
+which trans > /dev/null 2>&1
+if [[ $? == "1" ]]; then
+    wget git.io/trans
+    chmod +x ./trans
+    mv trans $HOME/bin
+fi
+
+# haskell stack
+which stack > /dev/null 2>&1
+if [[ $? == "1" ]]; then
+    curl -sSL https://get.haskellstack.org/ | sh
+fi
+
 # ############################################################################
 # Setup cabal
-#
+
+PrintSeparator "Setting up Cabal"
+
 cabal update
 cabal install pandoc-include-code
 
 # ###########################################################################
-# Clone some repos
+# Fetch repos
+
+PrintSeparator "Cloning some git repos"
 
 evil=$HOME/.emacs.d/evil
 if [[ ! -e $evil ]]; then
@@ -213,6 +221,8 @@ fi
 
 # #############################################################################
 # Install soft links
+
+PrintSeparator "Installing Soft Links"
 
 # Make some directories
 mkdir -p $vim/ftplugin
@@ -316,4 +326,8 @@ loc_tmux=$HOME/.tmux.conf
 # ############################################################################
 # Other configs
 
+PrintSeparator "Last bits of config"
+
 git config --global core.autocrlf true
+
+PrintSeparator "Done."

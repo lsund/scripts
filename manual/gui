@@ -13,7 +13,7 @@ done
 
 case $1 in
     "zath")
-        program=$(which athura)
+        program=$(which zathura)
         [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
         ;;
     "pdf")
