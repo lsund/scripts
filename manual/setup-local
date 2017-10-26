@@ -133,7 +133,6 @@ elif [[ $distro == "arch" ]]; then
                          "graphviz"
                          "the_silver_searcher"
                          "pwgen"
-                         "build-essential"
                          "cmake"
                          "python2"
                          "python-virtualenv"
