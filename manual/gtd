@@ -2,7 +2,12 @@
 
 beepfile=$SCRIPTS/manual/resources/beep.mp3
 # If this command results in a LIRC error: add 'lirc=no` to ~/.mplayer/config
-beep="mplayer -volume 70 $beepfile"
+perc=$(cat $HOME/Data/log/sound/soundperc.txt)
+if [[ $(echo $perc | cut -d'%' -f1) -gt "70" ]]; then
+    beep="mplayer -volume 70 $beepfile"
+else
+    beep="mplayer $beepfile"
+fi
 
 set -e
 

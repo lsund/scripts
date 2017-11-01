@@ -112,22 +112,12 @@ if [[ $distro == "ubuntu" ]]; then
         fi
     done
 
-    which pandoc > /dev/null 2>&1
-    if [[ $? == "1" ]]; then
-	git clone https://github.com/jgm/pandoc
-	cd pandoc
-	stack setup
-	stack install --test --flag pandoc:-embed_data_files
-	cd ..
-	trash pandoc
-    fi
-
 elif [[ $distro == "arch" ]]; then
 
     sudo pacman -Suy
 
     declare -a packages=("htop"
-                         "texlive-most"
+                         "texlive-core"
                          "pdfpc"
                          "cabal-install"
                          "jdk8-openjdk"
@@ -144,7 +134,6 @@ elif [[ $distro == "arch" ]]; then
                          "redshift"
                          "gimp"
                          "scrot"
-                         "pandoc"
                          "pass"
                          "mirage")
 
@@ -163,6 +152,17 @@ elif [[ $distro == "arch" ]]; then
     done
 fi
 
+# Pandoc
+which pandoc > /dev/null 2>&1
+if [[ $? == "1" ]]; then
+git clone https://github.com/jgm/pandoc
+cd pandoc
+stack setup
+stack install --test --flag pandoc:-embed_data_files
+cd ..
+trash pandoc
+fi
+
 # trans
 which trans > /dev/null 2>&1
 if [[ $? == "1" ]]; then
@@ -178,12 +178,12 @@ if [[ $? == "1" ]]; then
 fi
 
 # ############################################################################
-# Setup cabal
+# Setup stack
 
-PrintSeparator "Setting up Cabal"
+PrintSeparator "Setting up Stack"
 
-cabal update
-cabal install pandoc-include-code
+stack update
+stack install pandoc-include-code
 
 # ###########################################################################
 # Fetch repos
@@ -209,14 +209,6 @@ fi
 ycm_core=$VIM/plugged/YouCompleteMe/third_party/ycmd/ycm_core.so
 if [[ ! -e $ycm_core ]]; then
     $vim/plugged/YouCompleteMe/install.py
-fi
-
-mkdir -p $HOME/Documents/tech/presentations
-auto_presentation_build=$HOME/Documents/tech/presentations/automate-template
-if [[ ! -e $auto_presentation_build ]]; then
-    url="https://github.com/owickstrom/"
-    repo="automating-the-build-of-your-technical-presentation-template"
-    git clone $url$repo $auto_presentation_build
 fi
 
 # #############################################################################
@@ -251,6 +243,8 @@ emacs_haskell=$DOTFILES/emacs/config/my-haskell.el
 emacs_org=$DOTFILES/emacs/config/my-org.el
 emacs_lisp=$DOTFILES/emacs/config/my-lisp.el
 emacs_python=$DOTFILES/emacs/config/my-python.el
+emacs_tex=$DOTFILES/emacs/config/my-tex.el
+emacs_md=$DOTFILES/emacs/config/my-markdown.el
 
 # Git
 git_config=$DOTFILES/git/config
@@ -283,6 +277,8 @@ loc_emacs_haskell=$emacsd/config/my-haskell.el
 loc_emacs_org=$emacsd/config/my-org.el
 loc_emacs_lisp=$emacsd/config/my-lisp.el
 loc_emacs_python=$emacsd/config/my-python.el
+loc_emacs_tex=$emacsd/config/my-tex.el
+loc_emacs_md=$emacsd/config/my-markdown.el
 
 # Git
 loc_git_config=$HOME/.config/git/config
@@ -314,6 +310,8 @@ loc_tmux=$HOME/.tmux.conf
 [[ -f $loc_emacs_org ]]         || ln -s $emacs_org         $loc_emacs_org
 [[ -f $loc_emacs_lisp ]]        || ln -s $emacs_lisp        $loc_emacs_lisp
 [[ -f $loc_emacs_python ]]      || ln -s $emacs_python      $loc_emacs_python
+[[ -f $loc_emacs_tex ]]         || ln -s $emacs_tex         $loc_emacs_tex
+[[ -f $loc_emacs_md ]]          || ln -s $emacs_md          $loc_emacs_md
 
 # Git
 [[ -f $loc_git_config ]]        || ln -s $git_config        $loc_git_config

@@ -9,7 +9,7 @@
 
 
 warning_kilo_bytes=5000
-base_trashdir="$HOME/.Trash"
+base_trashdir="$HOME/.trash"
 
 
 # ############################################################################
