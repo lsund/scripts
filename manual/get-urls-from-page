@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 url=$1
 filter=$2
@@ -21,10 +21,10 @@ case $yn in
         do
             wget $line
         done
-        break;;
+        ;;
     [Nn]* )
         echo "O-kay"
-        break;;
+        ;;
     * ) echo "yes or no mate"
 esac
 
