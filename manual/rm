@@ -5,8 +5,8 @@
 
 path=$(pwd)
 
-if [[ $path == $HOME/.Trash* ]]; then
+if [[ $path == $HOME/.trash* ]]; then
     /usr/bin/rm "$@"
 else
-    trash "$@"
+    ./trash "$@"
 fi
