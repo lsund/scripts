@@ -17,15 +17,20 @@ import Data.Tuple           ( fst)
 import Data.Ord             ( Ord)
 import GHC.Base             ( Eq, ($), (.))
 import GHC.Enum             ( succ)
+import GHC.Show             ( show, Show)
 import System.Directory     ( doesFileExist
+                            , doesDirectoryExist
                             , createDirectoryIfMissing
-                            , listDirectory)
+                            , listDirectory
+                            , renamePath
+                            , renameFile
+                            , copyFile)
 import System.IO            ( IO, FilePath)
 import System.Environment   ( getEnv)
 import System.Exit          ( exitFailure)
 
 
-data FileType = File | Directory
+data FileType = File | Directory deriving (Show)
 
 warningKB = 5000
 
@@ -60,6 +65,17 @@ trashDir = (++ "/trash-test/trash") <$> getEnv "HOME"
 mkdirs :: [FilePath] -> IO ()
 mkdirs = mapM_ (createDirectoryIfMissing True)
 
+
+fileType :: FilePath -> IO (Maybe FileType)
+fileType fp = do
+    dir  <- doesDirectoryExist fp
+    file <- doesFileExist fp
+    return $
+        if dir
+            then Just Directory
+            else if file then Just File else Nothing
+
+
 countExisting :: FilePath -> FileType -> IO Int
 countExisting path t = do
     td <- trashDir
@@ -67,9 +83,33 @@ countExisting path t = do
     let occurences = compress $ map (fst . splitFirst "-###") xs
     return $ fromMaybe 0 (lookup path occurences)
 
+
+makeTrashName ::  FilePath -> FileType -> IO FilePath
+makeTrashName path t = do
+    -- Need to get file basename here
+    td     <- trashDir
+    fname  <- trashName path t  . succ <$> countExisting path t
+    return $ baseDir td t ++ "/" ++ fname
+
+
+moveToTrash :: FilePath -> IO ()
+moveToTrash path = do
+    mt <- fileType path
+    case mt of
+        Just t -> do
+            destName <- makeTrashName path t
+            copyFile path destName
+        Nothing -> return ()
+
+
+args = ["/home/lsund/test"]
+
+
+main :: IO ()
 main = do
     rmc <- rmCommand
     td  <- trashDir
     when (isNothing rmc) exitFailure
     mkdirs [baseDir td File, baseDir td Directory]
+    mapM_ moveToTrash args
 

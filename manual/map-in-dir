@@ -2,7 +2,8 @@
 
 [[ $# != 1 ]] && echo "Must provide a command" && exit 1
 
-for file in $(ls)
+find . -maxdepth 1 | while read f
 do
-    $1 $file
+    $1 $f
 done
+
