@@ -23,16 +23,18 @@ import System.Directory     ( doesFileExist
                             , createDirectoryIfMissing
                             , listDirectory
                             , renamePath
-                            , renameFile
-                            , copyFile)
-import System.IO            ( IO, FilePath)
-import System.Environment   ( getEnv)
+                            , getCurrentDirectory)
+import System.IO            ( IO, FilePath, putStrLn)
+import System.Environment   ( getEnv, getArgs)
 import System.Exit          ( exitFailure)
+import System.FilePath      ( takeFileName)
 
 
 data FileType = File | Directory deriving (Show)
 
-warningKB = 5000
+
+warningKB = 5000 :: Int
+
 
 splitFirst :: Eq a => [a] -> [a] -> ([a], [a])
 splitFirst xs p =
@@ -49,18 +51,27 @@ compress = foldr insertOrIncrement empty
               Just _ -> adjust succ x m
               Nothing -> insert x 1 m
 
+
 baseDir :: FilePath -> FileType -> FilePath
 baseDir rootDir File      = rootDir ++ "/trash-files"
 baseDir rootDir Directory = rootDir ++ "/trash-dirs"
 
+
+joinAbsolutePath :: FilePath -> FilePath -> FilePath
+joinAbsolutePath path = ((path ++ "/") ++) . takeFileName
+
+
 trashName :: FilePath -> FileType -> Int -> FilePath
 trashName path t n = path ++ "-###trashed-" ++ show n
+
 
 rmCommand :: IO (Maybe FilePath)
 rmCommand = findM doesFileExist ["/usr/bin/rm", "/bin/rm"]
 
+
 trashDir :: IO FilePath
 trashDir = (++ "/trash-test/trash") <$> getEnv "HOME"
+
 
 mkdirs :: [FilePath] -> IO ()
 mkdirs = mapM_ (createDirectoryIfMissing True)
@@ -86,9 +97,9 @@ countExisting path t = do
 
 makeTrashName ::  FilePath -> FileType -> IO FilePath
 makeTrashName path t = do
-    -- Need to get file basename here
+    let basename = takeFileName path
     td     <- trashDir
-    fname  <- trashName path t  . succ <$> countExisting path t
+    fname  <- trashName basename t  . succ <$> countExisting basename t
     return $ baseDir td t ++ "/" ++ fname
 
 
@@ -98,18 +109,20 @@ moveToTrash path = do
     case mt of
         Just t -> do
             destName <- makeTrashName path t
-            copyFile path destName
-        Nothing -> return ()
-
-
-args = ["/home/lsund/test"]
+            renamePath path destName
+            putStrLn $ "Moved " ++ path ++ " to trash."
+        Nothing ->
+            putStrLn $ "No such file or directory: " ++ path
 
 
 main :: IO ()
 main = do
-    rmc <- rmCommand
-    td  <- trashDir
+    wd   <- getCurrentDirectory
+    args <- getArgs
+    rmc  <- rmCommand
+    td   <- trashDir
     when (isNothing rmc) exitFailure
     mkdirs [baseDir td File, baseDir td Directory]
-    mapM_ moveToTrash args
+    let paths = map (joinAbsolutePath wd) args
+    mapM_ moveToTrash paths
 
