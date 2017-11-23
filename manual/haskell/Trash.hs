@@ -32,12 +32,26 @@ import System.FilePath      ( takeFileName)
 
 data FileType = File | Directory deriving (Show)
 
+data Config = Config { trashDir :: FilePath
+                     , workDir  :: FilePath
+                     , rmScript :: Maybe FilePath
+                     }
+
 
 -- TODO import datetime, Data.DateTime and put getCurrentTime into filename
 -- TODO use remove when inside trashdir
 
+
+----------------------------------------------------------------------------
+-- Hard Coded Config
+
+
 warningKB = 5000         :: Int
 baseTrashDir = "/.trash" :: FilePath
+
+
+----------------------------------------------------------------------------
+-- Pure
 
 
 splitFirst :: Eq a => [a] -> [a] -> ([a], [a])
@@ -69,16 +83,28 @@ trashName :: FilePath -> FileType -> Int -> FilePath
 trashName path t n = path ++ "-###trashed-" ++ show n
 
 
-rmCommand :: IO (Maybe FilePath)
-rmCommand = findM doesFileExist ["/usr/bin/rm", "/bin/rm"]
+getRmCommand :: IO (Maybe FilePath)
+getRmCommand = findM doesFileExist ["/usr/bin/rm", "/bin/rm"]
 
 
-trashDir :: IO FilePath
-trashDir = (++ baseTrashDir) <$> getEnv "HOME"
+----------------------------------------------------------------------------
+-- IO
 
 
 mkdirs :: [FilePath] -> IO ()
 mkdirs = mapM_ (createDirectoryIfMissing True)
+
+
+loadConfig :: IO Config
+loadConfig = do
+    td   <- getTrashDir
+    wd   <- getCurrentDirectory
+    rmc  <- getRmCommand
+    return $ Config td wd rmc
+
+
+getTrashDir :: IO FilePath
+getTrashDir = (++ baseTrashDir) <$> getEnv "HOME"
 
 
 fileType :: FilePath -> IO (Maybe FileType)
@@ -91,28 +117,26 @@ fileType fp = do
             else if file then Just File else Nothing
 
 
-countExisting :: FilePath -> FileType -> IO Int
-countExisting path t = do
-    td <- trashDir
-    xs <- listDirectory $ baseDir td t
+countExisting :: Config -> FilePath -> FileType -> IO Int
+countExisting conf path t = do
+    xs <- listDirectory $ baseDir (trashDir conf) t
     let occurences = compress $ map (fst . splitFirst "-###") xs
     return $ fromMaybe 0 (lookup path occurences)
 
 
-makeTrashName ::  FilePath -> FileType -> IO FilePath
-makeTrashName path t = do
+makeTrashName ::  Config -> FilePath -> FileType -> IO FilePath
+makeTrashName conf path t = do
     let basename = takeFileName path
-    td     <- trashDir
-    fname  <- trashName basename t  . succ <$> countExisting basename t
-    return $ baseDir td t ++ "/" ++ fname
+    fname  <- trashName basename t  . succ <$> countExisting conf basename t
+    return $ baseDir (trashDir conf) t ++ "/" ++ fname
 
 
-moveToTrash :: FilePath -> IO ()
-moveToTrash path = do
+moveToTrash :: Config -> FilePath -> IO ()
+moveToTrash conf path = do
     mt <- fileType path
     case mt of
         Just t -> do
-            destName <- makeTrashName path t
+            destName <- makeTrashName conf path t
             renamePath path destName
             putStrLn $ "Moved " ++ path ++ " to trash."
         Nothing ->
@@ -121,12 +145,13 @@ moveToTrash path = do
 
 main :: IO ()
 main = do
-    wd   <- getCurrentDirectory
     args <- getArgs
-    rmc  <- rmCommand
-    td   <- trashDir
-    when (isNothing rmc) exitFailure
+    conf <- loadConfig
+    let td = trashDir conf
+        wd = workDir conf
+        rms = rmScript conf
+    when (isNothing rms) exitFailure
     mkdirs [baseDir td File, baseDir td Directory]
     let paths = map (joinAbsolutePath wd) args
-    mapM_ moveToTrash paths
+    mapM_ (moveToTrash conf) paths
 
