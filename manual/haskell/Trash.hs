@@ -46,8 +46,10 @@ data Config = Config { trashDir :: FilePath
 -- Hard Coded Config
 
 
-warningKB = 5000         :: Int
-baseTrashDir = "/.trash" :: FilePath
+warningKB    = 5000                       :: Int         -- TODO Use this
+baseTrashDir = "/.trash"                  :: FilePath
+rmPaths      = ["/usr/bin/rm", "/bin/rm"] :: [FilePath]
+delim        = "-###"                     :: FilePath
 
 
 ----------------------------------------------------------------------------
@@ -80,11 +82,11 @@ joinAbsolutePath path = ((path ++ "/") ++) . takeFileName
 
 
 trashName :: FilePath -> FileType -> Int -> FilePath
-trashName path t n = path ++ "-###trashed-" ++ show n
+trashName path t n = path ++ delim ++ "trashed-" ++ show n
 
 
 getRmCommand :: IO (Maybe FilePath)
-getRmCommand = findM doesFileExist ["/usr/bin/rm", "/bin/rm"]
+getRmCommand = findM doesFileExist rmPaths
 
 
 ----------------------------------------------------------------------------
@@ -120,7 +122,7 @@ fileType fp = do
 countExisting :: Config -> FilePath -> FileType -> IO Int
 countExisting conf path t = do
     xs <- listDirectory $ baseDir (trashDir conf) t
-    let occurences = compress $ map (fst . splitFirst "-###") xs
+    let occurences = compress $ map (fst . splitFirst delim) xs
     return $ fromMaybe 0 (lookup path occurences)
 
 
@@ -147,11 +149,9 @@ main :: IO ()
 main = do
     args <- getArgs
     conf <- loadConfig
+    when (isNothing (rmScript conf)) exitFailure
     let td = trashDir conf
-        wd = workDir conf
-        rms = rmScript conf
-    when (isNothing rms) exitFailure
     mkdirs [baseDir td File, baseDir td Directory]
-    let paths = map (joinAbsolutePath wd) args
+    let paths = map (joinAbsolutePath (workDir conf)) args
     mapM_ (moveToTrash conf) paths
 
