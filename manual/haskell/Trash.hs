@@ -33,7 +33,11 @@ import System.FilePath      ( takeFileName)
 data FileType = File | Directory deriving (Show)
 
 
-warningKB = 5000 :: Int
+-- TODO import datetime, Data.DateTime and put getCurrentTime into filename
+-- TODO use remove when inside trashdir
+
+warningKB = 5000         :: Int
+baseTrashDir = "/.trash" :: FilePath
 
 
 splitFirst :: Eq a => [a] -> [a] -> ([a], [a])
@@ -70,7 +74,7 @@ rmCommand = findM doesFileExist ["/usr/bin/rm", "/bin/rm"]
 
 
 trashDir :: IO FilePath
-trashDir = (++ "/trash-test/trash") <$> getEnv "HOME"
+trashDir = (++ baseTrashDir) <$> getEnv "HOME"
 
 
 mkdirs :: [FilePath] -> IO ()
