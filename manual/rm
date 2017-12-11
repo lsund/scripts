@@ -6,7 +6,7 @@
 path=$(pwd)
 
 if [[ $path == $HOME/.trash* ]]; then
-    /usr/bin/rm "$@"
+    /usr/bin/rm -rf "$@"
 else
-    ./trash "$@"
+    /home/lsund/Documents/scripts/manual/trash "$@"
 fi
