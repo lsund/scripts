@@ -5,7 +5,7 @@ if [[ $# == 0 ]]; then
 fi
 
 if [[ $(cat "/etc/hostname") == "keysersoze" ]]; then
-	if [[ "$1" == "standard" ]]; then
+	if [[ "$1" == "standard" || "$1" == "normal" ]]; then
 		xrandr --output eDP1 --auto --output DP1 --off
 	elif [[ "$1" == "hdmi" ]]; then
 		xrandr --output eDP1 --off --output DP1 --auto

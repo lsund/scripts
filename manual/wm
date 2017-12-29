@@ -7,4 +7,9 @@
 # The reason that wm fails sometimes is probably because already connected to
 # some old network (see with netctl list)
 sudo wifi-menu
-try-connect
+if [[ "$?" == "0" ]]; then
+    try-connect
+else
+    echo "Something went wrong. Exiting..." && exit 1
+fi
+
