@@ -2,37 +2,15 @@
 
 # For gui programs intended to be run in shell background
 
-for var in "$@"
-do
-    cmd="$cmd $var"
-done
-
-
 # ############################################################################
 # Find out which program to use
 
 case $1 in
-    "zath")
-        program=$(which zathura)
-        [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
-        ;;
-    "pdf")
-        program=$(which zathura)
-        [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
-        ;;
     "eclipse")
         which eclipse > /dev/null
         [[ $? == "1" ]] && echo "eclipse is not installed" && exit 1
         program="$(SWT_GTK3=0 /usr/bin/eclipse >/dev/null 2>&1 &)"
         # [[ $? == "1" ]] && echo "eclipse is not installed" && exit 1
-        ;;
-    "mir")
-        program=$(which mirage)
-        [[ $? == "1" ]] && echo "mirage is not installed" && exit 1
-        ;;
-    "img")
-        program=$(which mirage)
-        [[ $? == "1" ]] && echo "mirage is not installed" && exit 1
         ;;
     "emacs")
         program=/usr/local/bin/emacs
@@ -42,26 +20,50 @@ case $1 in
         program=$(which gimp)
         [[ $? == "1" ]] && echo "gimp is not installed" && exit 1
         ;;
-    *)
-        echo "Unknown command: $1" && exit 1
 esac
 
-# Count arguments, expanding wildcards etc
-words=$(echo $cmd | wc -w)
+ext=$(extension $1)
+
+case $ext in
+    "pdf")
+        program=$(which zathura)
+        [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
+        ;;
+    "png")
+        program=$(which mirage)
+        [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
+        ;;
+    "jpg")
+        program=$(which mirage)
+        [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
+        ;;
+    "jpeg")
+        program=$(which mirage)
+        [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
+        ;;
+    *)
+        echo "Unknown file extension: $ext" && exit 1
+esac
+
+# Count arguments and expect wildcards. Check so all files exist
+for file in "$@"
+do
+    if [[ ! -e $file ]]; then
+        echo "File does not exist: $file" && exit 1
+    fi
+    files="$files $file"
+done
+
+words=$(echo $files | wc -w)
 
 # ############################################################################
 # Launch program with arguments
 
+# exit
+files=$(echo $files | xargs)
 case $words in
     1)
-        $program > /dev/null 2>&1 &
-        ;;
-    2)
-        if [[ $2 == "first" ]]; then
-            $program $(ls -1 | head -1) > /dev/null 2>&1 &
-        else
-            $program $2 > /dev/null 2>&1 &
-        fi
+        $program $files > /dev/null 2>&1 &
         ;;
     *)
         msg1="You've chosen to spawn $(basename $program) "
@@ -69,12 +71,12 @@ case $words in
         vared -p "$msg1$msg2" -c yn
         case $yn in
             [Yy]*)
-                for file in $(echo $cmd | cut -d' ' -f3-)
+                for file in $(echo $files | cut -d' ' -f3-)
                 do
                     if [[ -f $file ]]; then
                         $program $file  > /dev/null 2>&1 &
                     else
-                        echo "Can't open file: $file " && exit
+                        echo "Can't open file: $file " && exit 1
                     fi
                 done
                 ;;

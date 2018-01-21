@@ -256,6 +256,9 @@ emacs_md=$DOTFILES/emacs/config/my-markdown.el
 # Git
 git_config=$DOTFILES/git/config
 
+# SSH
+ssh_config=$DOTFILES/ssh/config
+
 # Misc
 zsh_rc=$DOTFILES/zshrc
 _aliases="$DOTFILES/aliases"
@@ -290,6 +293,9 @@ loc_emacs_md=$emacsd/config/my-markdown.el
 # Git
 loc_git_config=$HOME/.config/git/config
 
+# SSH
+loc_ssh_config=$HOME/.ssh/config
+
 # Misc
 loc_zsh_rc=$HOME/.zshrc
 loc_aliases="$HOME/.aliases"
@@ -323,6 +329,9 @@ loc_tmux=$HOME/.tmux.conf
 # Git
 [[ -f $loc_git_config ]]        || ln -s $git_config        $loc_git_config
 
+# SSH
+[[ -f $loc_ssh_config ]]        || ln -s $ssh_config        $loc_ssh_config
+
 # Misc
 [[ -f $loc_zsh_rc ]]            || ln -s $zsh_rc            $loc_zsh_rc
 [[ -f $loc_aliases ]]           || ln -s $_aliases          $loc_aliases
@@ -338,6 +347,6 @@ setxkbmap dvorak -option compose:caps
 git config --global core.autocrlf false
 git config --global user.name "Ludvig Sundström"
 git config --global user.email lud.sund@gmail.com
-git config --global push.default simple 
+git config --global push.default simple
 
 PrintSeparator "Done."
