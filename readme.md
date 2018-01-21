@@ -8,4 +8,4 @@ My utility scripts.
 
 * Many of these are nothing fancy: Just a couple of lines long, similar to aliases.
 
-* I did not write all the code in this repository. (Some other open source code may exist)
+* I did not write all the code in this repository.
