@@ -10,6 +10,6 @@ sudo wifi-menu
 if [[ "$?" == "0" ]]; then
     try-connect
 else
-    echo "Something went wrong. Exiting..." && exit 1
+    echo "Something didnt check out. Exiting..." && exit 1
 fi
 
