@@ -334,8 +334,10 @@ loc_tmux=$HOME/.tmux.conf
 PrintSeparator "Last bits of config"
 
 setxkbmap dvorak -option compose:caps
+
 git config --global core.autocrlf false
 git config --global user.name "Ludvig Sundström"
 git config --global user.email lud.sund@gmail.com
+git config --global push.default simple 
 
 PrintSeparator "Done."
