@@ -19,6 +19,7 @@ fi
 
 
 : ${DOTFILES?"Need to set env variable: DOTFILES"}
+: ${SCRIPTS?"Need to set env variable: SCRIPTS"}
 : ${HOME?"Need to set env variable: HOME"}
 
 vimrc=$HOME/.vimrc
@@ -29,7 +30,7 @@ git=$HOME/.config/git/config
 emacsd=$HOME/.emacs.d
 
 # ############################################################################
-# Determine distro (Hacky solution)
+# Determine distro (in a hacky way)
 
 PrintSeparator "Determining Distro"
 
@@ -96,6 +97,7 @@ if [[ $distro == "ubuntu" ]]; then
                          "redshift"
                          "gimp"
                          "scrot"
+                         "curl"
                          "mirage")
 
     PrintSeparator "Installing package list"
@@ -135,6 +137,7 @@ elif [[ $distro == "arch" ]]; then
                          "gimp"
                          "scrot"
                          "pass"
+                         "curl"
                          "mirage")
 
     PrintSeparator "Installing package list"
@@ -152,16 +155,9 @@ elif [[ $distro == "arch" ]]; then
     done
 fi
 
-# Pandoc
-which pandoc > /dev/null 2>&1
-if [[ $? == "1" ]]; then
-git clone https://github.com/jgm/pandoc
-cd pandoc
-stack setup
-stack install --test --flag pandoc:-embed_data_files
-cd ..
-trash pandoc
-fi
+# Plugged (for vim plugins)
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # trans
 which trans > /dev/null 2>&1
@@ -171,18 +167,29 @@ if [[ $? == "1" ]]; then
     mv trans $HOME/bin
 fi
 
-# haskell stack
+# Oh-My-Ssh
+sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+
+# ############################################################################
+# Setup stack and pandoc
+
 which stack > /dev/null 2>&1
 if [[ $? == "1" ]]; then
     curl -sSL https://get.haskellstack.org/ | sh
 fi
 
-# ############################################################################
-# Setup stack
-
-PrintSeparator "Setting up Stack"
-
+PrintSeparator "Setting up haskell"
 stack update
+
+which pandoc > /dev/null 2>&1
+if [[ $? == "1" ]]; then
+git clone https://github.com/jgm/pandoc
+cd pandoc
+stack setup
+stack install --test --flag pandoc:-embed_data_files
+cd ..
+SCRIPTS/trash pandoc
+fi
 stack install pandoc-include-code
 
 # ###########################################################################
@@ -326,6 +333,11 @@ loc_tmux=$HOME/.tmux.conf
 
 PrintSeparator "Last bits of config"
 
-git config --global core.autocrlf true
+setxkbmap dvorak -option compose:caps
+
+git config --global core.autocrlf false
+git config --global user.name "Ludvig Sundström"
+git config --global user.email lud.sund@gmail.com
+git config --global push.default simple 
 
 PrintSeparator "Done."
