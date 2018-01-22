@@ -6,13 +6,14 @@ fi
 
 case $# in
     "2")
-        if [[ $1 == "-d" ]]; then
-            sed -i '$ d' $2
-            cat $2
-        else
+        # TODO What is this??
+        # if [[ $1 == "-d" ]]; then
+        #     sed -i '$ d' $2
+        #     cat $2
+        # else
             echo $1 >> $2
             cat $2
-        fi
+        # fi
         ;;
     * ) echo "Need 2 arguments: ww LINE FILE" && exit
 esac

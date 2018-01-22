@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# Check every ten seconds if the process identified as $1 is still 
-# running. After 5 checks (~60 seconds), kill it. Return non-zero to 
+# Check every ten seconds if the process identified as $1 is still
+# running. After 5 checks (~60 seconds), kill it. Return non-zero to
 # indicate something was killed.
 monitor() {
   local pid=$1 i=0
