@@ -82,22 +82,6 @@ PrintSeparator "Updating package base and installing packages"
 
 ./install-packages $distro
 
-
-# Plugged (for vim plugins)
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-# trans
-which trans > /dev/null 2>&1
-if [[ $? == "1" ]]; then
-    wget git.io/trans
-    chmod +x ./trans
-    mv trans $HOME/bin
-fi
-
-# Oh-My-Ssh
-sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-
 # ############################################################################
 # Setup stack and pandoc
 

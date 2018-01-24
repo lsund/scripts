@@ -31,8 +31,10 @@ if [[ $1 == "ubuntu" ]]; then
                          "build-essential"
                          "cmake"
                          "python-dev"
-                         "python3-dev"
+                         "python-pip"
                          "python3-venv"
+                         "python3-dev"
+                         "python3-pip"
                          "g++"
                          "redshift"
                          "gimp"
@@ -56,6 +58,13 @@ if [[ $1 == "ubuntu" ]]; then
             sudo apt-get install $package
         fi
 
+        #fd
+        # TODO change this to most recent version
+        fd_link="https://github.com/sharkdp/fd/releases/download/v6.2.0/fd-musl_6.2.0_amd64.deb"
+        fd_file="fd-musl_6.2.0_amd64.deb"
+        wget $fd_link
+        sudo dpkg -i $fd_file
+        mv $fd_file ~/.trash/trash-files
     done
 
 elif [[ $1 == "arch" ]]; then
@@ -82,6 +91,7 @@ elif [[ $1 == "arch" ]]; then
                          "scrot"
                          "pass"
                          "curl"
+                         "fd-rs"
                          "mirage")
 
     for package in "${packages[@]}"
@@ -100,3 +110,29 @@ elif [[ $1 == "arch" ]]; then
 
     done
 fi
+
+# Neovim
+if [[ ! -e "$HOME/.config/nvim/init.vim" ]]; then
+    mkdir -p $HOME/.config/nvim
+    nvim=$HOME/.config/nvim/init.vim
+    touch $nvim
+    echo "set runtimepath^=~/.vim runtimepath+=~/.vim/after" > $nvim
+    echo "let &packpath = &runtimepath" >> $nvim
+    echo "source ~/.vimrc" >> $nvim
+fi
+
+# Plugged (for vim plugins)
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+# trans
+which trans > /dev/null 2>&1
+if [[ $? == "1" ]]; then
+    wget git.io/trans
+    chmod +x ./trans
+    mv trans $HOME/bin
+fi
+
+# Oh-My-Ssh
+sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+
