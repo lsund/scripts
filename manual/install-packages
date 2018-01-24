@@ -1,0 +1,94 @@
+#!/bin/zsh
+
+# A specific list of packages is specified for both ubuntu and arch linux.
+# This script goes through each of these, checks if they exist in the
+# official repositories, if they exist on the local computer and installs
+# accordingly.
+
+
+[[ -z $1 ]] && echo "Need first argument: distro" && exit
+
+if [[ $1 == "ubuntu" ]]; then
+
+    ## PPA's
+    sudo add-apt-repository ppa:neovim-ppa/stable
+
+    sudo apt-get update && sudo apt-get upgrade
+
+    declare -a packages=("htop"
+                         "texlive-full"
+                         "cabal-install"
+                         "openjdk-8-jdk"
+                         "ruby"
+                         "git"
+                         "vim"
+                         "ghc"
+                         "pass"
+                         "graphviz"
+                         "pdf-presenter-console"
+                         "silversearcher-ag"
+                         "pwgen"
+                         "build-essential"
+                         "cmake"
+                         "python-dev"
+                         "python3-dev"
+                         "python3-venv"
+                         "g++"
+                         "redshift"
+                         "gimp"
+                         "scrot"
+                         "curl"
+                         "software-properties-common"
+                         "neovim"
+                         "mirage")
+
+    for package in "${packages[@]}"
+    do
+	out=$(apt-cache search ^$package$)
+	if [[ out == "" ]]; then
+	   echo "Package $package does not exist" && exit
+	fi
+        dpkg -s $package > /dev/null 2>&1
+        if [[ $? == "1" ]]; then
+            sudo apt-get install $package
+        fi
+    done
+
+elif [[ $1 == "arch" ]]; then
+
+    sudo pacman -Suy
+
+    declare -a packages=("htop"
+                         "texlive-core"
+                         "pdfpc"
+                         "cabal-install"
+                         "jdk8-openjdk"
+                         "ruby"
+                         "ghc"
+                         "git"
+                         "vim"
+                         "graphviz"
+                         "the_silver_searcher"
+                         "pwgen"
+                         "cmake"
+                         "python2"
+                         "python-virtualenv"
+                         "redshift"
+                         "gimp"
+                         "scrot"
+                         "pass"
+                         "curl"
+                         "mirage")
+
+    for package in "${packages[@]}"
+    do
+	pacman -Ss ^$package$ > /dev/null 2>&1
+	if [[ $? == "1" ]]; then
+	   echo "Package $package does not exist" && exit
+	fi
+        pacman -Qi $package > /dev/null 2>&1
+        if [[ $? == "1" ]]; then
+            sudo pacman -S $package
+        fi
+    done
+fi
