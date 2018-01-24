@@ -114,5 +114,6 @@ loc_tmux=$HOME/.tmux.conf
 [[ -f $loc_aliases ]]           || ln -s $_aliases          $loc_aliases
 [[ -f $loc_tmux ]]              || ln -s $tmux              $loc_tmux
 
-
+echo "Done"
+echo "You probably need to source $loc_aliases"
 
