@@ -1,4 +1,5 @@
 #!/bin/zsh
+
 # ############################################################################
 # Funcitons
 
@@ -233,119 +234,7 @@ fi
 
 PrintSeparator "Installing Soft Links"
 
-# Make some directories
-mkdir -p $vim/ftplugin
-mkdir -p $emacsd/config
-mkdir -p $HOME/.config/git
-
-## Sources
-
-# Vim
-zsh_plugin=$DOTFILES/vim/ftplugin/zsh.vim
-haskell_plugin=$DOTFILES/vim/ftplugin/haskell.vim
-python_plugin=$DOTFILES/vim/ftplugin/python.vim
-clojure_plugin=$DOTFILES/vim/ftplugin/clojure.vim
-
-vim_rc=$DOTFILES/vimrc
-
-# Emacs
-emacs_file=$DOTFILES/emacs/emacs
-emacs_init=$DOTFILES/emacs/init.el
-emacs_config=$DOTFILES/emacs/config/my-config.el
-emacs_keybindings=$DOTFILES/emacs/config/my-keybindings.el
-emacs_clojure=$DOTFILES/emacs/config/my-clojure.el
-emacs_elisp=$DOTFILES/emacs/config/my-elisp.el
-emacs_powerline=$DOTFILES/emacs/config/my-powerline.el
-emacs_haskell=$DOTFILES/emacs/config/my-haskell.el
-emacs_org=$DOTFILES/emacs/config/my-org.el
-emacs_lisp=$DOTFILES/emacs/config/my-lisp.el
-emacs_python=$DOTFILES/emacs/config/my-python.el
-emacs_tex=$DOTFILES/emacs/config/my-tex.el
-emacs_md=$DOTFILES/emacs/config/my-markdown.el
-
-# Git
-git_config=$DOTFILES/git/config
-
-# SSH
-ssh_config=$DOTFILES/ssh/config
-
-# Misc
-zsh_rc=$DOTFILES/zshrc
-_aliases="$DOTFILES/aliases"
-tmux=$DOTFILES/tmux.conf
-
-## Destinations
-
-# Vim
-loc_zsh_plugin=$VIM/ftplugin/zsh.vim
-loc_haskell_plugin=$VIM/ftplugin/haskell.vim
-loc_python_plugin=$VIM/ftplugin/python.vim
-loc_clojure_plugin=$VIM/ftplugin/clojure.vim
-
-loc_vim_rc=$HOME/.vimrc
-
-# Emacs
-
-loc_emacs_file=$HOME/.emacs
-loc_emacs_init=$emacsd/init.el
-loc_emacs_config=$emacsd/config/my-config.el
-loc_emacs_keybindings=$emacsd/config/my-keybindings.el
-loc_emacs_clojure=$emacsd/config/my-clojure.el
-loc_emacs_elisp=$emacsd/config/my-elisp.el
-loc_emacs_powerline=$emacsd/config/my-powerline.el
-loc_emacs_haskell=$emacsd/config/my-haskell.el
-loc_emacs_org=$emacsd/config/my-org.el
-loc_emacs_lisp=$emacsd/config/my-lisp.el
-loc_emacs_python=$emacsd/config/my-python.el
-loc_emacs_tex=$emacsd/config/my-tex.el
-loc_emacs_md=$emacsd/config/my-markdown.el
-
-# Git
-loc_git_config=$HOME/.config/git/config
-
-# SSH
-loc_ssh_config=$HOME/.ssh/config
-
-# Misc
-loc_zsh_rc=$HOME/.zshrc
-loc_aliases="$HOME/.aliases"
-loc_tmux=$HOME/.tmux.conf
-
-## Insertions
-
-# Vim
-[[ -f $loc_zsh_plugin ]]        || ln -s $zsh_plugin        $loc_zsh_plugin
-[[ -f $loc_haskell_plugin ]]    || ln -s $haskell_plugin    $loc_haskell_plugin
-[[ -f $loc_python_plugin ]]     || ln -s $python_plugin     $loc_python_plugin
-[[ -f $loc_clojure_plugin ]]    || ln -s $clojure_plugin    $loc_clojure_plugin
-
-[[ -f $loc_vim_rc ]]            || ln -s $vim_rc            $loc_vim_rc
-
-# Emacs
-[[ -f $loc_emacs_file ]]        || ln -s $emacs_file        $loc_emacs_file
-[[ -f $loc_emacs_init ]]        || ln -s $emacs_init        $loc_emacs_init
-[[ -f $loc_emacs_config ]]      || ln -s $emacs_config      $loc_emacs_config
-[[ -f $loc_emacs_keybindings ]] || ln -s $emacs_keybindings $loc_emacs_keybindings
-[[ -f $loc_emacs_clojure ]]     || ln -s $emacs_clojure     $loc_emacs_clojure
-[[ -f $loc_emacs_elisp ]]       || ln -s $emacs_elisp       $loc_emacs_elisp
-[[ -f $loc_emacs_powerline ]]   || ln -s $emacs_powerline   $loc_emacs_powerline
-[[ -f $loc_emacs_haskell ]]     || ln -s $emacs_haskell     $loc_emacs_haskell
-[[ -f $loc_emacs_org ]]         || ln -s $emacs_org         $loc_emacs_org
-[[ -f $loc_emacs_lisp ]]        || ln -s $emacs_lisp        $loc_emacs_lisp
-[[ -f $loc_emacs_python ]]      || ln -s $emacs_python      $loc_emacs_python
-[[ -f $loc_emacs_tex ]]         || ln -s $emacs_tex         $loc_emacs_tex
-[[ -f $loc_emacs_md ]]          || ln -s $emacs_md          $loc_emacs_md
-
-# Git
-[[ -f $loc_git_config ]]        || ln -s $git_config        $loc_git_config
-
-# SSH
-[[ -f $loc_ssh_config ]]        || ln -s $ssh_config        $loc_ssh_config
-
-# Misc
-[[ -f $loc_zsh_rc ]]            || ln -s $zsh_rc            $loc_zsh_rc
-[[ -f $loc_aliases ]]           || ln -s $_aliases          $loc_aliases
-[[ -f $loc_tmux ]]              || ln -s $tmux              $loc_tmux
+./install-symlinks
 
 # ############################################################################
 # Other configs
