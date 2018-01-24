@@ -1,17 +1,17 @@
 #!/bin/zsh
 
 # Make some directories
-mkdir -p $vim/ftplugin
+mkdir -p $vim/after/plugin
 mkdir -p $emacsd/config
 mkdir -p $HOME/.config/git
 
 ## Sources
 
 # Vim
-zsh_plugin=$DOTFILES/vim/ftplugin/zsh.vim
-haskell_plugin=$DOTFILES/vim/ftplugin/haskell.vim
-python_plugin=$DOTFILES/vim/ftplugin/python.vim
-clojure_plugin=$DOTFILES/vim/ftplugin/clojure.vim
+zsh_plugin=$DOTFILES/vim/after/plugin/zsh.vim
+haskell_plugin=$DOTFILES/vim/after/plugin/haskell.vim
+python_plugin=$DOTFILES/vim/after/plugin/python.vim
+clojure_plugin=$DOTFILES/vim/after/plugin/clojure.vim
 
 vim_rc=$DOTFILES/vimrc
 
@@ -44,10 +44,10 @@ tmux=$DOTFILES/tmux.conf
 ## Destinations
 
 # Vim
-loc_zsh_plugin=$VIM/ftplugin/zsh.vim
-loc_haskell_plugin=$VIM/ftplugin/haskell.vim
-loc_python_plugin=$VIM/ftplugin/python.vim
-loc_clojure_plugin=$VIM/ftplugin/clojure.vim
+loc_zsh_plugin=$VIM/after/plugin/zsh.vim
+loc_haskell_plugin=$VIM/after/plugin/haskell.vim
+loc_python_plugin=$VIM/after/plugin/python.vim
+loc_clojure_plugin=$VIM/after/plugin/clojure.vim
 
 loc_vim_rc=$HOME/.vimrc
 
