@@ -17,10 +17,20 @@ if [[ $? != "0" ]]; then
     exit
 fi
 
-
-: ${DOTFILES?"Need to set env variable: DOTFILES"}
-: ${SCRIPTS?"Need to set env variable: SCRIPTS"}
-: ${HOME?"Need to set env variable: HOME"}
+if [[ -z "${DOTFILES}" ]]; then
+    echo "DOTFILES is not set."
+    echo "Set it or source ./env.sh"
+    exit
+else
+    echo "DOTFILES is set to $DOTFILES"
+fi
+if [[ -z "${SCRIPTS}" ]]; then
+    echo "SCRIPTS is not set."
+    echo "Set it or source ./env.sh"
+    exit
+else
+    echo "SCRIPTS is set to $SCRIPTS"
+fi
 
 vimrc=$HOME/.vimrc
 vim=$HOME/.vim
