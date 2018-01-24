@@ -44,14 +44,18 @@ if [[ $1 == "ubuntu" ]]; then
 
     for package in "${packages[@]}"
     do
-	out=$(apt-cache search ^$package$)
-	if [[ out == "" ]]; then
-	   echo "Package $package does not exist" && exit
-	fi
+
+        out=$(apt-cache search ^$package$)
+
+        if [[ out == "" ]]; then
+        echo "Package $package does not exist" && exit
+        fi
+
         dpkg -s $package > /dev/null 2>&1
         if [[ $? == "1" ]]; then
             sudo apt-get install $package
         fi
+
     done
 
 elif [[ $1 == "arch" ]]; then
@@ -82,13 +86,17 @@ elif [[ $1 == "arch" ]]; then
 
     for package in "${packages[@]}"
     do
-	pacman -Ss ^$package$ > /dev/null 2>&1
-	if [[ $? == "1" ]]; then
-	   echo "Package $package does not exist" && exit
-	fi
+
+        pacman -Ss ^$package$ > /dev/null 2>&1
+
+        if [[ $? == "1" ]]; then
+        echo "Package $package does not exist" && exit
+        fi
+
         pacman -Qi $package > /dev/null 2>&1
         if [[ $? == "1" ]]; then
             sudo pacman -S $package
         fi
+
     done
 fi
