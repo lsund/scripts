@@ -218,6 +218,16 @@ if [[ ! -e $ycm_core ]]; then
     $vim/plugged/YouCompleteMe/install.py
 fi
 
+# ###########################################################################
+# Git Config
+
+[[ -e "~/.git_template" ]] && mkdir "~/.git_template"
+git config --global init.templatedir '~/.git_template'
+git config --global core.autocrlf false
+git config --global user.name "Ludvig Sundström"
+git config --global user.email lud.sund@gmail.com
+git config --global push.default simple
+
 # #############################################################################
 # Install soft links
 
@@ -255,6 +265,7 @@ emacs_md=$DOTFILES/emacs/config/my-markdown.el
 
 # Git
 git_config=$DOTFILES/git/config
+git_hook_prepare_commit_msg=$DOTFILES/git/hooks/prepare-commit-msg
 
 # SSH
 ssh_config=$DOTFILES/ssh/config
@@ -292,6 +303,7 @@ loc_emacs_md=$emacsd/config/my-markdown.el
 
 # Git
 loc_git_config=$HOME/.config/git/config
+loc_git_hook_prepare_commit_msg=$HOME/.git_template/hooks/prepare-commit-msg
 
 # SSH
 loc_ssh_config=$HOME/.ssh/config
@@ -328,6 +340,9 @@ loc_tmux=$HOME/.tmux.conf
 
 # Git
 [[ -f $loc_git_config ]]        || ln -s $git_config        $loc_git_config
+[[ -f $loc_git_hook_prepare_commit_msg ]] ||
+    ln -s $git_hook_prepare_commit_msg  $loc_git_hook_prepare_commit_msg
+
 
 # SSH
 [[ -f $loc_ssh_config ]]        || ln -s $ssh_config        $loc_ssh_config
@@ -344,9 +359,5 @@ PrintSeparator "Last bits of config"
 
 setxkbmap dvorak -option compose:caps
 
-git config --global core.autocrlf false
-git config --global user.name "Ludvig Sundström"
-git config --global user.email lud.sund@gmail.com
-git config --global push.default simple
 
 PrintSeparator "Done."
