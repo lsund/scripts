@@ -4,7 +4,7 @@
 # Config
 
 
-dir="$HOME/Data/log/studytime/"
+dir="$HOME/Data/log/timelog/"
 
 logpath="$dir$file"
 
