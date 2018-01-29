@@ -1,0 +1,87 @@
+#!/bin/zsh
+
+# ############################################################################
+# Config
+
+
+dir="$HOME/Data/log/studytime/"
+
+logpath="$dir$file"
+
+verbose=false
+
+
+# ############################################################################
+# Usage
+
+
+function usage() {
+cat << EOF
+USAGE:
+
+   study-tracker [ -vlcrd ]
+
+OPTIONS:
+   -h       : Help
+   -v       : Verbose
+   -l       : List classes
+   -c CLASS : Class
+   -r       : Reset the timer
+   -d       : Display the current time
+
+This is a program for logging time spent on various things. The things are
+called classes. If you want to start or continue working on something, specify
+it with the -c option.
+
+EOF
+}
+
+function init()
+{
+    echo "Start date: $(date +%y-%m-%d)" > $1
+    echo "0" >> $1
+}
+
+# ############################################################################
+#
+
+while getopts "hvlc:rd" opt; do
+    case "$opt" in
+        h)
+            usage && exit 0
+            ;;
+        v)
+            verbose=true
+            ;;
+        l)
+            ls $dir && exit 0
+            ;;
+        c)
+            class="$OPTARG"
+            logpath=$dir$class
+            [[ ! -e $logpath ]] && init $logpath
+            ;;
+        r)
+            [[ $class == false ]] && echo "Need to specify -c" && exit 1
+            sed -i '2s/.*/0/' $logpath
+            exit 0
+            ;;
+        d)
+            [[ $class == false ]] && echo "Need to specify -c" && exit 1
+            cat $logpath
+            exit 0
+            ;;
+        *)
+            ;;
+    esac
+done 2>/dev/null
+
+
+i=$(tail -1 $logpath)
+while true; do
+    sed -i "2s/.*/$i/" $logpath
+    /usr/bin/sleep 1
+    i=$((i + 1))
+    [[ $verbose == true ]] && echo -ne "$(date -u --date @$i +%H:%M:%S)\n";
+done
+
