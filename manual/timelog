@@ -79,9 +79,18 @@ done 2>/dev/null
 
 i=$(tail -1 $logpath)
 while true; do
+
     sed -i "2s/.*/$i/" $logpath
     /usr/bin/sleep 1
     i=$((i + 1))
-    [[ $verbose == true ]] && echo -ne "$(date -u --date @$i +%H:%M:%S)\n";
+    day="$(date -u --date @$i +%d)"
+    day=$(($day - 1))
+    hour="$(date -u --date @$i +%H:%M:%S)"
+    date_string="0$day:$hour"
+
+    if [[ $verbose == true && $((i%60)) == "0" ]]; then
+        echo $date_string
+    fi
+
 done
 
