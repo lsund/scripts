@@ -71,11 +71,12 @@ case $words in
         ;;
     *)
         msg1="You've chosen to spawn $(basename $program) "
-        msg2="on $(( $words - 1 )) files. Proceed? [y/n] "
+        msg2="on $(( $words )) files. Proceed? [y/n] "
         vared -p "$msg1$msg2" -c yn
         case $yn in
             [Yy]*)
-                for file in $(echo $files | cut -d' ' -f3-)
+                echo $files
+                for file in $(echo $files)
                 do
                     if [[ -f $file ]]; then
                         $program $file  > /dev/null 2>&1 &

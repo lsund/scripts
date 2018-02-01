@@ -8,8 +8,7 @@ dir="$HOME/Data/log/timelog/"
 
 logpath="$dir$file"
 
-verbose=false
-
+quiet=false
 
 # ############################################################################
 # Usage
@@ -45,13 +44,13 @@ function init()
 # ############################################################################
 #
 
-while getopts "hvlc:rd" opt; do
+while getopts "hqlc:rd" opt; do
     case "$opt" in
         h)
             usage && exit 0
             ;;
-        v)
-            verbose=true
+        q)
+            quiet=true
             ;;
         l)
             ls $dir && exit 0
@@ -88,7 +87,7 @@ while true; do
     hour="$(date -u --date @$i +%H:%M:%S)"
     date_string="0$day:$hour"
 
-    if [[ $verbose == true && $((i%60)) == "0" ]]; then
+    if [[ $quiet == false && $((i%60)) == "0" ]]; then
         echo $date_string
     fi
 
