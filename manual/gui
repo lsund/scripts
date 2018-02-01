@@ -31,15 +31,19 @@ case $ext in
         ;;
     "png")
         program=$(which mirage)
-        [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
+        [[ $? == "1" ]] && echo "mirage is not installed" && exit 1
         ;;
     "jpg")
         program=$(which mirage)
-        [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
+        [[ $? == "1" ]] && echo "mirage is not installed" && exit 1
+        ;;
+    "JPG")
+        program=$(which mirage)
+        [[ $? == "1" ]] && echo "mirage is not installed" && exit 1
         ;;
     "jpeg")
         program=$(which mirage)
-        [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
+        [[ $? == "1" ]] && echo "mirage is not installed" && exit 1
         ;;
     *)
         echo "Unknown file extension: $ext" && exit 1
