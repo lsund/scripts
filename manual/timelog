@@ -10,6 +10,8 @@ logpath="$dir$file"
 
 quiet=false
 
+class=false
+
 # ############################################################################
 # Usage
 
@@ -21,12 +23,14 @@ USAGE:
    study-tracker [ -vlcrd ]
 
 OPTIONS:
-   -h       : Help
-   -v       : Verbose
-   -l       : List classes
-   -c CLASS : Class
-   -r       : Reset the timer
-   -d       : Display the current time
+   -h            : Help
+   -v            : Verbose
+   -l            : List classes
+   -t CLASS      : Start logging time for the giver CLASS
+   -d CLASS      : Display the current time for the given CLASS
+   -r            : Reset the timer for the given CLASS
+   -c CLASS      : Specify CLASS
+   -a TIME       : Add TIME seconds for the given CLASS specified by -c
 
 This is a program for logging time spent on various things. The things are
 called classes. If you want to start or continue working on something, specify
@@ -44,7 +48,7 @@ function init()
 # ############################################################################
 #
 
-while getopts "hqlc:rd" opt; do
+while getopts "hqlc:t:r:d:a:" opt; do
     case "$opt" in
         h)
             usage && exit 0
@@ -58,23 +62,39 @@ while getopts "hqlc:rd" opt; do
         c)
             class="$OPTARG"
             logpath=$dir$class
+            ;;
+        t)
+            class="$OPTARG"
+            logpath=$dir$class
             [[ ! -e $logpath ]] && init $logpath
             ;;
         r)
-            [[ $class == false ]] && echo "Need to specify -c" && exit 1
+            class="$OPTARG"
+            logpath=$dir$class
             sed -i '2s/.*/0/' $logpath
             exit 0
             ;;
         d)
-            [[ $class == false ]] && echo "Need to specify -c" && exit 1
+            class="$OPTARG"
+            logpath=$dir$class
             cat $logpath
             exit 0
             ;;
+        a)
+            [[ "$class" == false ]] && echo "Must specify -c" && exit 1
+            time="$OPTARG"
+            logpath=$dir$class
+            newtime=$(( $(cat $logpath | tail -1) + time ))
+            sed -i "2s/.*/$newtime/" $logpath
+            exit 0
+            ;;
         *)
+            usage && exit
             ;;
     esac
 done 2>/dev/null
 
+[[ "$class" == false ]] && usage && exit 1
 
 i=$(tail -1 $logpath)
 while true; do
