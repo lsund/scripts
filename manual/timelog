@@ -26,11 +26,12 @@ OPTIONS:
    -h            : Help
    -v            : Verbose
    -l            : List classes
-   -t CLASS      : Start logging time for the giver CLASS
+   -x CLASS      : Start logging time for the giver CLASS
    -d CLASS      : Display the current time for the given CLASS
    -r            : Reset the timer for the given CLASS
    -c CLASS      : Specify CLASS
    -a TIME       : Add TIME seconds for the given CLASS specified by -c
+   -t TIME       : Set target TIME
 
 This is a program for logging time spent on various things. The things are
 called classes. If you want to start or continue working on something, specify
@@ -43,12 +44,29 @@ function init()
 {
     echo "Start date: $(date +%y-%m-%d)" > $1
     echo "0" >> $1
+    echo "0" >> $1
+}
+
+
+function string_to_seconds()
+{
+prefix=${1:0:${#1}-1}
+suffix=${1:${#1}-1:${#1}}
+if [[ $suffix == "s" ]]; then
+    seconds=$prefix
+elif [[ $suffix == "m" ]]; then
+    seconds=$(( 60 * $prefix ))
+elif [[ $suffix == "h" ]]; then
+    seconds=$(( 60 * 60 * $prefix))
+else
+    echo "Invalid argument to string_to_seconds()" && exit 1
+fi
 }
 
 # ############################################################################
 #
 
-while getopts "hqlc:t:r:d:a:" opt; do
+while getopts "hqlc:x:r:d:a:t:" opt; do
     case "$opt" in
         h)
             usage && exit 0
@@ -63,7 +81,7 @@ while getopts "hqlc:t:r:d:a:" opt; do
             class="$OPTARG"
             logpath=$dir$class
             ;;
-        t)
+        x)
             class="$OPTARG"
             logpath=$dir$class
             [[ ! -e $logpath ]] && init $logpath
@@ -83,9 +101,19 @@ while getopts "hqlc:t:r:d:a:" opt; do
         a)
             [[ "$class" == false ]] && echo "Must specify -c" && exit 1
             time="$OPTARG"
+            string_to_seconds $time
             logpath=$dir$class
-            newtime=$(( $(cat $logpath | tail -1) + time ))
+            newtime=$(( $(cat $logpath | head -2 | tail -1) + seconds ))
             sed -i "2s/.*/$newtime/" $logpath
+            exit 0
+            ;;
+        t)
+            [[ "$class" == false ]] && echo "Must specify -c" && exit 1
+            time="$OPTARG"
+            string_to_seconds $time
+            logpath=$dir$class
+            target=$(( $(cat $logpath | head -2 | tail -1) + seconds ))
+            sed -i "3s/.*/$target/" $logpath
             exit 0
             ;;
         *)
@@ -96,19 +124,28 @@ done 2>/dev/null
 
 [[ "$class" == false ]] && usage && exit 1
 
-i=$(tail -1 $logpath)
+i=$(head -2 $logpath | tail -1)
+target=$(tail -1 $logpath)
 while true; do
 
     sed -i "2s/.*/$i/" $logpath
     /usr/bin/sleep 1
     i=$((i + 1))
+
     day="$(date -u --date @$i +%d)"
     day=$(($day - 1))
     hour="$(date -u --date @$i +%H:%M:%S)"
-    date_string="0$day:$hour"
 
+    target_day="$(date -u --date @$target +%d)"
+    target_day=$(($target_day - 1))
+    target_hour="$(date -u --date @$target +%H:%M:%S)"
+
+    date_string="0$day:$hour"
+    target_string=0$target_day:$target_hour
+
+    echo "Current: $date_string\tTarget: $target_string"
     if [[ $quiet == false && $((i%60)) == "0" ]]; then
-        echo $date_string
+        echo "Current: $date_string\tTarget: $target_string"
     fi
 
 done
