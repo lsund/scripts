@@ -22,7 +22,15 @@ case $1 in
         ;;
 esac
 
-ext=$(extension $1)
+# ############################################################################
+# Get Extension
+if [[ "$#" == "0" ]]; then
+    file=$(ls | head -1)
+else
+    file=$1
+fi
+
+ext=$(extension $file)
 
 case $ext in
     "pdf")
@@ -66,6 +74,9 @@ words=$(echo $files | wc -w)
 # exit
 files=$(echo $files | xargs)
 case $words in
+    0)
+        $program $file > /dev/null 2>&1 &
+        ;;
     1)
         $program $files > /dev/null 2>&1 &
         ;;
