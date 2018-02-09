@@ -66,6 +66,11 @@ fi
 # ############################################################################
 #
 
+if [[ "$#" == "0" ]]; then
+    timelog -l
+    exit
+fi
+
 while getopts "hqlc:x:r:d:a:t:" opt; do
     case "$opt" in
         h)
@@ -75,7 +80,19 @@ while getopts "hqlc:x:r:d:a:t:" opt; do
             quiet=true
             ;;
         l)
-            ls $dir && exit 0
+            i=0
+            declare -A directories
+            for d in $(ls $dir)
+            do
+                i=$(( i + 1 ))
+                directories[$i]=$d
+                echo "$i $d"
+            done
+            vared -p "Choose one to start (empty cancels) " -c choice
+            [[ -z $choice ]] && exit 0
+            class=${directories[$choice]}
+            logpath=$dir$class
+            [[ ! -e $logpath ]] && init $logpath
             ;;
         c)
             class="$OPTARG"
@@ -143,7 +160,6 @@ while true; do
     date_string="0$day:$hour"
     target_string=0$target_day:$target_hour
 
-    echo "Current: $date_string\tTarget: $target_string"
     if [[ $quiet == false && $((i%60)) == "0" ]]; then
         echo "Current: $date_string\tTarget: $target_string"
     fi
