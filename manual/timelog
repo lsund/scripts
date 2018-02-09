@@ -3,6 +3,7 @@
 # ############################################################################
 # Config
 
+beepfile="$HOME/Media/audio/sounds/beep.mp3"
 
 dir="$HOME/Data/log/timelog/"
 
@@ -62,6 +63,16 @@ else
     echo "Invalid argument to string_to_seconds()" && exit 1
 fi
 }
+
+
+function int_to_timestring()
+{
+    n=$1
+    day="$(date -u --date @$n +%d)"
+    day=$(($day - 1))
+    hour="$(date -u --date @$n +%H:%M:%S)"
+}
+
 
 # ############################################################################
 #
@@ -143,22 +154,32 @@ done 2>/dev/null
 
 i=$(head -2 $logpath | tail -1)
 target=$(tail -1 $logpath)
+
+int_to_timestring $i
+date_string="0$day:$hour"
+
+int_to_timestring $target
+target_string="0$day:$hour"
+echo "Current: $date_string\tTarget: $target_string"
+echo "Starting..."
+
 while true; do
+
+    if [[ $i -gt $target ]]; then
+        mplayer $beepfile > /dev/null 2>&1 &
+        echo "Target reached. Stopping"
+        exit 0;
+    fi
 
     sed -i "2s/.*/$i/" $logpath
     /usr/bin/sleep 1
     i=$((i + 1))
 
-    day="$(date -u --date @$i +%d)"
-    day=$(($day - 1))
-    hour="$(date -u --date @$i +%H:%M:%S)"
-
-    target_day="$(date -u --date @$target +%d)"
-    target_day=$(($target_day - 1))
-    target_hour="$(date -u --date @$target +%H:%M:%S)"
-
+    int_to_timestring $i
     date_string="0$day:$hour"
-    target_string=0$target_day:$target_hour
+
+    int_to_timestring $target
+    target_string="0$day:$hour"
 
     if [[ $quiet == false && $((i%60)) == "0" ]]; then
         echo "Current: $date_string\tTarget: $target_string"

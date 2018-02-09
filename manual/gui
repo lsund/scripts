@@ -86,7 +86,6 @@ case $words in
         vared -p "$msg1$msg2" -c yn
         case $yn in
             [Yy]*)
-                echo $files
                 for file in $(echo $files)
                 do
                     if [[ -f $file ]]; then
