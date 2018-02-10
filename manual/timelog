@@ -99,11 +99,23 @@ while getopts "hqlc:x:r:d:a:t:" opt; do
                 directories[$i]=$d
                 echo "$i $d"
             done
-            vared -p "Choose one to start (empty cancels) " -c choice
-            [[ -z $choice ]] && exit 0
-            class=${directories[$choice]}
-            logpath=$dir$class
-            [[ ! -e $logpath ]] && init $logpath
+            vared -p "Choose (empty cancels) " -c choice1
+            [[ -z $choice1 ]] && exit 0
+            class=${directories[$choice1]}
+            vared -p "[s]tart or set [t]ime (empty cancels) " -c choice2
+            [[ -z $choice2 ]] && exit 0
+            case "$choice2" in
+                s)
+                    timelog -x $class
+                    exit 0
+                    ;;
+                t)
+                    vared -p "Enter time " -c time
+                    timelog -c $class -t $time
+                    timelog -x $class
+                    exit 0
+                    ;;
+            esac
             ;;
         c)
             class="$OPTARG"
