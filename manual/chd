@@ -1,0 +1,39 @@
+#!/bin/zsh
+
+declare -a dirlist=(
+    "/home/lsund/Documents/school/current/thesis/suffix-trees"
+    "/home/lsund/Documents/school/current/thesis/suffix-trees-c"
+    "/home/lsund/Documents/school/current/thesis/suffix-trees-haskell"
+    "/home/lsund/Documents/school/current/tnn"
+    "/home/lsund/Documents/scripts"
+    "/home/lsund/Documents/dotfiles"
+    "/home/lsund/Documents/tech/repos/chess-haskell"
+    "/home/lsund/Documents/tech/repos/myblog"
+    "/home/lsund/Documents/tech/repos/projecteuler"
+    "/home/lsund/Documents/tech/repos/haskellbook"
+    )
+
+declare -A dirmap
+
+i=0
+for d in $dirlist
+do
+    i=$(( i + 1 ))
+    dirmap[$i]=$d
+    echo " $i \t $(basename $dirmap[$i])"
+done
+
+vared -p "Choose (empty cancels) " -c choice
+if [[ $choice && $(( $choice > 0 )) == 1 &&  $(( $choice <= i )) == 1 ]]; then
+    echo $(( $choice > 0 )) > "test.txt"
+    target_109283749187023=${dirmap[$choice]}
+    [[ ! -d $target_109283749187023 ]] && echo "Malconfigured path" && exit 1
+    cd $target_109283749187023
+else
+    echo "Number not in range"
+fi
+
+choice=""
+dirmap=""
+dirlist=""
+i=""
