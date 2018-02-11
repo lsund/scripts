@@ -43,8 +43,7 @@ if [[ $distro == "arch" ]]; then
     fi
 elif [[ $distro == "ubuntu" ]]; then
     pkgs="";
-    for var in "$@"
-    do
+    for var in "$@"; do
         pkgs+=$var
         pkgs+=" "
     done
