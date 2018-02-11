@@ -24,16 +24,28 @@ do
 done
 
 vared -p "Choose (empty cancels) " -c choice
-if [[ $choice && $(( $choice > 0 )) == 1 &&  $(( $choice <= i )) == 1 ]]; then
-    echo $(( $choice > 0 )) > "test.txt"
-    target_109283749187023=${dirmap[$choice]}
-    [[ ! -d $target_109283749187023 ]] && echo "Malconfigured path" && exit 1
-    cd $target_109283749187023
+re='^[0-9]+$'
+if ! [[ $choice =~ $re ]] ; then
+
+    for d in $dirlist; do
+        if [[ $d == *$choice* ]]; then
+            target_109283749187023=$d
+        fi
+    done
+
 else
-    echo "Number not in range"
+
+    if [[ $choice && $(( $choice > 0 )) == 1 &&  $(( $choice <= i )) == 1 ]]; then
+        target_109283749187023=${dirmap[$choice]}
+    else
+        echo "Number not in range"
+    fi
+
 fi
 
 choice=""
 dirmap=""
 dirlist=""
 i=""
+[[ ! -d $target_109283749187023 ]] && echo "Malconfigured path" && exit 1
+cd $target_109283749187023
