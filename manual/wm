@@ -1,15 +1,19 @@
 #!/bin/zsh
 
-# sudo ip link set wlp58s0 down
-# sudo ip link set wlp58s0 up
 # TODO Scan for networks and select something
-#
-# The reason that wm fails sometimes is probably because already connected to
-# some old network (see with netctl list)
 sudo wifi-menu
 if [[ "$?" == "0" ]]; then
     try-connect
 else
-    echo "Something didnt check out. Exiting..." && exit 1
+    echo "Something didnt check out. Exiting..."
+    vared -p "Set link down [Y/n]? " -c choice
+
+    [[ "$choice" == "n" ]] && exit 0
+
+    sudo ip link set wlp58s0 down
+    sudo wifi-menu
+
 fi
+
+
 
