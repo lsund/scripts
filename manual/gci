@@ -1,6 +1,12 @@
 #!/bin/zsh
 
 
+ping -c 3 www.duckduckgo.com > /dev/null 2>&1
+if [[ $? != "0" ]]; then
+    echo "Need an active connection. Exiting."
+    exit
+fi
+
 [[ "$#" == 0 ]] && echo "Need to supply a message" && exit 1
 
 git add -A
