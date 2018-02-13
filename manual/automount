@@ -1,15 +1,14 @@
 #!/bin/bash
 
-# Automatically mount some device with some options 
+# Automatically mount some device
 
-userid=1000
-
+lsblk
 read -p "device name? please enter >> sdxx << " device
 
 if [[ "$1" == "mybook" ]]; then
-    sudo mount -t ntfs -o umask=0022,gid=$userid,uid=$userid /dev/$device /mnt/mybook 
+    sudo mount /dev/$device /mnt/mybook
 elif [[ "$1" == "usb" ]]; then
-    sudo mount /dev/$device /mnt/usb 
+    sudo mount /dev/$device /mnt/usb
 else
     echo "unknown media"
 fi
