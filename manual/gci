@@ -20,6 +20,6 @@ basefiles=${basefiles:0:-2}
 msg="Modified $basefiles"
 
 git add -A
-git commit -m msg
+git commit -m $msg
 git status
 git push
