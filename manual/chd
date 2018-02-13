@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+# Change to a directory in a pre-cached directory list, by entering a number or
+# a substring
+
 declare -a dirlist=(
     "/home/lsund/Documents/school/current/thesis/suffix-trees"
     "/home/lsund/Documents/school/current/thesis/suffix-trees-c"
@@ -7,10 +10,11 @@ declare -a dirlist=(
     "/home/lsund/Documents/school/current/tnn"
     "/home/lsund/Documents/scripts"
     "/home/lsund/Documents/dotfiles"
-    "/home/lsund/Documents/tech/repos/chess-haskell"
+    "/home/lsund/Documents/tech/repos/jonnyh"
     "/home/lsund/Documents/tech/repos/myblog"
     "/home/lsund/Documents/tech/repos/projecteuler"
     "/home/lsund/Documents/tech/repos/haskellbook"
+    "/home/lsund/Documents/work/application"
     )
 
 declare -A dirmap
