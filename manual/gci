@@ -17,7 +17,7 @@ for file in $(echo $files | xargs); do
 done
 
 basefiles=${basefiles:0:-2}
-msg="Modified $basefiles"
+msg="Modify $basefiles"
 
 git add -A
 git commit -m $msg
