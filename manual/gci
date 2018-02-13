@@ -7,9 +7,19 @@ if [[ $? != "0" ]]; then
     exit
 fi
 
-[[ "$#" == 0 ]] && echo "Need to supply a message" && exit 1
+# [[ "$#" == 0 ]] && echo "Need to supply a message" && exit 1
+
+files=$(git status | grep modified | xargs | cut -d' ' -f2,4,6,8)
+
+basefiles=""
+for file in $(echo $files | xargs); do
+    basefiles+="$(basename $file), "
+done
+
+basefiles=${basefiles:0:-2}
+msg="Modified $basefiles"
 
 git add -A
-git commit -m $1
+git commit -m msg
 git status
 git push
