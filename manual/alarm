@@ -2,5 +2,5 @@
 
 audiopath=/home/lsund/Media/audio/sounds/
 
-countdown $1 && mplayer $audiopath/temple-bell.mp3
+countdown $1 && mplayer $audiopath/temple-bell.mp3 &>/dev/null
 
