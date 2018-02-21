@@ -7,7 +7,7 @@ statfile=/home/lsund/Data/log/sound/soundstat.txt
 percfile=/home/lsund/Data/log/sound/soundperc.txt
 
 function SetPerc() {
-    echo $(pactl list sinks | grep Volume | head -1 | cut -d' ' -f6) > $percfile
+    echo $(pactl list sinks | grep Volume | head -1 | xargs | cut -d' ' -f5) > $percfile
 }
 
 function SetMuted() {
