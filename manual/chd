@@ -24,10 +24,15 @@ for d in $dirlist
 do
     i=$(( i + 1 ))
     dirmap[$i]=$d
-    echo " $i \t $(basename $dirmap[$i])"
+    [[ "$#" == 0 ]] && echo " $i \t $(basename $dirmap[$i])"
 done
 
-vared -p "Choose (empty cancels) " -c choice
+if [[ "$#" == 0 ]]; then
+    vared -p "Choose (empty cancels) " -c choice
+elif [[ "$#" == 1 ]]; then
+    choice="$1"
+fi
+
 re='^[0-9]+$'
 if ! [[ $choice =~ $re ]] ; then
 

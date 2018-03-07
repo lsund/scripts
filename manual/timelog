@@ -8,6 +8,7 @@ beepfile="$HOME/Media/audio/sounds/beep.mp3"
 dir="$HOME/Data/log/timelog/"
 
 logpath="$dir$file"
+activepath="$dir"active.txt
 
 quiet=false
 
@@ -93,7 +94,7 @@ while getopts "hqlc:x:r:d:a:t:" opt; do
         l)
             i=0
             declare -A directories
-            for d in $(ls $dir)
+            for d in $(ls -1 $dir | tail -n +2)
             do
                 i=$(( i + 1 ))
                 directories[$i]=$d
@@ -177,9 +178,12 @@ echo "Starting..."
 
 while true; do
 
+    echo "1" > $activepath
+
     if [[ $i -gt $target ]]; then
         mplayer $beepfile > /dev/null 2>&1 &
         echo "Target reached. Stopping"
+        echo "0" > $activepath
         exit 0;
     fi
 
