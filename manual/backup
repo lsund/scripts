@@ -76,7 +76,7 @@ if [[ "$1" == "-v" ]]; then
     echo
     echo "destination: $dest_dir"
     echo
-    echo "will log to: $logfile" 
+    echo "will log to: $logfile"
     echo
     read -p "Accept? [y/n] " yn
     case $yn in

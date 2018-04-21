@@ -5,11 +5,12 @@
 
 declare -a dirlist=(
     "/home/lsund/Documents/school/current/thesis/suffix-trees"
-    "/home/lsund/Documents/school/current/thesis/suffix-trees-c"
+    "/home/lsund/Documents/school/current/thesis/wotd"
+    "/home/lsund/Documents/school/current/thesis/mccreight"
     "/home/lsund/Documents/school/current/thesis/suffix-trees-haskell"
-    "/home/lsund/Documents/school/current/tnn"
     "/home/lsund/Documents/scripts"
     "/home/lsund/Documents/dotfiles"
+    "/home/lsund/Documents/tech/repos/planner"
     "/home/lsund/Documents/tech/repos/jonnyh"
     "/home/lsund/Documents/tech/repos/myblog"
     "/home/lsund/Documents/tech/repos/projecteuler"

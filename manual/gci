@@ -1,7 +1,8 @@
 #!/bin/zsh
 
 
-ping -c 3 www.duckduckgo.com > /dev/null 2>&1
+$HOME/Documents/scripts/manual/pingg > /dev/null 2>&1
+
 if [[ $? != "0" ]]; then
     echo "Need an active connection. Exiting."
     exit

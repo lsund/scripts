@@ -37,6 +37,10 @@ case $ext in
         program=$(which zathura)
         [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
         ;;
+    "PDF")
+        program=$(which zathura)
+        [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
+        ;;
     "png")
         program=$(which mirage)
         [[ $? == "1" ]] && echo "mirage is not installed" && exit 1

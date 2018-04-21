@@ -2,5 +2,7 @@
 
 for var in "$@"
 do
-    mv "$var" "${var,,}"
+    lc=$(echo "$var" | sed -e 's/\(.*\)/\L\1/')
+    mv "$var" "$lc"
+    echo "$var" "->" "$lc"
 done
