@@ -10,7 +10,7 @@ declare -a dirlist=(
     "/home/lsund/Documents/school/current/thesis/suffix-trees-haskell"
     "/home/lsund/Documents/scripts"
     "/home/lsund/Documents/dotfiles"
-    "/home/lsund/Documents/tech/repos/planner"
+    "/home/lsund/Documents/tech/repos/calendar"
     "/home/lsund/Documents/tech/repos/jonnyh"
     "/home/lsund/Documents/tech/repos/myblog"
     "/home/lsund/Documents/tech/repos/projecteuler"

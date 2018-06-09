@@ -3,15 +3,17 @@
 url=$1
 filter=$2
 
+[[ "$#" != 2 ]] && echo "Usage: get-urls-from-page URL FILTER" && exit 1
+
 links=$(wget -O - $url | \
       grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]' | \
       sed -e 's/^<a href=["'"'"']//' -e 's/["'"'"']$//')
 
 filtered=$(echo "$links" | grep $filter)
 
-echo $filtered | while read line
+echo "$filtered" | while read line
 do
-    echo $line
+    echo Found link: $line
 done
 
 read -p "Download? [y/n] " yn

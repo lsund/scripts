@@ -2,7 +2,7 @@
 
 
 if [[ "$#" == 0 ]]; then
-    host="www.duckduckgo.com"
+    host="www.google.com"
 else
     host="$1"
 fi

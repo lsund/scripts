@@ -70,7 +70,9 @@ if [[ $youtube == true && $outfile == true ]]; then
 
     youtube-dl $url -o $outfile_name
     noext_name=$(without-extension $outfile_name)
+    videofile=$(ls $outfile_name*)
     ffmpeg -i $outfile_name* -vn -ar 44100 -ac 2 -ab 192k -f mp3 $noext_name.mp3
+    trash $videofile
 
 elif [[ $youtube == true && $outfile == false ]]; then
 
