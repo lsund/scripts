@@ -70,7 +70,7 @@ for var in "$@"
 
             CountIdentical $trashdir $var
 
-            mv $var $trashdir/$basevar-trashed-$(( $max + 1 ))
+            sudo mv $var $trashdir/$basevar-trashed-$(( $max + 1 ))
 
             echo "Moving to $trashdir"
         elif

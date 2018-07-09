@@ -5,6 +5,9 @@
 # ############################################################################
 # Find out which program to use
 
+# imgprogram=mirage
+imgprogram=feh
+
 case $1 in
     "eclipse")
         which eclipse > /dev/null
@@ -42,20 +45,20 @@ case $ext in
         [[ $? == "1" ]] && echo "zathura is not installed" && exit 1
         ;;
     "png")
-        program=$(which mirage)
-        [[ $? == "1" ]] && echo "mirage is not installed" && exit 1
+        program=$(which $imgprogram)
+        [[ $? == "1" ]] && echo "$imgprogram is not installed" && exit 1
         ;;
     "jpg")
-        program=$(which mirage)
-        [[ $? == "1" ]] && echo "mirage is not installed" && exit 1
+        program=$(which $imgprogram)
+        [[ $? == "1" ]] && echo "$imgprogram is not installed" && exit 1
         ;;
     "JPG")
-        program=$(which mirage)
-        [[ $? == "1" ]] && echo "mirage is not installed" && exit 1
+        program=$(which $imgprogram)
+        [[ $? == "1" ]] && echo "$imgprogram is not installed" && exit 1
         ;;
     "jpeg")
-        program=$(which mirage)
-        [[ $? == "1" ]] && echo "mirage is not installed" && exit 1
+        program=$(which $imgprogram)
+        [[ $? == "1" ]] && echo "$imgprogram is not installed" && exit 1
         ;;
     *)
         echo "Unknown file extension: $ext" && exit 1
