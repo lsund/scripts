@@ -1,15 +1,22 @@
-#!/bin/bash
+#!/bin/zsh
 
-# Automatically mount some device
+# Automatically mount a device
 
 lsblk
 read -p "device name? please enter >> sdxx << " device
 
 if [[ "$1" == "mybook" ]]; then
-    sudo mount /dev/$device /mnt/mybook
+    path="/mnt/mybook"
 elif [[ "$1" == "usb" ]]; then
-    sudo mount /dev/$device /mnt/usb
+    path="/mnt/usb"
 else
-    echo "unknown media"
+    echo "unknown media" && exit
 fi
 
+sudo mount /dev/$device $path
+
+if [[ "$?" == 0 ]]; then
+    echo "$1 mounted on $path"
+else
+    echo "Something went wrong..." && exit
+fi

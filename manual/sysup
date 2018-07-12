@@ -1,17 +1,23 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Script for facilitating the pacman -Syu and related commands
 
 scriptdir="/home/lsund/Documents/scripts/automatic"
+statusfile="/home/lsund/Data/log/pacman/need_sysup.txt"
+country="Germany"
+mirrorlist_old="mirrorlist"
+mirrorlist_new="mirrorlist.pacnew"
+
 if [[ ! -d $scriptdir ]]; then
     echo "sysup Error: $scriptdir does not exist"
     exit 1
 fi
-statusfile="/home/lsund/Data/log/pacman/need_sysup.txt"
 if [[ ! -f $statusfile ]]; then
     echo "sysup Error: $statusfile does not exist"
     exit 1
 fi
+
+merge=sudo /etc/pacman.d/merger $country $mirrorlist_old $mirrorlist_new mergerbuf
 
 s=$(ls /etc/pacman.d)
 a=( $s )
@@ -20,25 +26,24 @@ if [[ " ${a[@]} " =~ "mirrorlist" && " ${a[@]} " =~ "mirrorlist.pacnew" ]]; then
     echo "Both mirrorlist and mirrorlist.pacnew exists."
     echo
     while true; do
-        read -p "Automatically merge the files? [y/n] " yn
+        vared -p "Set link down [Y/n]? " -c choice
         case $yn in
             [Yy]* )
                 was=$(pwd)
                 cd /etc/pacman.d
-                sudo /etc/pacman.d/merger Germany mirrorlist mirrorlist.pacnew mergerbuf
+                merge
                 cd $was
                 echo "files merged"
                 echo "updating..."
-                sudo pacman -Suy
                 pacaur -Suy
                 current_day=$(date +'%d')
                 message="updated $current_day"
                 echo $message > $statusfile
                 break;;
             [Nn]* )
-                echo "please merge the files"
+                echo "Cannot continue without first merging the files"
                 break;;
-            * ) echo "yes or no mate"
+            * ) echo "y or n mate"
         esac
     done
 else
@@ -51,4 +56,3 @@ else
 fi
 
 $scriptdir/pacsync
-
