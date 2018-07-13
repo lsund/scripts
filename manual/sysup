@@ -2,7 +2,7 @@
 
 # Script for facilitating the pacman -Syu and related commands
 
-scriptdir="/home/lsund/Documents/scripts/automatic"
+scriptdir="/home/lsund/Documents/scripts/"
 statusfile="/home/lsund/Data/log/pacman/need_sysup.txt"
 country="Germany"
 mirrorlist_old="mirrorlist"
