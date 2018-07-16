@@ -6,7 +6,8 @@
 # Find out which program to use
 
 # imgprogram=mirage
-imgprogram=feh
+# imgprogram=feh
+imgprogram=ristretto
 
 words=$(echo $files | wc -w)
 

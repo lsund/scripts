@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # Automatically mount some device with some options
 

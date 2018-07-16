@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+# Script to automate the setup of my preferred environment on arch-linux or ubuntu.
+
 # ############################################################################
 # Funcitons
 
@@ -10,9 +12,8 @@ function PrintSeparator() {
 
 PrintSeparator "Starting Script"
 
-# Script to automate the setup of my preferred environment on arch-linux or ubuntu.
-
-ping -c 3 www.duckduckgo.com > /dev/null 2>&1
+PrintSeparator "Establishing internet connection"
+ping -c 3 www.archlinux.org > /dev/null 2>&1
 if [[ $? != "0" ]]; then
     echo "This script needs an active connection. Exiting."
     exit
@@ -60,6 +61,10 @@ if [[ $? == "0" ]]; then
     fontdir=$HOME/.local/share/fonts
     PrintSeparator "Arch Linux detected"
 fi
+
+vared -p "Continue? [Y/n]? " -c choice
+
+[[ "$choice" == "n" ]] && exit 0;
 
 if [[ $distro == "unknown" ]]; then
     echo "Unknown distro" && exit
