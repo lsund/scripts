@@ -64,10 +64,10 @@ fi
 
 vared -p "Continue? [Y/n]? " -c choice
 
-[[ "$choice" == "n" ]] && exit 0;
+[[ "$choice" == "n" ]] && exit 0
 
 if [[ $distro == "unknown" ]]; then
-    echo "Unknown distro" && exit
+    echo "Unknown distro" && exit 1
 fi
 
 # ############################################################################
@@ -98,16 +98,18 @@ fi
 PrintSeparator "Setting up haskell"
 stack update
 
-which pandoc > /dev/null 2>&1
-if [[ $? == "1" ]]; then
-git clone https://github.com/jgm/pandoc
-cd pandoc
-stack setup
-stack install --test --flag pandoc:-embed_data_files
-cd ..
-SCRIPTS/trash pandoc
-fi
-stack install pandoc-include-code
+# Pandoc
+
+# which pandoc > /dev/null 2>&1
+# if [[ $? == "1" ]]; then
+# git clone https://github.com/jgm/pandoc
+# cd pandoc
+# stack setup
+# stack install --test --flag pandoc:-embed_data_files
+# cd ..
+# SCRIPTS/trash pandoc
+# fi
+# stack install pandoc-include-code
 
 # ###########################################################################
 # Fetch repos
@@ -117,11 +119,6 @@ PrintSeparator "Cloning some git repos"
 evil=$HOME/.emacs.d/evil
 if [[ ! -e $evil ]]; then
     git clone https://github.com/emacs-evil/evil.git $evil
-fi
-
-vundle=$VIM/bundle/Vundle.vim
-if [[ ! -e $vundle ]]; then
-    git clone https://github.com/VundleVim/Vundle.vim.git $vundle
 fi
 
 vim_plug=$VIM/autoload/plug.vim
@@ -137,6 +134,8 @@ fi
 
 # ###########################################################################
 # Git Config
+
+PrintSeparator "Configuring git"
 
 [[ -e "~/.git_template" ]] && mkdir "~/.git_template"
 git config --global init.templatedir '~/.git_template'
@@ -158,6 +157,5 @@ PrintSeparator "Installing Soft Links"
 PrintSeparator "Last bits of config"
 
 setxkbmap dvorak -option compose:caps
-
 
 PrintSeparator "Done."

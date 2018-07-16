@@ -8,6 +8,9 @@
 
 [[ -z $1 ]] && echo "Need first argument: distro" && exit
 
+# ############################################################################
+# UBUNTU
+
 if [[ $1 == "ubuntu" ]]; then
 
     ## PPA's
@@ -68,6 +71,9 @@ if [[ $1 == "ubuntu" ]]; then
         mv $fd_file ~/.trash/trash-files
     done
 
+# ############################################################################
+# ARCH LINUX
+
 elif [[ $1 == "arch" ]]; then
 
     sudo pacman -Suy
@@ -78,7 +84,10 @@ elif [[ $1 == "arch" ]]; then
                          "cabal-install"
                          "jdk8-openjdk"
                          "ruby"
+                         "wget"
+                         "base-devel"
                          "ghc"
+                         "openssh"
                          "git"
                          "vim"
                          "graphviz"
@@ -93,6 +102,8 @@ elif [[ $1 == "arch" ]]; then
                          "pass"
                          "zsh"
                          "curl"
+                         "screenfetch"
+                         "zathura"
                          "fd-rs"
                          "mirage")
 
@@ -122,10 +133,6 @@ if [[ ! -e "$HOME/.config/nvim/init.vim" ]]; then
     echo "let &packpath = &runtimepath" >> $nvim
     echo "source ~/.vimrc" >> $nvim
 fi
-
-# Plugged (for vim plugins)
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # trans
 which trans > /dev/null 2>&1
