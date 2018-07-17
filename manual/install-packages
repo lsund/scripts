@@ -45,8 +45,7 @@ if [[ $1 == "ubuntu" ]]; then
                          "scrot"
                          "curl"
                          "software-properties-common"
-                         "neovim"
-                         "mirage")
+                         "neovim")
 
     for package in "${packages[@]}"
     do
@@ -80,36 +79,46 @@ elif [[ $1 == "arch" ]]; then
 
     declare -a packages=("htop"
                          "texlive-core"
+                         "fzf"
                          "pdfpc"
                          "cabal-install"
                          "jdk8-openjdk"
                          "ruby"
                          "wget"
-                         "base-devel"
+                         "rxvt-unicode"
+                         "firefox"
+                         "tmux"
                          "ghc"
                          "openssh"
                          "git"
                          "vim"
+                         "neovim"
                          "graphviz"
                          "the_silver_searcher"
                          "pwgen"
                          "cmake"
                          "python2"
                          "python-virtualenv"
+                         "python-requests"
+                         "python-regex"
+                         "python-dateutil"
+                         "pyalpm"
+                         "python-feedparser"
+                         "expac"
                          "redshift"
                          "gimp"
                          "scrot"
                          "pass"
                          "zsh"
                          "curl"
+                         "emacs"
                          "screenfetch"
-                         "zathura"
-                         "fd-rs"
-                         "mirage")
+                         "zathura")
+
 
     for package in "${packages[@]}"
     do
-
+        echo "*** Installing $package"
         pacman -Ss ^$package$ > /dev/null 2>&1
 
         if [[ $? == "1" ]]; then
@@ -124,8 +133,14 @@ elif [[ $1 == "arch" ]]; then
     done
 fi
 
+pacman -Qi "base-devel" > /dev/null 2>&1
+if [[ $? == "1" ]]; then
+    "You should probably install base-devel"
+fi
+
 # Neovim
-if [[ ! -e "$HOME/.config/nvim/init.vim" ]]; then
+if [[ ! -f "$HOME/.config/nvim/init.vim" ]]; then
+    echo "Hello!"
     mkdir -p $HOME/.config/nvim
     nvim=$HOME/.config/nvim/init.vim
     touch $nvim
@@ -141,7 +156,3 @@ if [[ $? == "1" ]]; then
     chmod +x ./trans
     mv trans $HOME/bin
 fi
-
-# Oh-My-Ssh
-sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-

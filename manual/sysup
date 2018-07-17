@@ -35,7 +35,7 @@ if [[ " ${a[@]} " =~ "mirrorlist" && " ${a[@]} " =~ "mirrorlist.pacnew" ]]; then
                 cd $was
                 echo "files merged"
                 echo "updating..."
-                pacaur -Suy
+                aurman -Suy
                 current_day=$(date +'%d')
                 message="updated $current_day"
                 echo $message > $statusfile
@@ -49,7 +49,7 @@ if [[ " ${a[@]} " =~ "mirrorlist" && " ${a[@]} " =~ "mirrorlist.pacnew" ]]; then
 else
     echo "updating..."
     sudo pacman -Suy
-    pacaur -Suy
+    aurman -Suy
     current_day=$(date +'%d')
     message="updated $current_day"
     echo $message > $statusfile

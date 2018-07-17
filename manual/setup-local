@@ -42,6 +42,15 @@ git=$HOME/.config/git/config
 emacsd=$HOME/.emacs.d
 
 # ############################################################################
+# Create directories
+
+PrintSeparator "Creating some directories under $HOME"
+
+mkdir -p /home/lsund/{Data/log/pacman,Temp,Downloads,Documents,Shared,Media}
+
+touch "/home/lsund/Data/log/pacman/need_sysup.txt"
+
+# ############################################################################
 # Determine distro (in a hacky way)
 
 PrintSeparator "Determining Distro"
@@ -158,4 +167,11 @@ PrintSeparator "Last bits of config"
 
 setxkbmap dvorak -option compose:caps
 
-PrintSeparator "Done."
+# ############################################################################
+# Shell
+
+PrintSeparator "Setting up shell"
+
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+PrintSeparator "Done. Remember to open vim and type :PlugInstall"

@@ -1,9 +1,20 @@
 #!/bin/zsh
 
+vimrc=$HOME/.vimrc
+vim=$HOME/.vim
+VIM=$HOME/.vim
+al=$HOME/.aliases
+git=$HOME/.config/git/config
+emacsd=$HOME/.emacs.d
+
 # Make some directories
-mkdir -p $vim/after/plugin
+mkdir -p $vim/{after/plugin,colors,plugin}
 mkdir -p $emacsd/config
 mkdir -p $HOME/.config/git
+mkdir -p $HOME/.git_template/hooks
+mkdir -p $HOME/.xmonad/lib
+mkdir -p $HOME/.xmonad/apps
+mkdir -p $HOME/.xmonad/img
 
 ## Sources
 
@@ -14,6 +25,30 @@ python_plugin=$DOTFILES/vim/after/plugin/python.vim
 clojure_plugin=$DOTFILES/vim/after/plugin/clojure.vim
 
 vim_rc=$DOTFILES/vimrc
+vim_badwolf=$DOTFILES/vim/colors/badwolf.vim
+
+vim_ack=$DOTFILES/vim/plugin/ack.vim
+vim_airline=$DOTFILES/vim/plugin/airline.vim
+vim_bufonly=$DOTFILES/vim/plugin/BufOnly.vim
+vim_easymotion=$DOTFILES/vim/plugin/easymotion.vim
+vim_fugitive=$DOTFILES/vim/plugin/fugitive.vim
+vim_fzf=$DOTFILES/vim/plugin/fzf.vim
+vim_himport=$DOTFILES/vim/plugin/HaskellImport.vim
+vim_hlint_refactor=$DOTFILES/vim/plugin/hlint-refactor.vim
+vim_intero=$DOTFILES/vim/plugin/intero.vim
+vim_nerdtree=$DOTFILES/vim/plugin/nerdtree.vim
+vim_plugin=$DOTFILES/vim/plugin/plugin.vim
+vim_rainbow=$DOTFILES/vim/plugin/rainbow-parentheses.vim
+vim_rename=$DOTFILES/vim/plugin/Rename.vim
+vim_syntastic=$DOTFILES/vim/plugin/syntastic.vim
+vim_tabular=$DOTFILES/vim/plugin/tabular.vim
+vim_tagbar=$DOTFILES/vim/plugin/tagbar.vim
+vim_tmuxnav=$DOTFILES/vim/plugin/tmuxnavigate.vim
+vim_ultisnips=$DOTFILES/vim/plugin/ultisnips.vim
+vim_easy-align=$DOTFILES/vim/plugin/vim-easy-align.vim
+vim_incr=$DOTFILES/vim/plugin/visincrPlugin.vim
+vim_ycm=$DOTFILES/vim/plugin/ycm.vim
+
 
 # Emacs
 emacs_file=$DOTFILES/emacs/emacs
@@ -41,6 +76,16 @@ ssh_config=$DOTFILES/ssh/config
 zsh_rc=$DOTFILES/zshrc
 _aliases="$DOTFILES/aliases"
 tmux=$DOTFILES/tmux.conf
+xinitrc=$DOTFILES/xinitrc
+xresources=$DOTFILES/Xresources
+
+# XMonad
+xmonadrc=$DOTFILES/xmonad/xmonad.hs
+xm_boxes=$DOTFILES/xmonad/Boxes.hs
+xm_config=$DOTFILES/xmonad/Config.hs
+xm_keys=$DOTFILES/xmonad/KeyBindings.hs
+xm_cpu=$DOTFILES/xmonad/haskell-cpu-usage.out
+xm_img=$DOTFILES/xmonad/haskell.png
 
 ## Destinations
 
@@ -51,6 +96,29 @@ loc_python_plugin=$VIM/after/plugin/python.vim
 loc_clojure_plugin=$VIM/after/plugin/clojure.vim
 
 loc_vim_rc=$HOME/.vimrc
+loc_vim_badwolf=$HOME/.vim/colors/badwolf.vim
+
+loc_vim_ack=$HOME/.vim/plugin/ack.vim
+loc_vim_airline=$HOME/.vim/plugin/airline.vim
+loc_vim_bufonly=$HOME/.vim/plugin/BufOnly.vim
+loc_vim_easymotion=$HOME/.vim/plugin/easymotion.vim
+loc_vim_fugitive=$HOME/.vim/plugin/fugitive.vim
+loc_vim_fzf=$HOME/.vim/plugin/fzf.vim
+loc_vim_himport=$HOME/.vim/plugin/HaskellImport.vim
+loc_vim_hlint_refactor=$HOME/.vim/plugin/hlint-refactor.vim
+loc_vim_intero=$HOME/.vim/plugin/intero.vim
+loc_vim_nerdtree=$HOME/.vim/plugin/nerdtree.vim
+loc_vim_plugin=$HOME/.vim/plugin/plugin.vim
+loc_vim_rainbow=$HOME/.vim/plugin/rainbow-parentheses.vim
+loc_vim_rename=$HOME/.vim/plugin/Rename.vim
+loc_vim_syntastic=$HOME/.vim/plugin/syntastic.vim
+loc_vim_tabular=$HOME/.vim/plugin/tabular.vim
+loc_vim_tagbar=$HOME/.vim/plugin/tagbar.vim
+loc_vim_tmuxnav=$HOME/.vim/plugin/tmuxnavigate.vim
+loc_vim_ultisnips=$HOME/.vim/plugin/ultisnips.vim
+loc_vim_easy-align=$HOME/.vim/plugin/vim-easy-align.vim
+loc_vim_incr=$HOME/.vim/plugin/visincrPlugin.vim
+loc_vim_ycm=$HOME/.vim/plugin/ycm.vim
 
 # Emacs
 
@@ -79,6 +147,16 @@ loc_ssh_config=$HOME/.ssh/config
 loc_zsh_rc=$HOME/.zshrc
 loc_aliases="$HOME/.aliases"
 loc_tmux=$HOME/.tmux.conf
+loc_xinitrc=$HOME/.xinitrc
+loc_xresources=$HOME/.Xresources
+
+# XMonad
+loc_xmonadrc=$HOME/.xmonad/xmonad.hs
+loc_xm_boxes=$HOME/.xmonad/lib/Boxes.hs
+loc_xm_config=$HOME/.xmonad/lib/Config.hs
+loc_xm_keys=$HOME/.xmonad/lib/KeyBindings.hs
+loc_xm_cpu=$HOME/.xmonad/apps/haskell-cpu-usage.out
+loc_xm_img=$HOME/.xmonad/img/haskell.png
 
 ## Insertions
 
@@ -89,6 +167,31 @@ loc_tmux=$HOME/.tmux.conf
 [[ -f $loc_clojure_plugin ]]    || ln -s $clojure_plugin    $loc_clojure_plugin
 
 [[ -f $loc_vim_rc ]]            || ln -s $vim_rc            $loc_vim_rc
+[[ -f $loc_vim_badwolf ]]       || ln -s $vim_badwolf       $loc_vim_badwolf
+
+[[ -f $loc_vim_tmuxnav ]]       || ln -s $vim_tmuxnav       $loc_vim_tmuxnav
+
+[[ -f $loc_vim_ack ]]           || ln -s $vim_ack           $loc_vim_ack
+[[ -f $loc_vim_airline ]]       || ln -s $vim_airline       $loc_vim_airline
+[[ -f $loc_vim_bufonly ]]       || ln -s $vim_bufonly       $loc_vim_bufonly
+[[ -f $loc_vim_easymotion ]]    || ln -s $vim_easymotion    $loc_vim_easymotion
+[[ -f $loc_vim_fugitive   ]]    || ln -s $vim_fugitive      $loc_vim_fugitive
+[[ -f $loc_vim_fzf ]]           || ln -s $vim_fzf           $loc_vim_fzf
+[[ -f $loc_vim_himport ]]       || ln -s $vim_himport       $loc_vim_himport
+[[ -f $loc_vim_hlint_refactor ]] || ln -s $vim_hlint_refactor $loc_vim_hlint_refactor
+[[ -f $loc_vim_intero  ]]       || ln -s $vim_intero        $loc_vim_intero
+[[ -f $loc_vim_nerdtree    ]]   || ln -s $vim_nerdtree      $loc_vim_nerdtree
+[[ -f $loc_vim_plugin  ]]       || ln -s $vim_plugin        $loc_vim_plugin
+[[ -f $loc_vim_rainbow ]]       || ln -s $vim_rainbow       $loc_vim_rainbow
+[[ -f $loc_vim_rename  ]]       || ln -s $vim_rename        $loc_vim_rename
+[[ -f $loc_vim_syntastic   ]]   || ln -s $vim_syntastic     $loc_vim_syntastic
+[[ -f $loc_vim_tabular ]]       || ln -s $vim_tabular       $loc_vim_tabular
+[[ -f $loc_vim_tagbar  ]]       || ln -s $vim_tagbar        $loc_vim_tagbar
+[[ -f $loc_vim_tmuxnav ]]       || ln -s $vim_tmuxnav       $loc_vim_tmuxnav
+[[ -f $loc_vim_ultisnips   ]]   || ln -s $vim_ultisnips     $loc_vim_ultisnips
+[[ -f $loc_vim_easy-align  ]]   || ln -s $vim_easy          $loc_vim_easy
+[[ -f $loc_vim_incr    ]]       || ln -s $vim_incr          $loc_vim_incr
+[[ -f $loc_vim_ycm ]]           || ln -s $vim_ycm           $loc_vim_ycm
 
 # Emacs
 [[ -f $loc_emacs_file ]]        || ln -s $emacs_file        $loc_emacs_file
@@ -117,7 +220,16 @@ loc_tmux=$HOME/.tmux.conf
 [[ -f $loc_zsh_rc ]]            || ln -s $zsh_rc            $loc_zsh_rc
 [[ -f $loc_aliases ]]           || ln -s $_aliases          $loc_aliases
 [[ -f $loc_tmux ]]              || ln -s $tmux              $loc_tmux
+[[ -f $loc_xinitrc ]]           || ln -s $xinitrc           $loc_xinitrc
+[[ -f $loc_xresources ]]        || ln -s $xresources        $loc_xresources
+
+# XMonad
+[[ -f $loc_xmonadrc ]]          || ln -s $xmonadrc          $loc_xmonadrc
+[[ -f $loc_xm_boxes ]]          || ln -s $xm_boxes          $loc_xm_boxes
+[[ -f $loc_xm_config ]]         || ln -s $xm_config         $loc_xm_config
+[[ -f $loc_xm_keys ]]           || ln -s $xm_keys           $loc_xm_keys
+[[ -f $loc_xm_cpu ]]            || ln -s $xm_cpu            $loc_xm_cpu
+[[ -f $loc_xm_img ]]            || ln -s $xm_img            $loc_xm_img
 
 echo "Done"
 echo "You probably need to source $loc_aliases"
-
