@@ -37,7 +37,7 @@ if [[ $distro == "arch" ]]; then
             if [[ $(pacman -Ssq ^$pkg$) ]]; then
                 sudo pacman -S $pkg
             else
-                pacaur -S $pkgs
+                aurman -S $pkgs
             fi
         done
     fi

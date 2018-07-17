@@ -47,6 +47,7 @@ emacsd=$HOME/.emacs.d
 PrintSeparator "Creating some directories under $HOME"
 
 mkdir -p /home/lsund/{Data/log/pacman,Temp,Downloads,Documents,Shared,Media}
+mkdir -p /home/lsund/.bin
 
 touch "/home/lsund/Data/log/pacman/need_sysup.txt"
 
@@ -174,4 +175,7 @@ PrintSeparator "Setting up shell"
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
-PrintSeparator "Done. Remember to open vim and type :PlugInstall"
+PrintSeparator "Done. Remember to do the following:"
+echo "open vim and type :PlugInstall"
+echo "Set your cronjobs"
+

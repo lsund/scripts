@@ -86,7 +86,9 @@ elif [[ $1 == "arch" ]]; then
                          "ruby"
                          "wget"
                          "rxvt-unicode"
+                         "rxvt-unicode-terminfo"
                          "firefox"
+                         "unzip"
                          "tmux"
                          "ghc"
                          "openssh"
@@ -96,6 +98,7 @@ elif [[ $1 == "arch" ]]; then
                          "graphviz"
                          "the_silver_searcher"
                          "pwgen"
+                         "fd"
                          "cmake"
                          "python2"
                          "python-virtualenv"
@@ -113,6 +116,7 @@ elif [[ $1 == "arch" ]]; then
                          "curl"
                          "emacs"
                          "screenfetch"
+                         "cronie"
                          "zathura")
 
 
@@ -154,5 +158,13 @@ which trans > /dev/null 2>&1
 if [[ $? == "1" ]]; then
     wget git.io/trans
     chmod +x ./trans
-    mv trans $HOME/bin
+    mv trans $HOME/.bin
+fi
+
+# lein
+which lein > /dev/null 2>&1
+if [[ $? == "1" ]]; then
+    wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+    chmod +x ./lein
+    mv lein $HOME/.bin
 fi
