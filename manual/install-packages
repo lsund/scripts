@@ -117,7 +117,8 @@ elif [[ $1 == "arch" ]]; then
                          "emacs"
                          "screenfetch"
                          "cronie"
-                         "zathura")
+                         "zathura"
+                         "zathura-pdf-poppler")
 
 
     for package in "${packages[@]}"
