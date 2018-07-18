@@ -5,7 +5,6 @@
 # official repositories, if they exist on the local computer and installs
 # accordingly.
 
-
 [[ -z $1 ]] && echo "Need first argument: distro" && exit
 
 # ############################################################################
@@ -51,6 +50,8 @@ if [[ $1 == "arch" ]]; then
                          "pyalpm"
                          "python-feedparser"
                          "pydf"
+                         "python-pip"
+                         "python2-pip"
                          "expac"
                          "redshift"
                          "gimp"
