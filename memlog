@@ -1,4 +1,18 @@
 #!/bin/zsh
 
-perc=$(df -h | grep nvme0n1p4 | tr -s ' ' | cut -d' ' -f5)
-echo $perc > "/home/lsund/Data/log/store/disk.txt"
+dir=/home/lsund/Data/log/store
+file=disk.txt
+
+mkdir -p $dir
+host=$(cat "/etc/hostname")
+
+if [[ $host == "pedro" ]]; then
+    device=sda2
+elif [[ $host == "keysersoze" ]]; then
+    device=nvme0n1p4
+else
+    echo "N/A" > $dir/$file && exit 1
+fi
+
+perc=$(df -h | grep $device | tr -s ' ' | cut -d' ' -f5)
+echo $perc > $dir/$file

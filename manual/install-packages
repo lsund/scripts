@@ -11,7 +11,79 @@
 # ############################################################################
 # UBUNTU
 
-if [[ $1 == "ubuntu" ]]; then
+if [[ $1 == "arch" ]]; then
+
+    sudo pacman -Suy
+
+    declare -a packages=("htop"
+                         "texlive-core"
+                         "fzf"
+                         "pulseaudio"
+                         "pulseaudio-alsa"
+                         "pavucontrol"
+                         "alsa-utils"
+                         "pdfpc"
+                         "cabal-install"
+                         "jdk8-openjdk"
+                         "ruby"
+                         "wget"
+                         "rxvt-unicode"
+                         "rxvt-unicode-terminfo"
+                         "firefox"
+                         "unzip"
+                         "tmux"
+                         "ghc"
+                         "openssh"
+                         "feh"
+                         "git"
+                         "vim"
+                         "neovim"
+                         "graphviz"
+                         "the_silver_searcher"
+                         "pwgen"
+                         "fd"
+                         "cmake"
+                         "python2"
+                         "python-virtualenv"
+                         "python-requests"
+                         "python-regex"
+                         "python-dateutil"
+                         "pyalpm"
+                         "python-feedparser"
+                         "pydf"
+                         "expac"
+                         "redshift"
+                         "gimp"
+                         "scrot"
+                         "pass"
+                         "zsh"
+                         "curl"
+                         "emacs"
+                         "screenfetch"
+                         "cronie"
+                         "zathura"
+                         "zathura-pdf-poppler")
+
+
+    for package in "${packages[@]}"
+    do
+        echo "*** Installing $package"
+        pacman -Ss ^$package$ > /dev/null 2>&1
+
+        if [[ $? == "1" ]]; then
+        echo "Package $package does not exist" && exit
+        fi
+
+        pacman -Qi $package > /dev/null 2>&1
+        if [[ $? == "1" ]]; then
+            sudo pacman -S $package
+        fi
+
+    done
+# ############################################################################
+# ARCH LINUX
+
+elif [[ $1 == "ubuntu" ]]; then
 
     ## PPA's
     sudo add-apt-repository ppa:neovim-ppa/stable
@@ -70,77 +142,6 @@ if [[ $1 == "ubuntu" ]]; then
         mv $fd_file ~/.trash/trash-files
     done
 
-# ############################################################################
-# ARCH LINUX
-
-elif [[ $1 == "arch" ]]; then
-
-    sudo pacman -Suy
-
-    declare -a packages=("htop"
-                         "texlive-core"
-                         "fzf"
-                         "pdfpc"
-                         "cabal-install"
-                         "jdk8-openjdk"
-                         "ruby"
-                         "wget"
-                         "rxvt-unicode"
-                         "rxvt-unicode-terminfo"
-                         "firefox"
-                         "unzip"
-                         "tmux"
-                         "ghc"
-                         "openssh"
-                         "git"
-                         "vim"
-                         "neovim"
-                         "graphviz"
-                         "the_silver_searcher"
-                         "pwgen"
-                         "fd"
-                         "cmake"
-                         "python2"
-                         "python-virtualenv"
-                         "python-requests"
-                         "python-regex"
-                         "python-dateutil"
-                         "pyalpm"
-                         "python-feedparser"
-                         "expac"
-                         "redshift"
-                         "gimp"
-                         "scrot"
-                         "pass"
-                         "zsh"
-                         "curl"
-                         "emacs"
-                         "screenfetch"
-                         "cronie"
-                         "zathura"
-                         "zathura-pdf-poppler")
-
-
-    for package in "${packages[@]}"
-    do
-        echo "*** Installing $package"
-        pacman -Ss ^$package$ > /dev/null 2>&1
-
-        if [[ $? == "1" ]]; then
-        echo "Package $package does not exist" && exit
-        fi
-
-        pacman -Qi $package > /dev/null 2>&1
-        if [[ $? == "1" ]]; then
-            sudo pacman -S $package
-        fi
-
-    done
-fi
-
-pacman -Qi "base-devel" > /dev/null 2>&1
-if [[ $? == "1" ]]; then
-    "You should probably install base-devel"
 fi
 
 # Neovim
