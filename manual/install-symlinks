@@ -15,6 +15,7 @@ mkdir -p $HOME/.git_template/hooks
 mkdir -p $HOME/.xmonad/lib
 mkdir -p $HOME/.xmonad/apps
 mkdir -p $HOME/.xmonad/img
+mkdir -p $HOME/.icons/xbm_icons/subtle
 
 ## Sources
 
@@ -45,7 +46,7 @@ vim_tabular=$DOTFILES/vim/plugin/tabular.vim
 vim_tagbar=$DOTFILES/vim/plugin/tagbar.vim
 vim_tmuxnav=$DOTFILES/vim/plugin/tmuxnavigate.vim
 vim_ultisnips=$DOTFILES/vim/plugin/ultisnips.vim
-vim_easy-align=$DOTFILES/vim/plugin/vim-easy-align.vim
+vim_easy=$DOTFILES/vim/plugin/vim-easy-align.vim
 vim_incr=$DOTFILES/vim/plugin/visincrPlugin.vim
 vim_ycm=$DOTFILES/vim/plugin/ycm.vim
 
@@ -87,6 +88,11 @@ xm_keys=$DOTFILES/xmonad/KeyBindings.hs
 xm_cpu=$DOTFILES/xmonad/haskell-cpu-usage.out
 xm_img=$DOTFILES/xmonad/haskell.png
 
+xm_icon1=$DOTFILES/icons/boxleft2-big.xbm
+xm_icon2=$DOTFILES/icons/boxleft2.xbm
+xm_icon3=$DOTFILES/icons/boxleft.xbm
+xm_icon4=$DOTFILES/icons/boxright.xbm
+
 ## Destinations
 
 # Vim
@@ -116,7 +122,7 @@ loc_vim_tabular=$HOME/.vim/plugin/tabular.vim
 loc_vim_tagbar=$HOME/.vim/plugin/tagbar.vim
 loc_vim_tmuxnav=$HOME/.vim/plugin/tmuxnavigate.vim
 loc_vim_ultisnips=$HOME/.vim/plugin/ultisnips.vim
-loc_vim_easy-align=$HOME/.vim/plugin/vim-easy-align.vim
+loc_vim_easy_align=$HOME/.vim/plugin/vim-easy-align.vim
 loc_vim_incr=$HOME/.vim/plugin/visincrPlugin.vim
 loc_vim_ycm=$HOME/.vim/plugin/ycm.vim
 
@@ -158,6 +164,11 @@ loc_xm_keys=$HOME/.xmonad/lib/KeyBindings.hs
 loc_xm_cpu=$HOME/.xmonad/apps/haskell-cpu-usage.out
 loc_xm_img=$HOME/.xmonad/img/haskell.png
 
+loc_xm_icon1=$HOME/.icons/xbm_icons/subtle/boxleft2-big.xbm
+loc_xm_icon2=$HOME/.icons/xbm_icons/subtle/boxleft2.xbm
+loc_xm_icon3=$HOME/.icons/xbm_icons/subtle/boxleft.xbm
+loc_xm_icon4=$HOME/.icons/xbm_icons/subtle/boxright.xbm
+
 ## Insertions
 
 # Vim
@@ -189,7 +200,7 @@ loc_xm_img=$HOME/.xmonad/img/haskell.png
 [[ -f $loc_vim_tagbar  ]]       || ln -s $vim_tagbar        $loc_vim_tagbar
 [[ -f $loc_vim_tmuxnav ]]       || ln -s $vim_tmuxnav       $loc_vim_tmuxnav
 [[ -f $loc_vim_ultisnips   ]]   || ln -s $vim_ultisnips     $loc_vim_ultisnips
-[[ -f $loc_vim_easy-align  ]]   || ln -s $vim_easy          $loc_vim_easy
+[[ -f $loc_vim_easy  ]]   || ln -s $vim_easy          $loc_vim_easy
 [[ -f $loc_vim_incr    ]]       || ln -s $vim_incr          $loc_vim_incr
 [[ -f $loc_vim_ycm ]]           || ln -s $vim_ycm           $loc_vim_ycm
 
@@ -230,6 +241,11 @@ loc_xm_img=$HOME/.xmonad/img/haskell.png
 [[ -f $loc_xm_keys ]]           || ln -s $xm_keys           $loc_xm_keys
 [[ -f $loc_xm_cpu ]]            || ln -s $xm_cpu            $loc_xm_cpu
 [[ -f $loc_xm_img ]]            || ln -s $xm_img            $loc_xm_img
+
+[[ -f $loc_xm_icon1 ]]          || ln -s $xm_icon1          $loc_xm_icon1
+[[ -f $loc_xm_icon2 ]]          || ln -s $xm_icon2          $loc_xm_icon2
+[[ -f $loc_xm_icon3 ]]          || ln -s $xm_icon3          $loc_xm_icon3
+[[ -f $loc_xm_icon4 ]]          || ln -s $xm_icon4          $loc_xm_icon4
 
 echo "Done"
 echo "You probably need to source $loc_aliases"
