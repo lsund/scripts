@@ -15,6 +15,7 @@ mkdir -p $HOME/.git_template/hooks
 mkdir -p $HOME/.xmonad/lib
 mkdir -p $HOME/.xmonad/apps
 mkdir -p $HOME/.xmonad/img
+mkdir -p $HOME/.icons/xbm_icons/subtle
 
 ## Sources
 
@@ -45,9 +46,10 @@ vim_tabular=$DOTFILES/vim/plugin/tabular.vim
 vim_tagbar=$DOTFILES/vim/plugin/tagbar.vim
 vim_tmuxnav=$DOTFILES/vim/plugin/tmuxnavigate.vim
 vim_ultisnips=$DOTFILES/vim/plugin/ultisnips.vim
-vim_easy-align=$DOTFILES/vim/plugin/vim-easy-align.vim
+vim_easy_align=$DOTFILES/vim/plugin/vim-easy-align.vim
 vim_incr=$DOTFILES/vim/plugin/visincrPlugin.vim
 vim_ycm=$DOTFILES/vim/plugin/ycm.vim
+vim_commentary=$DOTFILES/vim/plugin/vim-commentary.vim
 
 
 # Emacs
@@ -67,12 +69,12 @@ emacs_md=$DOTFILES/emacs/config/my-markdown.el
 
 # Git
 git_config=$DOTFILES/git/config
-git_hook_prepare_commit_msg=$DOTFILES/git/hooks/prepare-commit-msg
+git_hook=$DOTFILES/git/hooks/prepare-commit-msg
 
 # SSH
 ssh_config=$DOTFILES/ssh/config
 
-# Misc
+# Shell
 zsh_rc=$DOTFILES/zshrc
 _aliases="$DOTFILES/aliases"
 tmux=$DOTFILES/tmux.conf
@@ -86,6 +88,11 @@ xm_config=$DOTFILES/xmonad/Config.hs
 xm_keys=$DOTFILES/xmonad/KeyBindings.hs
 xm_cpu=$DOTFILES/xmonad/haskell-cpu-usage.out
 xm_img=$DOTFILES/xmonad/haskell.png
+
+xm_icon1=$DOTFILES/icons/boxleft2-big.xbm
+xm_icon2=$DOTFILES/icons/boxleft2.xbm
+xm_icon3=$DOTFILES/icons/boxleft.xbm
+xm_icon4=$DOTFILES/icons/boxright.xbm
 
 ## Destinations
 
@@ -116,9 +123,10 @@ loc_vim_tabular=$HOME/.vim/plugin/tabular.vim
 loc_vim_tagbar=$HOME/.vim/plugin/tagbar.vim
 loc_vim_tmuxnav=$HOME/.vim/plugin/tmuxnavigate.vim
 loc_vim_ultisnips=$HOME/.vim/plugin/ultisnips.vim
-loc_vim_easy-align=$HOME/.vim/plugin/vim-easy-align.vim
+loc_vim_easy_align=$HOME/.vim/plugin/vim-easy-align.vim
 loc_vim_incr=$HOME/.vim/plugin/visincrPlugin.vim
 loc_vim_ycm=$HOME/.vim/plugin/ycm.vim
+loc_vim_commentary=$HOME/.vim/plugin/vim-commentary.vim
 
 # Emacs
 
@@ -138,12 +146,12 @@ loc_emacs_md=$emacsd/config/my-markdown.el
 
 # Git
 loc_git_config=$HOME/.config/git/config
-loc_git_hook_prepare_commit_msg=$HOME/.git_template/hooks/prepare-commit-msg
+loc_git_hook=$HOME/.git_template/hooks/prepare-commit-msg
 
 # SSH
 loc_ssh_config=$HOME/.ssh/config
 
-# Misc
+# Shell
 loc_zsh_rc=$HOME/.zshrc
 loc_aliases="$HOME/.aliases"
 loc_tmux=$HOME/.tmux.conf
@@ -158,78 +166,93 @@ loc_xm_keys=$HOME/.xmonad/lib/KeyBindings.hs
 loc_xm_cpu=$HOME/.xmonad/apps/haskell-cpu-usage.out
 loc_xm_img=$HOME/.xmonad/img/haskell.png
 
+loc_xm_icon1=$HOME/.icons/xbm_icons/subtle/boxleft2-big.xbm
+loc_xm_icon2=$HOME/.icons/xbm_icons/subtle/boxleft2.xbm
+loc_xm_icon3=$HOME/.icons/xbm_icons/subtle/boxleft.xbm
+loc_xm_icon4=$HOME/.icons/xbm_icons/subtle/boxright.xbm
+
 ## Insertions
 
+function Link()
+{
+    [[ -f $1 ]] || ln -s $2 $1
+}
+
 # Vim
-[[ -f $loc_zsh_plugin ]]        || ln -s $zsh_plugin        $loc_zsh_plugin
-[[ -f $loc_haskell_plugin ]]    || ln -s $haskell_plugin    $loc_haskell_plugin
-[[ -f $loc_python_plugin ]]     || ln -s $python_plugin     $loc_python_plugin
-[[ -f $loc_clojure_plugin ]]    || ln -s $clojure_plugin    $loc_clojure_plugin
+Link $loc_zsh_plugin            $zsh_plugin
+Link $loc_haskell_plugin        $haskell_plugin
+Link $loc_python_plugin         $python_plugin
+Link $loc_clojure_plugin        $clojure_plugin
 
-[[ -f $loc_vim_rc ]]            || ln -s $vim_rc            $loc_vim_rc
-[[ -f $loc_vim_badwolf ]]       || ln -s $vim_badwolf       $loc_vim_badwolf
+Link $loc_vim_rc                $vim_rc
+Link $loc_vim_badwolf           $vim_badwolf
 
-[[ -f $loc_vim_tmuxnav ]]       || ln -s $vim_tmuxnav       $loc_vim_tmuxnav
+Link $loc_vim_tmuxnav           $vim_tmuxnav
 
-[[ -f $loc_vim_ack ]]           || ln -s $vim_ack           $loc_vim_ack
-[[ -f $loc_vim_airline ]]       || ln -s $vim_airline       $loc_vim_airline
-[[ -f $loc_vim_bufonly ]]       || ln -s $vim_bufonly       $loc_vim_bufonly
-[[ -f $loc_vim_easymotion ]]    || ln -s $vim_easymotion    $loc_vim_easymotion
-[[ -f $loc_vim_fugitive   ]]    || ln -s $vim_fugitive      $loc_vim_fugitive
-[[ -f $loc_vim_fzf ]]           || ln -s $vim_fzf           $loc_vim_fzf
-[[ -f $loc_vim_himport ]]       || ln -s $vim_himport       $loc_vim_himport
-[[ -f $loc_vim_hlint_refactor ]] || ln -s $vim_hlint_refactor $loc_vim_hlint_refactor
-[[ -f $loc_vim_intero  ]]       || ln -s $vim_intero        $loc_vim_intero
-[[ -f $loc_vim_nerdtree    ]]   || ln -s $vim_nerdtree      $loc_vim_nerdtree
-[[ -f $loc_vim_plugin  ]]       || ln -s $vim_plugin        $loc_vim_plugin
-[[ -f $loc_vim_rainbow ]]       || ln -s $vim_rainbow       $loc_vim_rainbow
-[[ -f $loc_vim_rename  ]]       || ln -s $vim_rename        $loc_vim_rename
-[[ -f $loc_vim_syntastic   ]]   || ln -s $vim_syntastic     $loc_vim_syntastic
-[[ -f $loc_vim_tabular ]]       || ln -s $vim_tabular       $loc_vim_tabular
-[[ -f $loc_vim_tagbar  ]]       || ln -s $vim_tagbar        $loc_vim_tagbar
-[[ -f $loc_vim_tmuxnav ]]       || ln -s $vim_tmuxnav       $loc_vim_tmuxnav
-[[ -f $loc_vim_ultisnips   ]]   || ln -s $vim_ultisnips     $loc_vim_ultisnips
-[[ -f $loc_vim_easy-align  ]]   || ln -s $vim_easy          $loc_vim_easy
-[[ -f $loc_vim_incr    ]]       || ln -s $vim_incr          $loc_vim_incr
-[[ -f $loc_vim_ycm ]]           || ln -s $vim_ycm           $loc_vim_ycm
+Link $loc_vim_ack               $vim_ack
+Link $loc_vim_airline           $vim_airline
+Link $loc_vim_bufonly           $vim_bufonly
+Link $loc_vim_easymotion        $vim_easymotion
+Link $loc_vim_fugitive          $vim_fugitive
+Link $loc_vim_fzf               $vim_fzf
+Link $loc_vim_himport           $vim_himport
+Link $loc_vim_hlint_refactor    $vim_hlint_refactor
+Link $loc_vim_intero            $vim_intero
+Link $loc_vim_nerdtree          $vim_nerdtree
+Link $loc_vim_plugin            $vim_plugin
+Link $loc_vim_rainbow           $vim_rainbow
+Link $loc_vim_rename            $vim_rename
+Link $loc_vim_syntastic         $vim_syntastic
+Link $loc_vim_tabular           $vim_tabular
+Link $loc_vim_tagbar            $vim_tagbar
+Link $loc_vim_tmuxnav           $vim_tmuxnav
+Link $loc_vim_ultisnips         $vim_ultisnips
+Link $loc_vim_easy_align        $vim_easy_align
+Link $loc_vim_incr              $vim_incr
+Link $loc_vim_ycm               $vim_ycm
+Link $loc_vim_commentary        $vim_commentary
 
 # Emacs
-[[ -f $loc_emacs_file ]]        || ln -s $emacs_file        $loc_emacs_file
-[[ -f $loc_emacs_init ]]        || ln -s $emacs_init        $loc_emacs_init
-[[ -f $loc_emacs_config ]]      || ln -s $emacs_config      $loc_emacs_config
-[[ -f $loc_emacs_keybindings ]] || ln -s $emacs_keybindings $loc_emacs_keybindings
-[[ -f $loc_emacs_clojure ]]     || ln -s $emacs_clojure     $loc_emacs_clojure
-[[ -f $loc_emacs_elisp ]]       || ln -s $emacs_elisp       $loc_emacs_elisp
-[[ -f $loc_emacs_powerline ]]   || ln -s $emacs_powerline   $loc_emacs_powerline
-[[ -f $loc_emacs_haskell ]]     || ln -s $emacs_haskell     $loc_emacs_haskell
-[[ -f $loc_emacs_org ]]         || ln -s $emacs_org         $loc_emacs_org
-[[ -f $loc_emacs_lisp ]]        || ln -s $emacs_lisp        $loc_emacs_lisp
-[[ -f $loc_emacs_python ]]      || ln -s $emacs_python      $loc_emacs_python
-[[ -f $loc_emacs_tex ]]         || ln -s $emacs_tex         $loc_emacs_tex
-[[ -f $loc_emacs_md ]]          || ln -s $emacs_md          $loc_emacs_md
+Link $loc_emacs_file            $emacs_file
+Link $loc_emacs_init            $emacs_init
+Link $loc_emacs_config          $emacs_config
+Link $loc_emacs_keybindings     $emacs_keybindings
+Link $loc_emacs_clojure         $emacs_clojure
+Link $loc_emacs_elisp           $emacs_elisp
+Link $loc_emacs_powerline       $emacs_powerline
+Link $loc_emacs_haskell         $emacs_haskell
+Link $loc_emacs_org             $emacs_org
+Link $loc_emacs_lisp            $emacs_lisp
+Link $loc_emacs_python          $emacs_python
+Link $loc_emacs_tex             $emacs_tex
+Link $loc_emacs_md              $emacs_md
 
 # Git
-[[ -f $loc_git_config ]]        || ln -s $git_config        $loc_git_config
-[[ -f $loc_git_hook_prepare_commit_msg ]] ||
-    ln -s $git_hook_prepare_commit_msg  $loc_git_hook_prepare_commit_msg
+Link $loc_git_config            $git_config
+Link $loc_git_hook              $git_hook
 
 # SSH
-[[ -f $loc_ssh_config ]]        || ln -s $ssh_config        $loc_ssh_config
+Link $loc_ssh_config            $ssh_config
 
-# Misc
-[[ -f $loc_zsh_rc ]]            || ln -s $zsh_rc            $loc_zsh_rc
-[[ -f $loc_aliases ]]           || ln -s $_aliases          $loc_aliases
-[[ -f $loc_tmux ]]              || ln -s $tmux              $loc_tmux
-[[ -f $loc_xinitrc ]]           || ln -s $xinitrc           $loc_xinitrc
-[[ -f $loc_xresources ]]        || ln -s $xresources        $loc_xresources
+# Shell
+Link $loc_zsh_rc                $zsh_rc
+Link $loc_aliases               $_aliases
+Link $loc_tmux                  $tmux
+Link $loc_xinitrc               $xinitrc
+Link $loc_xresources            $xresources
 
 # XMonad
-[[ -f $loc_xmonadrc ]]          || ln -s $xmonadrc          $loc_xmonadrc
-[[ -f $loc_xm_boxes ]]          || ln -s $xm_boxes          $loc_xm_boxes
-[[ -f $loc_xm_config ]]         || ln -s $xm_config         $loc_xm_config
-[[ -f $loc_xm_keys ]]           || ln -s $xm_keys           $loc_xm_keys
-[[ -f $loc_xm_cpu ]]            || ln -s $xm_cpu            $loc_xm_cpu
-[[ -f $loc_xm_img ]]            || ln -s $xm_img            $loc_xm_img
+Link $loc_xmonadrc              $xmonadrc
+Link $loc_xm_boxes              $xm_boxes
+Link $loc_xm_config             $xm_config
+Link $loc_xm_keys               $xm_keys
+Link $loc_xm_cpu                $xm_cpu
+Link $loc_xm_img                $xm_img
+
+Link $loc_xm_icon1              $xm_icon1
+Link $loc_xm_icon2              $xm_icon2
+Link $loc_xm_icon3              $xm_icon3
+Link $loc_xm_icon4              $xm_icon4
 
 echo "Done"
 echo "You probably need to source $loc_aliases"
