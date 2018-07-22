@@ -67,12 +67,17 @@ emacs_python=$DOTFILES/emacs/config/my-python.el
 emacs_tex=$DOTFILES/emacs/config/my-tex.el
 emacs_md=$DOTFILES/emacs/config/my-markdown.el
 
+
 # Git
 git_config=$DOTFILES/git/config
 git_hook=$DOTFILES/git/hooks/prepare-commit-msg
 
 # SSH
-ssh_config=$DOTFILES/ssh/config
+if [[ $(< /etc/hostname) == "keysersoze" ]]; then
+    ssh_config=$DOTFILES/ssh/keysersoze_config
+else
+    ssh_config=$DOTFILES/ssh/pedro_config
+fi
 
 # Shell
 zsh_rc=$DOTFILES/zshrc
