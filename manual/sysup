@@ -2,57 +2,15 @@
 
 # Script for facilitating the pacman -Syu and related commands
 
-scriptdir="/home/lsund/Documents/scripts/"
-statusfile="/home/lsund/Data/log/pacman/need_sysup.txt"
-country="Germany"
-mirrorlist_old="mirrorlist"
-mirrorlist_new="mirrorlist.pacnew"
-
-if [[ ! -d $scriptdir ]]; then
-    echo "sysup Error: $scriptdir does not exist"
-    exit 1
-fi
-if [[ ! -f $statusfile ]]; then
-    echo "sysup Error: $statusfile does not exist"
-    exit 1
+if [[ -e "/etc/pacman.d/mirrorlist" && -e "/etc/pacman.d/mirrorlist.pacnew" ]];
+then
+    vared -p "A new mirrorlist file exists. Use that instead? [Y/n] " -c choice
+    if [[ "$choice" != "n" ]]; then
+        sudo /etc/pacman.d/mirrorlist-merger-exe
+    fi
 fi
 
-merge=sudo /etc/pacman.d/merger $country $mirrorlist_old $mirrorlist_new mergerbuf
-
-s=$(ls /etc/pacman.d)
-a=( $s )
-
-if [[ " ${a[@]} " =~ "mirrorlist" && " ${a[@]} " =~ "mirrorlist.pacnew" ]]; then
-    echo "Both mirrorlist and mirrorlist.pacnew exists."
-    echo
-    while true; do
-        vared -p "Set link down [Y/n]? " -c choice
-        case $yn in
-            [Yy]* )
-                was=$(pwd)
-                cd /etc/pacman.d
-                merge
-                cd $was
-                echo "files merged"
-                echo "updating..."
-                aurman -Suy
-                current_day=$(date +'%d')
-                message="updated $current_day"
-                echo $message > $statusfile
-                break;;
-            [Nn]* )
-                echo "Cannot continue without first merging the files"
-                break;;
-            * ) echo "y or n mate"
-        esac
-    done
-else
-    echo "updating..."
-    sudo pacman -Suy
-    aurman -Suy
-    current_day=$(date +'%d')
-    message="updated $current_day"
-    echo $message > $statusfile
-fi
+sudo pacman -Suy
+aurman -Suy
 
 $scriptdir/pacsync

@@ -11,5 +11,5 @@ if [[ $? -eq 0 ]];
         count="$(pacman -Qu | wc -l)"
         echo "$count" > $file
     else
-        echo "⚠" > $file
+        echo "N/A" > $file
 fi
