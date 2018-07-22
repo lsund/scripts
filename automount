@@ -17,6 +17,7 @@ sudo mount /dev/$device $path
 
 if [[ "$?" == 0 ]]; then
     echo "$1 mounted on $path"
+    cd $path
 else
     echo "Something went wrong..." && exit
 fi

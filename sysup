@@ -2,6 +2,8 @@
 
 # Script for facilitating the pacman -Syu and related commands
 
+scriptdir=/home/lsund/Documents/scripts/
+
 if [[ -e "/etc/pacman.d/mirrorlist" && -e "/etc/pacman.d/mirrorlist.pacnew" ]];
 then
     vared -p "A new mirrorlist file exists. Use that instead? [Y/n] " -c choice
