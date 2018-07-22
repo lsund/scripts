@@ -99,6 +99,9 @@ xm_icon2=$DOTFILES/icons/boxleft2.xbm
 xm_icon3=$DOTFILES/icons/boxleft.xbm
 xm_icon4=$DOTFILES/icons/boxright.xbm
 
+# Misc
+lesskey=$DOTFILES/lesskey
+
 ## Destinations
 
 # Vim
@@ -175,6 +178,9 @@ loc_xm_icon1=$HOME/.icons/xbm_icons/subtle/boxleft2-big.xbm
 loc_xm_icon2=$HOME/.icons/xbm_icons/subtle/boxleft2.xbm
 loc_xm_icon3=$HOME/.icons/xbm_icons/subtle/boxleft.xbm
 loc_xm_icon4=$HOME/.icons/xbm_icons/subtle/boxright.xbm
+
+# Misc
+loc_lesskey=$HOME/.lesskey
 
 ## Insertions
 
@@ -258,6 +264,10 @@ Link $loc_xm_icon1              $xm_icon1
 Link $loc_xm_icon2              $xm_icon2
 Link $loc_xm_icon3              $xm_icon3
 Link $loc_xm_icon4              $xm_icon4
+
+# Misc
+
+Link $loc_lesskey               $lesskey
 
 echo "Done"
 echo "You probably need to source $loc_aliases"
