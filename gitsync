@@ -4,12 +4,7 @@ try-connect
 
 declare -a syncdirs=("$HOME/Documents/scripts"
                      "$HOME/Documents/dotfiles"
-                     "$HOME/Documents/org"
                      "$HOME/.password-store")
-
-if [[ ! -d $HOME/Documents/org ]]; then
-    git -C $HOME/Documents clone git@github.com:/lsund/org
-fi
 
 function PrintSeparator() {
     case $1 in
