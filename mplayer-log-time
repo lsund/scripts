@@ -2,7 +2,17 @@
 
 SECONDS=0
 
-mplayer $1
+control_c() {
+    duration=$SECONDS
+    echo $duration > .mplayer-elapsed
+    exit
+}
 
-duration=$SECONDS
-echo $duration > .mplayer-elapsed
+trap control_c SIGINT
+
+while true ; do
+    mplayer $1 | while read line ; do
+        echo $line
+    done
+done
+
