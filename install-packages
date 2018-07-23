@@ -21,6 +21,7 @@ if [[ $1 == "arch" ]]; then
                          "pulseaudio-alsa"
                          "pavucontrol"
                          "alsa-utils"
+                         "mplayer"
                          "pdfpc"
                          "cabal-install"
                          "jdk8-openjdk"

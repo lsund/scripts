@@ -4,6 +4,7 @@ try-connect
 
 declare -a syncdirs=("$HOME/Documents/scripts"
                      "$HOME/Documents/dotfiles"
+                     "$HOME/Documents/wiki"
                      "$HOME/.password-store")
 
 function PrintSeparator() {

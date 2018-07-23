@@ -1,0 +1,8 @@
+#!/bin/zsh
+
+SECONDS=0
+
+mplayer $1
+
+duration=$SECONDS
+echo $duration > .mplayer-elapsed
