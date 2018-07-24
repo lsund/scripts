@@ -104,6 +104,7 @@ xm_icon4=$DOTFILES/icons/boxright.xbm
 
 # Misc
 lesskey=$DOTFILES/lesskey
+xinitrc=$DOTFILES/xinitrc
 
 ## Destinations
 
@@ -187,6 +188,7 @@ loc_xm_icon4=$HOME/.icons/xbm_icons/subtle/boxright.xbm
 
 # Misc
 loc_lesskey=$HOME/.lesskey
+loc_xinitrc=$HOME/.xinitrc
 
 ## Insertions
 
@@ -196,7 +198,7 @@ function Link()
 }
 
 # Vim
-Linc $loc_vim $                   $vim
+Link $loc_vim                     $vim
 # Link $loc_zsh_plugin            $zsh_plugin
 # Link $loc_haskell_plugin        $haskell_plugin
 # Link $loc_python_plugin         $python_plugin
@@ -276,6 +278,7 @@ Link $loc_xm_icon4              $xm_icon4
 # Misc
 
 Link $loc_lesskey               $lesskey
+Link $loc_xinitrc               $xinitrc
 
 echo "Done"
 echo "You probably need to source $loc_aliases"

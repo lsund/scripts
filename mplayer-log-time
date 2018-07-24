@@ -4,7 +4,12 @@ SECONDS=0
 
 control_c() {
     duration=$SECONDS
+    sudo touch .mplayer-elapsed
+    sudo chown lsund:lsund .mplayer-elapsed
     echo $duration > .mplayer-elapsed
+    if [[ $? != "0" ]]; then
+        echo $duration > ~/.mplayer-elapsed
+    fi
     exit
 }
 
