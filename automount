@@ -2,8 +2,24 @@
 
 # Automatically mount a device
 
+if [[ $# != 1 ]]; then
+    echo "Usage: automount usb|mybook"
+    exit 1
+fi
+
+if [[ ! -d "/mnt/$1" ]]; then
+    read -p "Create directory /mnt/$1? [Y/n] " ans
+    if [[ $ans != "n" ]]; then
+        sudo mkdir "/mnt/$1"
+    else
+        echo "Cannot mount. Exiting."
+        exit 1
+    fi
+fi
+
+
 lsblk
-read -p "device name? please enter >> sdxx << " device
+read -p "device name? please enter >> sdx(x) << " device
 
 if [[ "$1" == "mybook" ]]; then
     path="/mnt/mybook"

@@ -72,11 +72,11 @@ for var in "$@"
 
             sudo mv $var $trashdir/$basevar-trashed-$(( $max + 1 ))
 
-            echo "Moving to $trashdir"
+            echo "Moved file to trash."
         elif
             [[ -L "$var" ]]; then
             $real_remove $var
-            echo "Removed symbolic link"
+            echo "Removed symbolic link."
         else
             echo "trash: no such file or directory: $var"
         fi
