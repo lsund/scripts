@@ -49,7 +49,7 @@ function CountIdentical () {
     max=0
     for existing in  $(ls $1 | grep $basevar-trashed)
     do
-        num=$(echo $existing | cut -d'-' -f3)
+        num=${existing##*-}
         if [[  $num -gt max ]]; then
             max=$num
         fi
@@ -69,6 +69,8 @@ for var in "$@"
             SetTrashdir $var
 
             CountIdentical $trashdir $var
+
+            echo sudo mv $var $trashdir/$basevar-trashed-$(( $max + 1 ))
 
             sudo mv $var $trashdir/$basevar-trashed-$(( $max + 1 ))
 
