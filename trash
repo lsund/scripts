@@ -24,8 +24,8 @@ else
     echo "Don't know which rm to use" && exit
 fi
 
-mkdir -p $base_trashdir/trash-dirs
-mkdir -p $base_trashdir/trash-files
+mkdir -p $base_trashdir/trash-dirs/{1M,1G}
+mkdir -p $base_trashdir/trash-files/{1M,1G}
 
 
 # ############################################################################
@@ -70,6 +70,15 @@ for var in "$@"
             SetTrashdir $var
 
             CountIdentical $trashdir $var
+
+            size=$(du -h $var | xargs | cut -d' ' -f1)
+            suffix="${size: -1}"
+
+            if [[ $suffix == "M" ]]; then
+                trashdir=$trashdir/1M
+            elif [[ $suffix == "G" ]]; then
+                trashdir=$trashdir/1G
+            fi
 
             sudo mv $var $trashdir/$basevar-trashed-$(( $max + 1 ))
 
