@@ -60,17 +60,16 @@ function CountIdentical () {
 # ############################################################################
 # Main Loop
 
-
+removed=true
 for var in "$@"
     do
         basevar=$(basename "$var")
+        removed=true
         if [[ -e "$var" ]]; then
 
             SetTrashdir $var
 
             CountIdentical $trashdir $var
-
-            echo sudo mv $var $trashdir/$basevar-trashed-$(( $max + 1 ))
 
             sudo mv $var $trashdir/$basevar-trashed-$(( $max + 1 ))
 
@@ -80,9 +79,12 @@ for var in "$@"
             $real_remove $var
             echo "Removed symbolic link."
         else
+            removed=false
             echo "trash: no such file or directory: $var"
         fi
 done
+
+[[ $removed == false ]] && exit 0;
 
 echo
 
