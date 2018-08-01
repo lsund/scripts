@@ -74,6 +74,14 @@ case $ext in
         program=$(which $imgprogram)
         [[ $? == "1" ]] && echo "$imgprogram is not installed" && exit 1
         ;;
+    "svg")
+        program=$(which $imgprogram)
+        [[ $? == "1" ]] && echo "$imgprogram is not installed" && exit 1
+        ;;
+    "SVG")
+        program=$(which $imgprogram)
+        [[ $? == "1" ]] && echo "$imgprogram is not installed" && exit 1
+        ;;
     "jpg")
         program=$(which $imgprogram)
         [[ $? == "1" ]] && echo "$imgprogram is not installed" && exit 1
