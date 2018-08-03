@@ -3,21 +3,38 @@
 # Change to a directory in a pre-cached directory list, by entering a number or
 # a substring
 
-declare -a dirlist=(
-    "/home/lsund/Documents/school/current/thesis/suffix-trees"
-    "/home/lsund/Documents/school/current/thesis/wotd"
-    "/home/lsund/Documents/school/current/thesis/mccreight"
-    "/home/lsund/Documents/school/current/thesis/suffix-trees-haskell"
-    "/home/lsund/Documents/scripts"
-    "/home/lsund/Documents/dotfiles"
-    "/home/lsund/Documents/tech/repos/calendar"
-    "/home/lsund/Documents/tech/repos/budget"
-    "/home/lsund/Documents/tech/repos/jonnyh"
-    "/home/lsund/Documents/tech/repos/myblog"
-    "/home/lsund/Documents/tech/repos/projecteuler"
-    "/home/lsund/Documents/tech/repos/haskellbook"
-    "/home/lsund/Documents/work/application"
-    )
+if [[ $(< /etc/hostname) == "keysersoze" ]]; then
+
+    declare -a dirlist=(
+        "/home/lsund/Documents/school/current/thesis/suffix-trees"
+        "/home/lsund/Documents/school/current/thesis/wotd"
+        "/home/lsund/Documents/school/current/thesis/mccreight"
+        "/home/lsund/Documents/school/current/thesis/suffix-trees-haskell"
+        "/home/lsund/Documents/scripts"
+        "/home/lsund/Documents/dotfiles"
+        "/home/lsund/Documents/tech/repos/calendar"
+        "/home/lsund/Documents/tech/repos/budget"
+        "/home/lsund/Documents/tech/repos/jonnyh"
+        "/home/lsund/Documents/tech/repos/myblog"
+        "/home/lsund/Documents/tech/repos/projecteuler"
+        "/home/lsund/Documents/tech/repos/haskellbook"
+        "/home/lsund/Documents/work/application"
+        )
+else
+    declare -a dirlist=(
+        "/home/lsund/Documents/tech/repos/lambdawerk/bpm-task-executor"
+        "/home/lsund/Documents/tech/repos/lambdawerk/bpm-deploy"
+        "/home/lsund/Documents/tech/repos/lambdawerk/heron"
+        "/home/lsund/Documents/tech/repos/lambdawerk/common"
+        "/home/lsund/Documents/tech/repos/lambdawerk/documentation"
+        "/home/lsund/Documents/tech/repos/lambdawerk/document-transformations"
+        "/home/lsund/Documents/tech/repos/lambdawerk/lambdawerk-dev"
+        "/home/lsund/Documents/scripts"
+        "/home/lsund/Documents/dotfiles"
+        "/home/lsund/Documents/tech/repos/calendar"
+        "/home/lsund/Documents/wiki/lambdawerk"
+        )
+fi
 
 declare -A dirmap
 
