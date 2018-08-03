@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # Script to make rm more safe. Makes use of the `trash` script at any time your
 # current directory is not a subdirectory of ~/.Trash.

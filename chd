@@ -11,6 +11,7 @@ declare -a dirlist=(
     "/home/lsund/Documents/scripts"
     "/home/lsund/Documents/dotfiles"
     "/home/lsund/Documents/tech/repos/calendar"
+    "/home/lsund/Documents/tech/repos/budget"
     "/home/lsund/Documents/tech/repos/jonnyh"
     "/home/lsund/Documents/tech/repos/myblog"
     "/home/lsund/Documents/tech/repos/projecteuler"
