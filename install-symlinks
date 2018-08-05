@@ -85,7 +85,6 @@ loc_vim_dir=$HOME/.vim
 loc_emacs_file=$HOME/.emacs
 loc_emacs_init=$emacsd/init.el
 loc_emacs_config=$emacsd/config/my-config.el
-loc_emacs_keybindings=$emacsd/config/my-keybindings.el
 loc_emacs_clojure=$emacsd/config/my-clojure.el
 loc_emacs_elisp=$emacsd/config/my-elisp.el
 loc_emacs_powerline=$emacsd/config/my-powerline.el
@@ -144,7 +143,6 @@ Link $loc_vim_dir               $vim_dir
 Link $loc_emacs_file            $emacs_file
 Link $loc_emacs_init            $emacs_init
 Link $loc_emacs_config          $emacs_config
-Link $loc_emacs_keybindings     $emacs_keybindings
 Link $loc_emacs_clojure         $emacs_clojure
 Link $loc_emacs_elisp           $emacs_elisp
 Link $loc_emacs_powerline       $emacs_powerline
