@@ -27,7 +27,6 @@ vim_dir=$DOTFILES/vim
 emacs_file=$DOTFILES/emacs/emacs
 emacs_init=$DOTFILES/emacs/init.el
 emacs_config=$DOTFILES/emacs/config/my-config.el
-emacs_keybindings=$DOTFILES/emacs/config/my-keybindings.el
 emacs_clojure=$DOTFILES/emacs/config/my-clojure.el
 emacs_elisp=$DOTFILES/emacs/config/my-elisp.el
 emacs_powerline=$DOTFILES/emacs/config/my-powerline.el
@@ -37,6 +36,9 @@ emacs_lisp=$DOTFILES/emacs/config/my-lisp.el
 emacs_python=$DOTFILES/emacs/config/my-python.el
 emacs_tex=$DOTFILES/emacs/config/my-tex.el
 emacs_md=$DOTFILES/emacs/config/my-markdown.el
+emacs_neotree=$DOTFILES/emacs/config/my-neotree.el
+emacs_bufferman=$DOTFILES/emacs/config/my-bufferman.el
+emacs_editing=$DOTFILES/emacs/config/my-editing.el
 
 
 # Git
@@ -77,10 +79,9 @@ xinitrc=$DOTFILES/xinitrc
 ## Destinations
 
 # Vim
-
 loc_vim_dir=$HOME/.vim
-# Emacs
 
+# Emacs
 loc_emacs_file=$HOME/.emacs
 loc_emacs_init=$emacsd/init.el
 loc_emacs_config=$emacsd/config/my-config.el
@@ -94,6 +95,9 @@ loc_emacs_lisp=$emacsd/config/my-lisp.el
 loc_emacs_python=$emacsd/config/my-python.el
 loc_emacs_tex=$emacsd/config/my-tex.el
 loc_emacs_md=$emacsd/config/my-markdown.el
+loc_emacs_neotree=$emacsd/config/my-neotree.el
+loc_emacs_bufferman=$emacsd/config/my-bufferman.el
+loc_emacs_editing=$emacsd/config/my-editing.el
 
 # Git
 loc_git_config=$HOME/.config/git/config
@@ -150,6 +154,9 @@ Link $loc_emacs_lisp            $emacs_lisp
 Link $loc_emacs_python          $emacs_python
 Link $loc_emacs_tex             $emacs_tex
 Link $loc_emacs_md              $emacs_md
+Link $loc_emacs_neotree         $emacs_neotree
+Link $loc_emacs_bufferman       $emacs_bufferman
+Link $loc_emacs_editing         $emacs_editing
 
 # Git
 Link $loc_git_config            $git_config
