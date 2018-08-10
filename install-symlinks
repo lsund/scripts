@@ -75,6 +75,7 @@ xm_icon4=$DOTFILES/icons/boxright.xbm
 # Misc
 lesskey=$DOTFILES/lesskey
 xinitrc=$DOTFILES/xinitrc
+htoprc=$DOTFILES/htoprc
 
 ## Destinations
 
@@ -128,6 +129,7 @@ loc_xm_icon4=$HOME/.icons/xbm_icons/subtle/boxright.xbm
 # Misc
 loc_lesskey=$HOME/.lesskey
 loc_xinitrc=$HOME/.xinitrc
+loc_htoprc=$HOME/.config/htop/htoprc
 
 ## Insertions
 
@@ -187,6 +189,7 @@ Link $loc_xm_icon4              $xm_icon4
 
 Link $loc_lesskey               $lesskey
 Link $loc_xinitrc               $xinitrc
+Link $loc_htoprc                $htoprc
 
 echo "Done"
 echo "You probably need to source $loc_aliases"
