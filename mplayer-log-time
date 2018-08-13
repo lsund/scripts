@@ -15,9 +15,9 @@ control_c() {
 
 trap control_c SIGINT
 
-while true ; do
+# while true ; do
     mplayer $1 | while read line ; do
         echo $line
     done
-done
+# done
 
