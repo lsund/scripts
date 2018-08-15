@@ -24,6 +24,7 @@ else
     declare -a dirlist=(
         "/home/lsund/Documents/tech/repos/lambdawerk/bpm-task-executor"
         "/home/lsund/Documents/tech/repos/lambdawerk/bpm-deploy"
+        "/home/lsund/Documents/tech/repos/lambdawerk/bpm-process-starter"
         "/home/lsund/Documents/tech/repos/lambdawerk/heron"
         "/home/lsund/Documents/tech/repos/lambdawerk/common"
         "/home/lsund/Documents/tech/repos/lambdawerk/documentation"
