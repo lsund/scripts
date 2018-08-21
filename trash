@@ -46,7 +46,6 @@ function SetTrashdir () {
 # as $2
 function CountIdentical () {
     basevar=$(basename "$2")
-    max=0
     for existing in  $(ls $1 | grep $basevar-trashed)
     do
         num=${existing##*-}
@@ -69,7 +68,12 @@ for var in "$@"
 
             SetTrashdir $var
 
+            # Counts the already existing copies of files/directories named
+            # $var in the below directories
+            max=0
             CountIdentical $trashdir $var
+            CountIdentical $trashdir/1M $var
+            CountIdentical $trashdir/1G $var
 
             size=$(du -h $var | xargs | cut -d' ' -f1)
             suffix="${size: -1}"
