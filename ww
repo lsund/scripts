@@ -1,20 +1,19 @@
 #!/bin/zsh
 
 if [[ $# -lt "2" ]]; then
-    echo "Need 2 arguments: ww LINE FILE" && exit
+    echo "Need at least two arguments: ww PATTERN FILE" && exit
 fi
 
-case $# in
-    "2")
-        # TODO What is this??
-        # if [[ $1 == "-d" ]]; then
-        #     sed -i '$ d' $2
-        #     cat $2
-        # else
-            echo $1 >> $2
-            cat $2
-        # fi
-        ;;
-    * ) echo "Need 2 arguments: ww LINE FILE" && exit
-esac
+destfile="${@: -1}"
+array=($@)
+len=${#array[@]}
 
+patterns="${array[@]:0:$len-1}"
+destfile=${array[len]}
+
+for pattern in "${array[@]:0:$len-1}"
+do
+    echo $pattern >> $destfile
+done
+
+cat $destfile
