@@ -1,0 +1,5 @@
+#!/bin/zsh
+
+PROG=less
+
+$PROG $(ls -1 | head -1)
