@@ -63,6 +63,11 @@ if ! [[ $choice =~ $re ]] ; then
         fi
     done
 
+    if [[ "$d" == "" ]]; then
+        echo "Malconfigured path"
+        exit 1
+    fi
+
 else
 
     if [[ $choice && $(( $choice > 0 )) == 1 &&  $(( $choice <= i )) == 1 ]]; then
@@ -77,5 +82,4 @@ choice=""
 dirmap=""
 dirlist=""
 i=""
-[[ ! -d $target_109283749187023 ]] && echo "Malconfigured path" && exit 1
 cd $target_109283749187023
