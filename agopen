@@ -1,3 +1,7 @@
 #!/bin/zsh
 
-nvim $(ag -l $1)
+if [[ $(ag -l $1) ]]; then
+    vim $(ag -l $1)
+else
+    echo "No file contains $1 under this root"
+fi

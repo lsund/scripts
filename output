@@ -9,6 +9,8 @@ if [[ $(cat "/etc/hostname") == "keysersoze" ]]; then
 		xrandr --output eDP1 --auto --output DP1 --off
 	elif [[ "$1" == "hdmi" ]]; then
 		xrandr --output eDP1 --off --output DP1 --auto
+    elif [[ "$1" == "both" ]]; then
+        xrandr --output eDP1 --auto --output DP1 --auto
 	else
 		echo "Wrong arguments to output"
 	fi
