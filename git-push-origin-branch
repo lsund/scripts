@@ -28,5 +28,9 @@ if [[ $1 == "--nocommit" || $1 == "-n" ]]; then
 else
     vared -p "Commit Message: " -c msg
     git commit -m "$commit_tag$msg"
-    git push -u origin $branch_name
+    if [[ $? == "0" ]]; then
+        git push -u origin $branch_name
+    else
+        echo "Commit unsuccessful"
+    fi
 fi
