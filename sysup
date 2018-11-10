@@ -13,6 +13,6 @@ then
 fi
 
 sudo pacman -Suy
-aurman -Suy
+sudo aurman -Suy
 
 $scriptdir/pacsync

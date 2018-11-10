@@ -6,10 +6,6 @@
 if [[ $(< /etc/hostname) == "keysersoze" ]]; then
 
     declare -a dirlist=(
-        "/home/lsund/Documents/school/current/thesis/suffix-trees"
-        "/home/lsund/Documents/school/current/thesis/wotd"
-        "/home/lsund/Documents/school/current/thesis/mccreight"
-        "/home/lsund/Documents/school/current/thesis/suffix-trees-haskell"
         "/home/lsund/Documents/scripts"
         "/home/lsund/Documents/dotfiles"
         "/home/lsund/Documents/tech/repos/calendar"
@@ -20,6 +16,7 @@ if [[ $(< /etc/hostname) == "keysersoze" ]]; then
         "/home/lsund/Documents/tech/repos/haskellbook"
         "/home/lsund/Documents/work/application"
         "/home/lsund/Documents/tech/repos/camunda-cli-tool"
+        "/home/lsund/Documents/tech/repos/trainer"
         )
 else
     declare -a dirlist=(
