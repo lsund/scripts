@@ -116,6 +116,11 @@ for var in "$@"
 
             sudo mv $var $trashdir/$basevar-trashed-$(( $max + 1 ))
 
+            if [[ $? == 1 ]]; then
+                echo "Error. Please fix it"
+                exit 1
+            fi
+
             echo "Moved file to trash."
         elif
             [[ -L "$var" ]]; then
