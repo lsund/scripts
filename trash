@@ -157,6 +157,6 @@ if [[ "$number" -gt warning_kilo_bytes ]]; then
         number=$(expr $number / 1000)
     fi
 
-    echo "Consider empty trash directory"
+    echo "Consider emptying trash directory"
     echo "It currently more than $(echo $number | xargs) $unit"
 fi
