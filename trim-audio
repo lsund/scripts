@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+# Timestamps should be of form hh:mm:ss
+
+if [[ $# != 4 ]]; then
+    echo "usage: ./trim-audio FILE STARTTIME ENDTIME OUTFILE"
+    exit 1
+fi
+
+ffmpeg -i $1 -acodec copy -ss $2  -to $3 $4

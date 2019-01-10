@@ -44,7 +44,7 @@ function SetTrashdir () {
 # lists $1 and counts how many files/directories have the same name
 # as $2
 function CountIdentical () {
-    basevar=$(basename "$2")
+    # basevar=$(basename "$2")
     for existing in  $(ls $1 | grep $basevar-trashed)
     do
         num=${existing##*-}
@@ -84,6 +84,11 @@ removed=true
 for var in "$@"
     do
         basevar=$(basename "$var")
+        # Remove . prefix
+        if [[ ${basevar:0:1} == "." ]]; then
+            len=${#basevar}
+            basevar=${basevar:1:$len}
+        fi
         removed=true
         if [[ -e "$var" ]]; then
 
@@ -115,6 +120,11 @@ for var in "$@"
             fi
 
             sudo mv $var $trashdir/$basevar-trashed-$(( $max + 1 ))
+
+            if [[ $? == 1 ]]; then
+                echo "Error. Please fix it"
+                exit 1
+            fi
 
             echo "Moved file to trash."
         elif

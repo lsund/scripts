@@ -17,6 +17,7 @@ if [[ $(< /etc/hostname) == "keysersoze" ]]; then
         "/home/lsund/Documents/work/application"
         "/home/lsund/Documents/tech/repos/camunda-cli-tool"
         "/home/lsund/Documents/tech/repos/trainer"
+        "/home/lsund/Documents/tech/repos/helper"
         )
 else
     declare -a dirlist=(
