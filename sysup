@@ -12,7 +12,6 @@ then
     fi
 fi
 
-sudo pacman -Suy
 aurman -Suy
 
 $scriptdir/pacsync
