@@ -7,7 +7,9 @@ issue_number=$(echo $branch_name | cut -d '-' -f2)
 
 changes_status=$(git status | tail -1 | cut -d' ' -f1-5)
 
-if [[ $changes_status == "no changes added to commit" || $changes_status == "nothing added to commit but" ]]; then
+if [[ ($changes_status == "no changes added to commit" ||
+       $changes_status == "nothing added to commit but") &&
+       $1 != "-n" ]]; then
     git status
     vared -p  "Add all? [Y/n] " -c choice
     if [[ "$choice" == "n" ]]; then
