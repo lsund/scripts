@@ -39,6 +39,7 @@ emacs_md=$DOTFILES/emacs/config/my-markdown.el
 emacs_neotree=$DOTFILES/emacs/config/my-neotree.el
 emacs_bufferman=$DOTFILES/emacs/config/my-bufferman.el
 emacs_editing=$DOTFILES/emacs/config/my-editing.el
+emacs_ghcid=$DOTFILES/emacs/config/my-ghcid.el
 
 
 # Git
@@ -98,6 +99,7 @@ loc_emacs_md=$emacsd/config/my-markdown.el
 loc_emacs_neotree=$emacsd/config/my-neotree.el
 loc_emacs_bufferman=$emacsd/config/my-bufferman.el
 loc_emacs_editing=$emacsd/config/my-editing.el
+loc_emacs_ghcid=$emacsd/config/my-ghcid.el
 
 # Git
 loc_git_config=$HOME/.config/git/config
@@ -157,6 +159,7 @@ Link $loc_emacs_md              $emacs_md
 Link $loc_emacs_neotree         $emacs_neotree
 Link $loc_emacs_bufferman       $emacs_bufferman
 Link $loc_emacs_editing         $emacs_editing
+Link $loc_emacs_ghcid           $emacs_ghcid
 
 # Git
 Link $loc_git_config            $git_config
@@ -192,10 +195,7 @@ Link $loc_xinitrc               $xinitrc
 Link $loc_htoprc                $htoprc
 
 echo "Done"
-echo "You probably need to source $loc_aliases"
-
-
-
+echo "You might need to source $loc_aliases"
 
 
 # loc_zsh_plugin=$VIM/after/plugin/zsh.vim
