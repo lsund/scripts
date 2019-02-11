@@ -11,10 +11,9 @@ if [[ ($changes_status == "no changes added to commit" ||
        $changes_status == "nothing added to commit but") &&
        $1 != "-n" ]]; then
     git status
-    vared -p  "Add all? [Y/n] " -c choice
+    vared -p  "Some stuff not yet added. Add everything? [Y/n] " -c choice
     if [[ "$choice" == "n" ]]; then
-        echo "Exiting..."
-        exit 0;
+        echo "OK."
     else
         git add --all
     fi
