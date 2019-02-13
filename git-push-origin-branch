@@ -25,11 +25,14 @@ if [[ $project_name == "HER" || $project_name == "DI" ]]; then
 fi
 
 if [[ $1 == "--nocommit" || $1 == "-n" ]]; then
+    echo  "git push -u origin $branch_name"
     git push -u origin $branch_name
 else
     vared -p "Commit Message: " -c msg
+    echo git commit -m "$commit_tag$msg"
     git commit -m "$commit_tag$msg"
     if [[ $? == "0" ]]; then
+        echo  "git push -u origin $branch_name"
         git push -u origin $branch_name
     else
         echo "Commit unsuccessful"
