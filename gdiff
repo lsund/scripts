@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+git diff $branch
