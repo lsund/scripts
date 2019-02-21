@@ -8,7 +8,6 @@
 # Config
 
 
-warning_kilo_bytes=5000
 base_trashdir="$HOME/.trash"
 
 
@@ -24,8 +23,7 @@ else
     echo "Don't know which rm to use" && exit
 fi
 
-mkdir -p $base_trashdir/trash-dirs/{1M,100M,200M,1G}
-mkdir -p $base_trashdir/trash-files/{1M,100M,200M,1G}
+mkdir -p $base_trashdir/{1K,1M,100M,200M,1G}
 
 # ############################################################################
 # Functions
@@ -37,6 +35,25 @@ function SetTrashdir () {
         trashdir=$base_trashdir/trash-files
     elif [[ -d "$1" ]]; then
         trashdir=$base_trashdir/trash-dirs
+    fi
+
+
+    size=$(du -hs $1 | xargs | cut -d' ' -f1)
+    value="${size:0:${#size}-1}"
+    suffix="${size: -1}"
+
+    if [[ $suffix == "M" ]]; then
+        if [[ $value -gt 200 ]]; then
+            trashdir=$base_trashdir/200M
+        elif [[ $value -gt 100 ]]; then
+            trashdir=$base_trashdir/100M
+        else
+            trashdir=$base_trashdir/1M
+        fi
+    elif [[ $suffix == "G" ]]; then
+        trashdir=$base_trashdir/1G
+    else
+        trashdir=$base_trashdir/1K
     fi
 }
 
@@ -55,15 +72,23 @@ function CountIdentical () {
 }
 
 function Remove () {
+    if [[ $1 == "files" ]]; then
+        files=$(fd -H -t f -d 1 . $base_trashdir/trash-files | head -5)
+    else
+        files=$(fd -d 1 -E 100M -E 200M -E 1M -E 1G . $base_trashdir/trash-dirs | head -5)
+    fi
     echo
-    files=$(fd -H -t f -d 1 . $base_trashdir/trash-files | head -5)
     echo $files
+    if [[ $files == "" ]]; then
+        echo "No more $1 to remove."
+        return
+    fi
     echo
     vared -p "^^^^^^^^^^^^^ Remove these files? ^^^^^^^^^^^^^^^^ [Y/n] " -c choice
     if [[ "$choice" != "n" ]]; then
         while read -r line; do
             echo -n "."
-            /usr/bin/rm $line
+            /usr/bin/rm -rf $line
         done <<< "$files"
         echo "Done."
     fi
@@ -75,7 +100,8 @@ function Remove () {
 # Main Loop
 
 if [[ $1 == "--remove" ]]; then
-    Remove
+    Remove "files"
+    Remove "dirs"
     exit 0
 fi
 
@@ -98,26 +124,6 @@ for var in "$@"
             # $var in the below directories
             max=0
             CountIdentical $trashdir $var
-            CountIdentical $trashdir/1M $var
-            CountIdentical $trashdir/100M $var
-            CountIdentical $trashdir/200M $var
-            CountIdentical $trashdir/1G $var
-
-            size=$(du -hs $var | xargs | cut -d' ' -f1)
-            value="${size:0:${#size}-1}"
-            suffix="${size: -1}"
-
-            if [[ $suffix == "M" ]]; then
-                if [[ $value -gt 200 ]]; then
-                    trashdir=$trashdir/200M
-                elif [[ $value -gt 100 ]]; then
-                    trashdir=$trashdir/100M
-                else
-                    trashdir=$trashdir/1M
-                fi
-            elif [[ $suffix == "G" ]]; then
-                trashdir=$trashdir/1G
-            fi
 
             sudo mv $var $trashdir/$basevar-trashed-$(( $max + 1 ))
 
@@ -145,12 +151,12 @@ echo
 # ###########################################################################
 # Print Stats
 
+warning_kilo_bytes=5000
 
 bytes=$(du -s $base_trashdir)
 number=$(echo $bytes | cut -d'/' -f1 | xargs)
 
 if [[ "$number" -gt warning_kilo_bytes ]]; then
-
 
     unit="KB"
     if [[ "$number" -gt "1000" ]]; then
@@ -165,3 +171,11 @@ if [[ "$number" -gt warning_kilo_bytes ]]; then
     echo "Consider emptying trash directory"
     echo "It currently more than $(echo $number | xargs) $unit"
 fi
+
+n_files=$(fd -H -t f -d 1 . $base_trashdir/trash-files | wc -l)
+n_dirs=$(fd -d 1 . $base_trashdir/trash-dirs | wc -l)
+
+echo "Trash bin currently contains $n_files files and $n_dirs."
+
+
+
