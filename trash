@@ -29,14 +29,8 @@ mkdir -p $base_trashdir/{1K,1M,100M,200M,1G}
 # Functions
 
 
-# Sets the destination trashdir depending on $1
+# Sets the destination trashdir depending on the size of $1
 function SetTrashdir () {
-    if [[ -f "$1" ]]; then
-        trashdir=$base_trashdir/trash-files
-    elif [[ -d "$1" ]]; then
-        trashdir=$base_trashdir/trash-dirs
-    fi
-
 
     size=$(du -hs $1 | xargs | cut -d' ' -f1)
     value="${size:0:${#size}-1}"
@@ -72,11 +66,7 @@ function CountIdentical () {
 }
 
 function Remove () {
-    if [[ $1 == "files" ]]; then
-        files=$(fd -H -t f -d 1 . $base_trashdir/trash-files | head -5)
-    else
-        files=$(fd -d 1 -E 100M -E 200M -E 1M -E 1G . $base_trashdir/trash-dirs | head -5)
-    fi
+    files=$(fd -H -t f -d 2 . $base_trashdir | head -5)
     echo
     echo $files
     if [[ $files == "" ]]; then
@@ -96,12 +86,38 @@ function Remove () {
 }
 
 
+
+function PrintStats {
+    warning_kilo_bytes=5000
+
+    bytes=$(du -s $base_trashdir)
+    number=$(echo $bytes | cut -d'/' -f1 | xargs)
+
+    if [[ "$number" -gt warning_kilo_bytes ]]; then
+
+        unit="KB"
+        if [[ "$number" -gt "1000" ]]; then
+            unit="MB"
+            number=$(expr $number / 1000)
+        fi
+        if [[ "$number" -gt "1000" ]]; then
+            unit="GB"
+            number=$(expr $number / 1000)
+        fi
+
+        echo "Consider emptying trash directory"
+        echo "It currently more than $(echo $number | xargs) $unit"
+    fi
+
+    n_files=$(fd -H -t f -d 2 . $base_trashdir | wc -l)
+    echo "Trash bin currently contains $n_files files"
+}
+
 # ############################################################################
 # Main Loop
 
 if [[ $1 == "--remove" ]]; then
-    Remove "files"
-    Remove "dirs"
+    Remove
     exit 0
 fi
 
@@ -148,34 +164,6 @@ done
 echo
 
 
-# ###########################################################################
-# Print Stats
-
-warning_kilo_bytes=5000
-
-bytes=$(du -s $base_trashdir)
-number=$(echo $bytes | cut -d'/' -f1 | xargs)
-
-if [[ "$number" -gt warning_kilo_bytes ]]; then
-
-    unit="KB"
-    if [[ "$number" -gt "1000" ]]; then
-        unit="MB"
-        number=$(expr $number / 1000)
-    fi
-    if [[ "$number" -gt "1000" ]]; then
-        unit="GB"
-        number=$(expr $number / 1000)
-    fi
-
-    echo "Consider emptying trash directory"
-    echo "It currently more than $(echo $number | xargs) $unit"
-fi
-
-n_files=$(fd -H -t f -d 1 . $base_trashdir/trash-files | wc -l)
-n_dirs=$(fd -d 1 . $base_trashdir/trash-dirs | wc -l)
-
-echo "Trash bin currently contains $n_files files and $n_dirs."
-
+PrintStats
 
 
