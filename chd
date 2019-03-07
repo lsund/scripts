@@ -1,86 +1,100 @@
 #!/bin/zsh
 
-# Change to a directory in a pre-cached directory list, by entering a number or
-# a substring
+ # Change to a directory in a pre-cached directory list, by entering a number or
+ # a substring
 
-if [[ $(< /etc/hostname) == "keysersoze" ]]; then
+ if [[ $(< /etc/hostname) == "keysersoze" ]]; then
 
-    declare -a dirlist=(
-        "/home/lsund/Documents/scripts"
-        "/home/lsund/Documents/dotfiles"
-        "/home/lsund/Documents/tech/repos/calendar"
-        "/home/lsund/Documents/tech/repos/budget"
-        "/home/lsund/Documents/tech/repos/jonnyh"
-        "/home/lsund/Documents/tech/repos/myblog"
-        "/home/lsund/Documents/tech/repos/projecteuler"
-        "/home/lsund/Documents/tech/repos/haskellbook"
-        "/home/lsund/Documents/work/application"
-        "/home/lsund/Documents/tech/repos/camunda-cli-tool"
-        "/home/lsund/Documents/tech/repos/trainer"
-        "/home/lsund/Documents/tech/repos/goal-tracker"
-        )
-else
-    declare -a dirlist=(
-        "/home/lsund/Documents/tech/repos/lambdawerk/bpm-task-executor"
-        "/home/lsund/Documents/tech/repos/lambdawerk/bpm-deploy"
-        "/home/lsund/Documents/tech/repos/lambdawerk/bpm-process-starter"
-        "/home/lsund/Documents/tech/repos/lambdawerk/heron"
-        "/home/lsund/Documents/tech/repos/lambdawerk/common"
-        "/home/lsund/Documents/tech/repos/lambdawerk/documentation"
-        "/home/lsund/Documents/tech/repos/lambdawerk/document-transformations"
-        "/home/lsund/Documents/tech/repos/lambdawerk/lambdawerk-dev"
-        "/home/lsund/Documents/tech/repos/lambdawerk/puppet"
-        "/home/lsund/Documents/tech/repos/lambdawerk/camunda-cli-tool"
-        "/home/lsund/Documents/scripts"
-        "/home/lsund/Documents/scripts/lambdawerk/jenkins"
-        "/home/lsund/Documents/dotfiles"
-        "/home/lsund/Documents/tech/repos/calendar"
-        "/home/lsund/Documents/wiki/lambdawerk"
-        )
-fi
+     declare -a dirlist=(
+         "/home/lsund/Documents/scripts"
+         "/home/lsund/Documents/dotfiles"
+         "/home/lsund/Documents/tech/repos/calendar"
+         "/home/lsund/Documents/tech/repos/finances"
+         "/home/lsund/Documents/tech/repos/jonnyh"
+         "/home/lsund/Documents/tech/repos/myblog"
+         "/home/lsund/Documents/tech/repos/projecteuler"
+         "/home/lsund/Documents/tech/repos/haskellbook"
+         "/home/lsund/Documents/work/application"
+         "/home/lsund/Documents/tech/repos/camunda-cli-tool"
+         "/home/lsund/Documents/tech/repos/trainer"
+         "/home/lsund/Documents/tech/repos/goal-tracker"
+         )
+ else
+     declare -a dirlist=(
+         "/home/lsund/Documents/tech/repos/lambdawerk/bpm-task-executor"
+         "/home/lsund/Documents/tech/repos/lambdawerk/bpm-deploy"
+         "/home/lsund/Documents/tech/repos/lambdawerk/bpm-process-starter"
+         "/home/lsund/Documents/tech/repos/lambdawerk/heron"
+         "/home/lsund/Documents/tech/repos/lambdawerk/common"
+         "/home/lsund/Documents/tech/repos/lambdawerk/documentation"
+         "/home/lsund/Documents/tech/repos/lambdawerk/document-transformations"
+         "/home/lsund/Documents/tech/repos/lambdawerk/lambdawerk-dev"
+         "/home/lsund/Documents/tech/repos/lambdawerk/puppet"
+         "/home/lsund/Documents/tech/repos/lambdawerk/camunda-cli-tool"
+         "/home/lsund/Documents/scripts"
+         "/home/lsund/Documents/scripts/lambdawerk/jenkins"
+         "/home/lsund/Documents/dotfiles"
+         "/home/lsund/Documents/tech/repos/calendar"
+         "/home/lsund/Documents/wiki/lambdawerk"
+         )
+ fi
 
-declare -A dirmap
+ declare -A dirmap
 
-i=0
-for d in $dirlist
-do
-    i=$(( i + 1 ))
-    dirmap[$i]=$d
-    [[ "$#" == 0 ]] && echo " $i \t $(basename $dirmap[$i])"
-done
+ i=0
+ for d in $dirlist
+ do
+     i=$(( i + 1 ))
+     dirmap[$i]=$d
+     [[ "$#" == 0 ]] && echo " $i \t $(basename $dirmap[$i])"
+ done
 
-if [[ "$#" == 0 ]]; then
-    vared -p "Choose (empty cancels) " -c choice
-elif [[ "$#" == 1 ]]; then
-    choice="$1"
-fi
+ if [[ "$#" == 0 ]]; then
+     vared -p "Choose (empty cancels) " -c choice
+ elif [[ "$#" == 1 ]]; then
+     choice="$1"
+ fi
 
-re='^[0-9]+$'
-if ! [[ $choice =~ $re ]] ; then
+ re='^[0-9]+$'
+ if ! [[ $choice =~ $re ]] ; then
 
-    for d in $dirlist; do
-        if [[ $d == *$choice* ]]; then
-            target_109283749187023=$d
-        fi
-    done
+     for d in $dirlist; do
+         if [[ $d == *$choice* ]]; then
+             target_109283749187023=$d
+         fi
+     done
 
-    if [[ "$d" == "" ]]; then
-        echo "Malconfigured path"
-        exit 1
-    fi
+     if [[ "$d" == "" ]]; then
+         echo "Malconfigured path"
+         exit 1
+     fi
 
-else
+ else
 
-    if [[ $choice && $(( $choice > 0 )) == 1 &&  $(( $choice <= i )) == 1 ]]; then
-        target_109283749187023=${dirmap[$choice]}
-    else
-        echo "Number not in range"
-    fi
+     if [[ $choice && $(( $choice > 0 )) == 1 &&  $(( $choice <= i )) == 1 ]]; then
+         target_109283749187023=${dirmap[$choice]}
+     else
+         echo "Number not in range"
+     fi
 
-fi
+ fi
 
-choice=""
-dirmap=""
-dirlist=""
-i=""
-cd $target_109283749187023
+ choice=""
+ dirmap=""
+ dirlist=""
+ i=""
+ cd $target_109283749187023
+
+
+# function Contains() {
+#     [[ $1 =~ (^| )$2($| ) ]] && echo "yes" || echo "no"
+# }
+
+# while read -r line; do
+#     dir=$(basename ${line##* })
+#     if [[ $(Contains ".. . .porn" $dir) == "no" ]]; then
+#         echo $dir
+#     fi
+# done <<< $(history | grep cd)
+
+

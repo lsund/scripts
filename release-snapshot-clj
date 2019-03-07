@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+sed -r 's/^\(defproject (.*) "([0-9].[0-9].[0-9])-SNAPSHOT"$/(defproject \1 "\2"/' -i project.clj
+
+version=$(cat project.clj | head -1 | cut -d' ' -f3 | sed "s/^\([\"']\)\(.*\)\1\$/\2/g")
+
+if [[ $1 == "--push" ]]; then
+    git add project.clj
+    git-push-origin-branch "Release version $version"
+fi
