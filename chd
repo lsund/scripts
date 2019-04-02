@@ -26,16 +26,20 @@ else
         "/home/lsund/Documents/tech/repos/lambdawerk/bpm-process-starter"
         "/home/lsund/Documents/tech/repos/lambdawerk/heron"
         "/home/lsund/Documents/tech/repos/lambdawerk/common"
+        "/home/lsund/Documents/tech/repos/lambdawerk/common-schemas"
         "/home/lsund/Documents/tech/repos/lambdawerk/documentation"
         "/home/lsund/Documents/tech/repos/lambdawerk/document-transformations"
         "/home/lsund/Documents/tech/repos/lambdawerk/lambdawerk-dev"
         "/home/lsund/Documents/tech/repos/lambdawerk/puppet"
         "/home/lsund/Documents/tech/repos/lambdawerk/camunda-cli-tool"
+        "/home/lsund/Documents/tech/repos/lambdawerk/marklogic-admin"
+        "/home/lsund/Documents/tech/repos/lambdawerk/lein-please"
         "/home/lsund/Documents/scripts"
-        "/home/lsund/Documents/scripts/lambdawerk/jenkins"
+        "/home/lsund/Documents/lambdawerk-scripts/jenkins"
         "/home/lsund/Documents/dotfiles"
         "/home/lsund/Documents/tech/repos/calendar"
         "/home/lsund/Documents/wiki/lambdawerk"
+        "/tmp/camunda-workspaces"
         )
 fi
 
