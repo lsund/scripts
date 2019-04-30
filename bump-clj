@@ -1,12 +1,12 @@
 #!/bin/zsh
 
 # Increment minor number
-sed -r 's/^\(defproject (.*) "([0-9]).([0-9]).([0-9])"$/echo "(defproject \1 \2.$((\3+1)).\4"/ge' -i project.clj
+sed -r 's/^\(defproject (.*) "([0-9]+).([0-9]+).([0-9]+)"$/echo "(defproject \1 \2.$((\3+1)).\4"/ge' -i project.clj
 
 version=$(cat project.clj | head -1 | cut -d' ' -f3)-SNAPSHOT
 
 # Add quotes around incremented version and add SNAPSHOT
-sed -r 's/^\(defproject (.*) ([0-9].[0-9].[0-9])$/(defproject \1 "\2-SNAPSHOT"/' -i project.clj
+sed -r 's/^\(defproject (.*) ([0-9]+.[0-9]+.[0-9]+)$/(defproject \1 "\2-SNAPSHOT"/' -i project.clj
 
 # Automatically push to git
 
