@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [[ -t 0 ]]; then
+    string=$2
+    index=$1
+else
+    read -r string
+    index=$1
+fi
+
+len=${#string}
+
+prefix_len=$(( $len - $index ))
+
+echo ${string:0:$prefix_len}

@@ -13,8 +13,9 @@ else
     msg=$1
 fi
 
-if [[ ($changes_status == "no changes added to commit" ||
-       $changes_status == "nothing added to commit but") &&
+
+if [[ "$changes_status" == "no changes added to commit" ||
+       $changes_status == "nothing added to commit but" &&
        $nocommit == "true" ]]; then
     git status
     vared -p  "Some stuff not yet added. Add everything? [Y/n] " -c choice
