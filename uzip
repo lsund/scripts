@@ -1,0 +1,22 @@
+#!/bin/zsh
+
+ext=$(extension $1)
+
+if [[ $ext == "gz" ]]; then
+    if [[ $(extension $1 2) == "tar" ]]; then
+        tar -xvzf $1
+    else
+        gunzip $1
+    fi
+elif [[ $ext == "zip" ]]; then
+    unzip $1
+elif [[ $ext == "7z" ]]; then
+    un7z $1
+elif [[ $ext == "jar" ]]; then
+    jar xf $1
+elif [[ $ext == "tar" ]]; then
+    tar -xvf $1
+else
+    echo "Unknown extension: $ext"
+fi
+
