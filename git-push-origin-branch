@@ -51,9 +51,9 @@ fi
 
 
 if [[ $project_name == "HER" || $project_name == "DI" ]]; then
-    commit_tag="> $project_name-$issue_number: "
+    commit_tag="$project_name-$issue_number: "
 else
-    commit_tag="> "
+    commit_tag=""
 fi
 
 if [[ $1 == "--nocommit" || $1 == "-n" ]]; then
@@ -61,7 +61,7 @@ if [[ $1 == "--nocommit" || $1 == "-n" ]]; then
     git push -u origin $branch_name
 else
     if [[ ! $msg ]]; then
-        vared -p "$commit_tag" -c msg
+        vared -p "> $commit_tag" -c msg
     fi
     echo Committing with message: "$commit_tag$msg"
     git commit -m "$commit_tag$msg"
