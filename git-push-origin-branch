@@ -37,12 +37,9 @@ if [[ $real_modified_file == "true" &&
     if [[ "$choice" == "n" ]]; then
         echo "OK."
     else
-        git add --all
         while read -r file; do
-            if [[ $file == *"common-schemas"* || $file == *"marklogic-common"* ]]; then
-                echo "Not including $file"
-                git reset $file > /dev/null
-            fi
+            echo "Adding $file"
+            git add $file
         done <<< $files
     fi
 fi

@@ -147,8 +147,7 @@ for var in "$@"
                 echo "Error. Please fix it"
                 exit 1
             fi
-
-            echo "Moved file to trash."
+            echo "Moved $var to trash."
         elif
             [[ -L "$var" ]]; then
             $real_remove $var

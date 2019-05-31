@@ -2,12 +2,10 @@
 
 ext=$(extension $1)
 
-if [[ $ext == "gz" ]]; then
-    if [[ $(extension $1 2) == "tar" ]]; then
-        tar -xvzf $1
-    else
-        gunzip $1
-    fi
+if [[ $ext == "gz" && $(extension $1 2) == "tar" || $ext == "tgz" ]]; then
+    tar -xvzf $1
+elif [[ $ext == "gz" ]]; then
+    gunzip $1
 elif [[ $ext == "zip" ]]; then
     unzip $1
 elif [[ $ext == "7z" ]]; then
@@ -16,6 +14,8 @@ elif [[ $ext == "jar" ]]; then
     jar xf $1
 elif [[ $ext == "tar" ]]; then
     tar -xvf $1
+elif [[ $ext == "rpm" ]]; then
+    rpmextract.sh $1
 else
     echo "Unknown extension: $ext"
 fi
