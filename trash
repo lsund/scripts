@@ -32,7 +32,7 @@ mkdir -p $base_trashdir/{1K,1M,100M,200M,1G}
 # Sets the destination trashdir depending on the size of $1
 function SetTrashdir () {
 
-    size=$(du -hs $1 | xargs | cut -d' ' -f1)
+    size=$(sudo du -hs $1 | xargs | cut -d' ' -f1)
     value="${size:0:${#size}-1}"
     suffix="${size: -1}"
 
@@ -90,7 +90,7 @@ function Remove () {
 function PrintStats {
     warning_kilo_bytes=5000
 
-    bytes=$(du -s $base_trashdir)
+    bytes=$(sudo du -s $base_trashdir)
     number=$(echo $bytes | cut -d'/' -f1 | xargs)
 
     if [[ "$number" -gt warning_kilo_bytes ]]; then
