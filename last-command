@@ -1,0 +1,12 @@
+#!/bin/zsh
+
+export HISTFILE=~/.zsh_history
+fc -R
+last=$(fc -l -20 | grep -v last-command | tail -1)
+
+if [[ $1 ]]; then
+    echo $last | cut -d' ' -f2- | xargs | cut -d' ' -f$1
+else
+    echo $last | cut -d' ' -f2- | xargs
+fi
+
