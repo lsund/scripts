@@ -4,11 +4,17 @@
 # if $1 is a directory, count the number of items in the toplevel of that
 # directory
 
-if [[ -f $1 ]]; then
-    cat $1 | wc -l
-elif [[ -d $1 ]]; then
-    ls $1 | wc -l
+if [[ ! $1 ]]; then
+    target=.
 else
-    echo $1: No suche file or directory
+    target=$1
+fi
+
+if [[ -f $target ]]; then
+    cat $target | wc -l
+elif [[ -d $target ]]; then
+    ls $target | wc -l
+else
+    echo $target: No suche file or directory
 fi
 

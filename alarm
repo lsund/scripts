@@ -4,9 +4,9 @@ audiopath=/home/lsund/Media/audio/sounds/
 filename=bell.wav
 
 if [[ $1 == "tone" ]]; then
-    countdown $1 && mplayer $audiopath/tone.wav &>/dev/null
+    countdown $1 && mplayer $audiopath/tone.wav -endpos 00:00:04 &>/dev/null
 else
-    countdown $1 && mplayer $audiopath/$filename &>/dev/null
+    countdown $1 && mplayer $audiopath/$filename -endpos 00:00:04 &>/dev/null
 fi
 
 
