@@ -1,6 +1,12 @@
 #!/bin/bash
 
 audiopath=/home/lsund/Media/audio/sounds/
+filename=bell.wav
 
-countdown $1 && mplayer $audiopath/temple-bell.mp3 &>/dev/null
+if [[ $1 == "tone" ]]; then
+    countdown $1 && mplayer $audiopath/tone.wav &>/dev/null
+else
+    countdown $1 && mplayer $audiopath/$filename &>/dev/null
+fi
+
 
