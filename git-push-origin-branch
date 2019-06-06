@@ -15,6 +15,7 @@ fi
 
 basedir=$(git rev-parse --show-toplevel)
 
+real_modified_file=false
 files=$(git ls-files -m $basedir ; git ls-files . --exclude-standard --others)
 while read -r file; do
     if [[ $file != *"common-schemas"* && $file != *"marklogic-common"* ]]; then
@@ -40,8 +41,6 @@ if [[ $changes_description == "no changes added to commit" ||
       $changes_description == "nothing added to commit but" ]]; then
   no_commit_status=true
 fi
-
-real_modified_file=false
 
 [[ $real_modified_file == "true" ]] || echo "Only ignore files modified. Commit:"
 
