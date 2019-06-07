@@ -13,19 +13,34 @@ else
     msg=$1
 fi
 
-changes_description=$(git status | tail -1 | cut -d' ' -f1-5)
-if [[ $changes_description == "no changes added to commit" ||
-      $changes_description == "nothing added to commit but" ]]; then
-  no_commit_status=true
-fi
+basedir=$(git rev-parse --show-toplevel)
 
 real_modified_file=false
-files=$(git ls-files -m ; git ls-files . --exclude-standard --others)
+files=$(git ls-files -m $basedir ; git ls-files . --exclude-standard --others)
 while read -r file; do
     if [[ $file != *"common-schemas"* && $file != *"marklogic-common"* ]]; then
         real_modified_file=true
     fi
 done <<< $files
+
+if [[ $1 == "a" ]]; then
+    while read -r file; do
+        if [[ $file == *"common-schemas"* || $file == *"marklogic-common"* ]]; then
+            echo "Not including $file"
+            git reset $file > /dev/null
+        else
+            echo "Adding $file"
+            git add $file
+        fi
+    done <<< $files
+    exit 0
+fi
+
+changes_description=$(git status | tail -1 | cut -d' ' -f1-5)
+if [[ $changes_description == "no changes added to commit" ||
+      $changes_description == "nothing added to commit but" ]]; then
+  no_commit_status=true
+fi
 
 [[ $real_modified_file == "true" ]] || echo "Only ignore files modified. Commit:"
 
@@ -43,6 +58,7 @@ if [[ $real_modified_file == "true" &&
                 git reset $file > /dev/null
             else
                 echo "Adding $file"
+                git add $file
             fi
         done <<< $files
     fi

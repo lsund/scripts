@@ -1,0 +1,7 @@
+#!/bin/bash
+
+audiopath=/home/lsund/Media/audio/sounds/
+filename=tone.wav
+
+countdown $1 && mplayer $audiopath/$filename &>/dev/null
+
