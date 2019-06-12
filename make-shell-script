@@ -9,7 +9,7 @@ fi
 [[ -e "$1" ]] && echo "File already exist" && exit
 
 printf "#!" > $1
-echo "/bin/zsh" >> $1
+echo "/bin/zsh\n\n" >> $1
 chmod +x $1
 
 nvim $1
