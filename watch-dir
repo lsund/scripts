@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+# Dependencies: inotify-tools
 
 function usage() {
 cat << EOF

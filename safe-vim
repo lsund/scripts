@@ -1,18 +1,20 @@
 #!/bin/zsh
 
+less=false
 for file in $@; do
     size=$(du -h $file | xargs | cut -d' ' -f1)
     value="${size:0:${#size}-1}"
     suffix="${size: -1}"
-    if [[ $suffix == "M" && $value -gt 50 ]]; then
+    if [[ $less == false && $suffix == "M" && $value -gt 50 ]]; then
         vared -p "File $file is larger than 50M. Open with less? [Y/n] " -c choice
         if [[ $choice != "n" ]]; then
-            less $@
-        else
-            echo "Opening with vim..."
-            nvim $@
+            less=true
         fi
-    else
-        nvim $@
     fi
 done
+
+if [[ $less == true ]]; then
+    less $@
+else
+    nvim $@
+fi
