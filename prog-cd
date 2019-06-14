@@ -1,3 +1,0 @@
-#!/bin/zsh
-
-cd $(/home/lsund/.local/bin/piggy-exe $@)
