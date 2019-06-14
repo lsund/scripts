@@ -5,11 +5,11 @@
 
 export DISPLAY=:0
 
-idlefile=/home/lsund/Data/log/idle-active/idletime.log  
-activefile=/home/lsund/Data/log/idle-active/activetime.log  
+idlefile=/home/lsund/Data/log/idle-active/idletime.log
+activefile=/home/lsund/Data/log/idle-active/activetime.log
 logfile=/home/lsund/Data/log/idle-active/day.log
 
-min="5" 
+min="5"
 idletime=$(xprintidle)
 if [[ "$1" == "-ri" ]]; then
     echo "0" > $idlefile
