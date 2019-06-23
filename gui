@@ -9,8 +9,6 @@
 # imgprogram=feh
 imgprogram=ristretto
 
-words=$(echo $files | wc -w)
-
 case $1 in
     "eclipse")
         which eclipse > /dev/null
@@ -103,6 +101,8 @@ esac
 
 # exit
 files=$(echo $files | xargs)
+words=$(echo $files | wc -w)
+
 case $words in
     0)
         $program $file > /dev/null 2>&1 &
@@ -118,8 +118,7 @@ case $words in
         vared -p "$msg1$msg2" -c yn
         case $yn in
             [Yy]*)
-                for file in $(echo $files)
-                do
+                for file in $(echo $files); do
                     if [[ -f $file ]]; then
                         $program $file  > /dev/null 2>&1 &
                     else

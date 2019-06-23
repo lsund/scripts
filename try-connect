@@ -15,5 +15,5 @@ do
     if [[ "$?" == "0" ]]; then
         echo "Connected" && exit
     fi
-    sleep 3
+    sleep 1
 done

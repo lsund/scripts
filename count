@@ -13,7 +13,7 @@ fi
 if [[ -f $target ]]; then
     cat $target | wc -l
 elif [[ -d $target ]]; then
-    ls $target | wc -l
+    /usr/bin/ls $target | wc -l
 else
     echo $target: No suche file or directory
 fi
