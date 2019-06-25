@@ -1,8 +1,9 @@
 #!/bin/zsh
 
-interface_status=$(ip link show wlp58s0 | head -1 | cut -d' ' -f3 | cut -d',' -f3)
+field_3=$(ip link show wlp58s0 | head -1 | cut -d' ' -f3 | cut -d',' -f3)
+field_4=$(ip link show wlp58s0 | head -1 | cut -d' ' -f3 | cut -d',' -f4)
 
-[[ $interface_status != "UP" ]] && echo "Warning: wlp58s0 is not up"
+[[ $field_3 != "UP" || $field_4 == "UP>" ]] && echo "Warning: wlp58s0 is not up"
 
 sudo wifi-menu
 if [[ "$?" == "0" ]]; then
