@@ -1,6 +1,5 @@
 #!/bin/zsh
 
-
 less=false
 for file in $@; do
     if [[ ! -e $file ]]; then
@@ -17,7 +16,9 @@ for file in $@; do
     fi
 done
 
-if [[ $less == true ]]; then
+if [[ $# == 0 ]]; then
+    nvim $(/usr/bin/ls | fzf)
+elif [[ $less == true ]]; then
     less $@
 else
     nvim $@
