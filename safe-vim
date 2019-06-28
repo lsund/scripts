@@ -17,7 +17,10 @@ for file in $@; do
 done
 
 if [[ $# == 0 ]]; then
-    nvim $(/usr/bin/ls | fzf)
+    file=$(/usr/bin/ls | fzf)
+    if [[ $file != "" ]]; then
+        nvim $file
+    fi
 elif [[ $less == true ]]; then
     less $@
 else
