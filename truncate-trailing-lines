@@ -1,5 +1,0 @@
-#!/bin/zsh
-file=$1
-trailing=$(tac "$file" | sed -n '/^[ \t]*$/!q; p' | wc -c)
-end=$(( $(wc -c < "$file") - trailing ))
-dd bs=1 seek=$end count=0 of="$file"
