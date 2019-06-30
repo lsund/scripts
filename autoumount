@@ -2,7 +2,7 @@
 
 # Automatically mount some device with some options
 
-if [[ "$1" == "mybook" ]]; then
+if [[ "$#" == 0 || "$1" == "mybook" ]]; then
     path="/mnt/mybook"
 elif [[ "$1" == "usb" ]]; then
     path="/mnt/usb"
