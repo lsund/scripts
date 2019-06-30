@@ -6,7 +6,10 @@ try-connect
 
 files=$(git status | grep modified | xargs | cut -d' ' -f2,4,6,8)
 
-echo $files
+if [[ $files == "" ]]; then
+    echo "Nothing to commit"
+    exit 0
+fi
 
 basefiles=""
 for file in $(echo $files | xargs); do
