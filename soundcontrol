@@ -12,6 +12,9 @@ touch $statfile $percfile
 
 hostname=$(< /etc/hostname)
 
+# ############################################################################
+# Functions
+
 function SetMuted() {
     if [[ $hostname == "pedro" ]]; then
         muted=$(pactl list sinks | grep Mute | cut -d: -f2 | head -n 1 | xargs)
@@ -30,12 +33,10 @@ function SetMuted() {
 function SetSink() {
     is_bt=$(pactl list sinks | grep bluez)
     if [[ $hostname == "pedro" ]]; then
-        # sink_name=alsa_output.pci-0000_01_00.1.hdmi-stereo
         sink_name=alsa_output.pci-0000_01_00.1.hdmi-stereo-extra1
     else
         sink_name=alsa_output.pci-0000_00_1f.3.analog-stereo
     fi
-    # sink_name=bluez_sink.FC_58_FA_41_40_AD.a2dp_sink
 }
 
 SetSink
@@ -43,6 +44,9 @@ SetSink
 function SetPerc() {
     echo $(pactl list sinks | grep -A 8 $sink_name | grep Volume | xargs | cut -d' ' -f5) > $percfile
 }
+
+# ############################################################################
+# Script
 
 if [[ "$1" == "raise" ]]; then
      pactl -- set-sink-volume $sink_name +5%
@@ -56,5 +60,3 @@ elif [[ "$1" == "lower" ]]; then
 else
     exit 1
 fi
-
-

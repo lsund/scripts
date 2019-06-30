@@ -1,9 +1,14 @@
 #!/bin/zsh
 
-# Timestamps should be of form hh:mm:ss
+function usage() {
+    echo "Trims an audio file between STARTTIME and ENDTIME"
+    echo "Timestamps should be of form 'hh:mm:ss'"
+    echo "Usage: ./trim-audio FILE STARTTIME ENDTIME OUTFILE"
+}
+
 
 if [[ $# != 4 ]]; then
-    echo "usage: ./trim-audio FILE STARTTIME ENDTIME OUTFILE"
+    usage
     exit 1
 fi
 
