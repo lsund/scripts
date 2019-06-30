@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+commit=$(git log --pretty=oneline --abbrev-commit | head -2 | tail -1 | cut -d' ' -f1)
+git checkout $commit
