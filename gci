@@ -1,6 +1,5 @@
 #!/bin/zsh
 
-
 try-connect
 
 if [[ $? != "0" ]]; then
