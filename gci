@@ -6,6 +6,8 @@ try-connect
 
 files=$(git status | grep modified | xargs | cut -d' ' -f2,4,6,8)
 
+echo $files
+
 basefiles=""
 for file in $(echo $files | xargs); do
     basefiles+="$(basename $file), "
