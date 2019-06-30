@@ -1,11 +1,8 @@
 #!/bin/zsh
 
-try-connect
+set -e
 
-if [[ $? != "0" ]]; then
-    echo "Need an active connection. Exiting."
-    exit
-fi
+try-connect
 
 files=$(git status | grep modified | xargs | cut -d' ' -f2,4,6,8)
 
