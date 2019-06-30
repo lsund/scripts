@@ -8,6 +8,6 @@ else
     tags=$(git tag)
     branches=$(git branch --all)
 
-    branch=$( (echo "$branches" ; echo "$tags") | "fzf" ) &&
+    branch=$( (echo "HEAD~1" ; echo "$branches" ; echo "$tags") | "fzf" ) &&
     git checkout "$(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")"
 fi
