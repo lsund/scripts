@@ -1,9 +1,0 @@
-#!/bin/zsh
-
-[[ $# != 1 ]] && echo "Must provide a command" && exit 1
-
-find . -maxdepth 1 | while read f
-do
-    $1 $f
-done
-

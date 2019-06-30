@@ -1,6 +1,0 @@
-#!/bin/bash
-if [[ "$1" == "-s" ]]; then 
-    echo "$(date)" "asleep" >> /home/lsund/Data/log/suspend.log
-else
-    echo "$(date)" "awake" >> /home/lsund/Data/log/suspend.log
-fi

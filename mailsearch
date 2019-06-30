@@ -1,5 +1,0 @@
-#!/bin/zsh
-
-result=$(grep --color=always $1 /home/lsund/Mail/Gmail/INBOX/cur/*)
-echo "$result"
-
